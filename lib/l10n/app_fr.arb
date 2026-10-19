@@ -2,56 +2,120 @@
   "@@locale": "fr",
   "appTitle": "AEENCI",
   "motto": "Knowledge is Power",
-  "@motto": {"description": "Devise de l'association, toujours en anglais."},
-
+  "@motto": {
+    "description": "Devise de l'association, toujours en anglais."
+  },
   "demoTitle": "Composants",
   "demoFlavorMocks": "Saveur {flavor} · données factices",
-  "@demoFlavorMocks": {"placeholders": {"flavor": {"type": "String"}}},
+  "@demoFlavorMocks": {
+    "placeholders": {
+      "flavor": {
+        "type": "String"
+      }
+    }
+  },
   "demoFlavorApi": "Saveur {flavor} · API {url}",
-  "@demoFlavorApi": {"placeholders": {"flavor": {"type": "String"}, "url": {"type": "String"}}},
-
+  "@demoFlavorApi": {
+    "placeholders": {
+      "flavor": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
   "demoSectionTheme": "Thème",
   "themeLight": "Clair",
   "themeDark": "Sombre",
   "themeSystem": "Système",
-
   "demoSectionLogo": "Logo",
   "logoLabel": "Logo de l'AEENCI",
   "symbolLabel": "Symbole de l'AEENCI",
-
   "demoSectionTypography": "Typographie",
   "demoSampleHeading": "Découvre les événements",
   "demoSampleBody": "Texte courant de démonstration, lisible sur mobile.",
   "demoSampleSmall": "Métadonnée de démonstration",
   "demoSampleLabel": "Étiquette",
-
   "demoSectionColors": "Couleurs",
-
   "demoSectionButtons": "Boutons",
   "demoButtonPrimary": "Bouton principal",
   "demoButtonSecondary": "Bouton secondaire",
   "demoButtonText": "Bouton texte",
   "demoButtonDisabled": "Désactivé",
-
   "demoSectionBadges": "Badges",
   "demoBadgeGreen": "Tu es inscrit",
   "demoBadgeBlue": "Assemblée",
   "demoBadgeRed": "Nouveau",
-
   "demoSectionCard": "Carte",
   "demoCardTitle": "Titre de carte",
   "demoCardBody": "Contenu de démonstration posé sur surface-raised, bordé d'un filet.",
-
   "demoSectionFields": "Champs",
   "demoFieldEmail": "E-mail",
   "demoFieldEmailHint": "ton.adresse@exemple.com",
   "demoFieldError": "Ce champ est obligatoire.",
   "demoSwitch": "Recevoir les notifications",
-
   "demoSectionIcons": "Icônes",
   "iconHome": "Accueil",
   "iconCard": "Carte",
   "iconEvents": "Événements",
   "iconContributions": "Cotisations",
-  "iconProfile": "Profil"
+  "iconProfile": "Profil",
+  "enumUnknown": "Non précisé",
+  "genderFemale": "Femme",
+  "genderMale": "Homme",
+  "admissionPending": "En attente",
+  "admissionApproved": "Validée",
+  "admissionRejected": "Refusée",
+  "statusMember": "Membre",
+  "statusFormer": "Ancien membre",
+  "statusElder": "Aîné",
+  "engagementActive": "Actif",
+  "engagementDormant": "En sourdine",
+  "categoryStudent": "Élève ou étudiant",
+  "categoryYoungProfessional": "Jeune professionnel",
+  "categoryProfessional": "Professionnel confirmé",
+  "showcasePrivate": "Vitrine désactivée",
+  "showcasePending": "En attente de validation",
+  "showcasePublished": "Publiée",
+  "contributionUnpaid": "Non payée",
+  "contributionPartial": "Payée en partie",
+  "contributionPaid": "Payée",
+  "contributionExempt": "Exonérée",
+  "paymentPurposeAdmission": "Droit d'adhésion",
+  "paymentPurposeContribution": "Cotisation",
+  "paymentMethodCash": "Espèces",
+  "paymentMethodOrangeMoney": "Orange Money",
+  "paymentMethodMtnMomo": "MTN MoMo",
+  "paymentMethodMoovMoney": "Moov Money",
+  "paymentMethodWave": "Wave",
+  "paymentMethodBankTransfer": "Virement bancaire",
+  "paymentMethodOther": "Autre",
+  "eventTypeJoe": "JOE",
+  "eventTypeEmploymentDay": "Journée de l'emploi",
+  "eventTypeImpact": "Impact",
+  "eventTypeOther": "Autre",
+  "attendancePresent": "Présent",
+  "attendanceExcused": "Excusé",
+  "attendanceAbsent": "Absent",
+  "notificationCategoryAccount": "Mon compte",
+  "notificationCategoryEvents": "Événements",
+  "notificationCategoryMeetings": "Assemblées",
+  "notificationCategoryContributions": "Cotisations",
+  "notificationCategoryNews": "Actualités",
+  "notificationCategoryOpportunities": "Opportunités",
+  "notificationCategoryAnnouncements": "Annonces du bureau",
+  "opportunityTypeJob": "Emploi",
+  "opportunityTypeInternship": "Stage",
+  "opportunityTypeScholarship": "Bourse",
+  "opportunityTypeTraining": "Formation",
+  "opportunityTypeOther": "Autre",
+  "applyMethodUrl": "Postuler en ligne",
+  "applyMethodEmail": "Postuler par e-mail",
+  "applyMethodViaBureau": "Par le bureau",
+  "scanRecorded": "Présence enregistrée",
+  "scanAlreadyRecorded": "Déjà enregistrée",
+  "scanInvalid": "Carte invalide",
+  "scanExpired": "Carte expirée",
+  "scanNotMember": "Pas un membre admis"
 }
