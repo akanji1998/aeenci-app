@@ -43,3 +43,23 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Code généré (build_runner, gen-l10n) : recréé par les commandes du README.
+*.g.dart
+*.freezed.dart
+!lib/core/design/tokens.g.dart
+/lib/l10n/generated/
+
+# Secrets : jamais dans Git (modèles .example à la place).
+google-services.json
+GoogleService-Info.plist
+firebase_options*.dart
+.firebaserc
+key.properties
+*.jks
+*.keystore
+*.p12
+*.mobileprovision
+.env
+.env.*
+!*.example

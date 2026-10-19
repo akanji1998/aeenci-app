@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.44.8
+          cache: true
+
+      - name: Dépendances
+        run: flutter pub get
+
+      - name: Formatage
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Code généré (build_runner, gen-l10n)
+        run: |
+          dart run build_runner build --delete-conflicting-outputs
+          flutter gen-l10n
+
+      - name: Thème à jour avec tokens.json
+        run: |
+          dart run tool/generate_theme.dart
+          git diff --exit-code lib/core/design/tokens.g.dart
+
+      - name: Analyse
+        run: flutter analyze --fatal-infos
+
+      - name: Tests
+        run: flutter test
