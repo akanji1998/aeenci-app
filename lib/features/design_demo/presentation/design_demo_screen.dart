@@ -5,8 +5,16 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../app/config/env_config.dart';
 import '../../../app/theme_mode_controller.dart';
+import '../../../core/api/api_exception.dart';
+import '../../../core/api/api_providers.dart';
 import '../../../core/design/app_theme.dart';
 import '../../../core/design/components/app_badge.dart';
+import '../../../core/design/components/app_button.dart';
+import '../../../core/design/components/empty_state.dart';
+import '../../../core/design/components/error_state.dart';
+import '../../../core/design/components/offline_banner.dart';
+import '../../../core/design/components/skeleton.dart';
+import '../../../core/mock/mock_behavior.dart';
 import '../../../l10n/generated/app_localizations.dart';
 
 /// Page de démonstration du design system (lot 0), dans les deux thèmes.
@@ -52,6 +60,9 @@ class DesignDemoScreen extends ConsumerWidget {
             _Section(title: l10n.demoSectionCard, child: const _DemoCard()),
             _Section(title: l10n.demoSectionFields, child: const _Fields()),
             _Section(title: l10n.demoSectionIcons, child: const _Icons()),
+            _Section(title: l10n.demoSectionStates, child: const _States()),
+            if (config.useMocks)
+              _Section(title: l10n.demoSectionMocks, child: const _Mocks()),
           ],
         ),
       ),
@@ -419,6 +430,97 @@ class _Icons extends StatelessWidget {
               Text(label, style: context.textTheme.bodySmall),
             ],
           ),
+      ],
+    );
+  }
+}
+
+class _States extends StatelessWidget {
+  const _States();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        AppButton(
+          label: l10n.demoLoadingButton,
+          loading: true,
+          onPressed: () {},
+        ),
+        const SizedBox(height: AppSpacing.space4),
+        OfflineBanner(updatedAt: DateTime.now()),
+        const SizedBox(height: AppSpacing.space4),
+        EmptyState(
+          icon: LucideIcons.inbox,
+          title: l10n.demoEmptyTitle,
+          message: l10n.demoEmptyMessage,
+          actionLabel: l10n.demoEmptyAction,
+          onAction: () {},
+        ),
+        ErrorState(error: const NetworkException(), onRetry: () {}),
+        const SkeletonList(count: 1),
+      ],
+    );
+  }
+}
+
+class _Mocks extends ConsumerWidget {
+  const _Mocks();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final behavior = ref.watch(mockBehaviorControllerProvider);
+    final controller = ref.read(mockBehaviorControllerProvider.notifier);
+    final latencies = <Duration>[
+      Duration.zero,
+      const Duration(milliseconds: 400),
+      const Duration(seconds: 2),
+    ];
+    final failures = <(MockFailure, String)>[
+      (MockFailure.none, l10n.demoMockFailureNone),
+      (MockFailure.network, l10n.demoMockFailureNetwork),
+      (MockFailure.unauthorized, l10n.demoMockFailureUnauthorized),
+      (MockFailure.validation, l10n.demoMockFailureValidation),
+      (MockFailure.server, l10n.demoMockFailureServer),
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.demoMockLatency, style: context.textTheme.titleSmall),
+        const SizedBox(height: AppSpacing.space2),
+        Wrap(
+          spacing: AppSpacing.space2,
+          runSpacing: AppSpacing.space2,
+          children: [
+            for (final latency in latencies)
+              ChoiceChip(
+                // Durée technique, non traduite.
+                label: Text('${latency.inMilliseconds} ms'),
+                selected: behavior.latency == latency,
+                onSelected: (_) =>
+                    controller.set(behavior.copyWith(latency: latency)),
+              ),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.space4),
+        Text(l10n.demoMockFailure, style: context.textTheme.titleSmall),
+        const SizedBox(height: AppSpacing.space2),
+        Wrap(
+          spacing: AppSpacing.space2,
+          runSpacing: AppSpacing.space2,
+          children: [
+            for (final (failure, label) in failures)
+              ChoiceChip(
+                label: Text(label),
+                selected: behavior.failure == failure,
+                onSelected: (_) =>
+                    controller.set(behavior.copyWith(failure: failure)),
+              ),
+          ],
+        ),
       ],
     );
   }

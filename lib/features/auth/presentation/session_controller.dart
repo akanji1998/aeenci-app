@@ -15,8 +15,11 @@ part 'session_controller.g.dart';
 
 /// Pourquoi la personne a été déconnectée (message sur l'écran de connexion).
 enum SignedOutReason {
-  /// Déconnexion volontaire, ou jamais connecté.
+  /// Jamais connecté (premier lancement, pas de jeton).
   none,
+
+  /// Déconnexion volontaire.
+  userRequest,
 
   /// 401 : jeton expiré ou révoqué.
   expired,
@@ -124,7 +127,7 @@ class SessionController extends _$SessionController {
     await _logoutQuietly();
     await ref.read(tokenStoreProvider).clear();
     await ref.read(cacheStoreProvider).clear();
-    state = const SessionSignedOut();
+    state = const SessionSignedOut(SignedOutReason.userRequest);
   }
 
   Future<void> _loadMember() async {
