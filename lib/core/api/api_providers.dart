@@ -17,8 +17,9 @@ TokenStore tokenStore(Ref ref) => SecureTokenStore();
 
 @Riverpod(keepAlive: true)
 CacheStore cacheStore(Ref ref) => FileCacheStore(
-  () async =>
-      Directory('${(await getApplicationSupportDirectory()).path}/offline_cache'),
+  () async => Directory(
+    '${(await getApplicationSupportDirectory()).path}/offline_cache',
+  ),
 );
 
 @Riverpod(keepAlive: true)

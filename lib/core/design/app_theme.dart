@@ -202,6 +202,32 @@ abstract final class AppTheme {
           textStyle: AppTypography.label.toTextStyle(),
         ),
       ),
+      // Barre d'onglets des maquettes : pas de pastille, onglet actif en vert.
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: c.surfaceRaised,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        height: 64,
+        indicatorColor: Colors.transparent,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        labelTextStyle: WidgetStateProperty.resolveWith(
+          (states) => AppTypography.label.toTextStyle().copyWith(
+            fontSize: 12,
+            letterSpacing: 0,
+            color: states.contains(WidgetState.selected) ? c.green : c.inkMuted,
+            fontWeight: states.contains(WidgetState.selected)
+                ? FontWeight.w700
+                : FontWeight.w600,
+          ),
+        ),
+        iconTheme: WidgetStateProperty.resolveWith(
+          (states) => IconThemeData(
+            size: 24,
+            color: states.contains(WidgetState.selected) ? c.green : c.inkMuted,
+          ),
+        ),
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(color: c.green),
       dividerTheme: DividerThemeData(color: c.line, thickness: 1, space: 1),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: c.ink,

@@ -117,5 +117,43 @@
   "scanAlreadyRecorded": "Déjà enregistrée",
   "scanInvalid": "Carte invalide",
   "scanExpired": "Carte expirée",
-  "scanNotMember": "Pas un membre admis"
+  "scanNotMember": "Pas un membre admis",
+  "retry": "Réessayer",
+  "loading": "Chargement…",
+  "errorNetwork": "Pas de connexion. Vérifie ton réseau puis réessaie.",
+  "errorServer": "Le service est momentanément indisponible. Réessaie dans un moment.",
+  "errorForbidden": "Tu n'as pas accès à cette page.",
+  "errorNotFound": "Cette page n'existe pas ou n'est plus disponible.",
+  "errorGone": "Ce lien a expiré ou a déjà été utilisé.",
+  "errorTooManyRequests": "Trop de tentatives. Réessaie dans un moment.",
+  "errorUnknown": "Une erreur est survenue. Réessaie.",
+  "errorTitle": "Oups",
+  "offlineBanner": "Hors connexion · mis à jour le {date} à {time}",
+  "@offlineBanner": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "MMMd"
+      },
+      "time": {
+        "type": "DateTime",
+        "format": "Hm"
+      }
+    }
+  },
+  "showPassword": "Afficher le mot de passe",
+  "hidePassword": "Masquer le mot de passe",
+  "demoSectionStates": "États",
+  "demoEmptyTitle": "Rien pour l'instant",
+  "demoEmptyMessage": "Les éléments apparaîtront ici.",
+  "demoEmptyAction": "Actualiser",
+  "demoLoadingButton": "Envoi en cours",
+  "demoSectionMocks": "Mocks",
+  "demoMockLatency": "Latence simulée",
+  "demoMockFailure": "Prochaine requête",
+  "demoMockFailureNone": "Normale",
+  "demoMockFailureNetwork": "Réseau",
+  "demoMockFailureUnauthorized": "401",
+  "demoMockFailureValidation": "422",
+  "demoMockFailureServer": "500"
 }
