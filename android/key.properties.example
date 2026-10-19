@@ -1,0 +1,5 @@
+# Copier en android/key.properties (hors de Git) pour signer la version release.
+storePassword=CHANGE_ME
+keyPassword=CHANGE_ME
+keyAlias=upload
+storeFile=/chemin/absolu/vers/upload-keystore.jks
