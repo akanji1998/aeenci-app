@@ -49,6 +49,11 @@ class ApiClient {
 
   Future<void> _onUnauthorized(RequestOptions options) async {
     if (_authPaths.contains(options.path)) return;
+    await signalUnauthorized();
+  }
+
+  /// Efface le jeton et prévient la session (401, ou 401 simulé).
+  Future<void> signalUnauthorized() async {
     await _tokens.clear();
     _unauthorized.add(null);
   }
