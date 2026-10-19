@@ -42,6 +42,19 @@ flutter run --flavor dev -t lib/main_dev.dart --dart-define=USE_MOCKS=false --da
 flutter run --flavor prod -t lib/main_prod.dart --dart-define=API_BASE_URL=https://api.aeenci.com/api/v1
 ```
 
+## Données factices (`USE_MOCKS=true`)
+
+Avec les mocks, l'application se développe et se démontre sans backend. Les données de `lib/core/mock/` sont conformes au contrat et manifestement fictives. Comptes de démonstration, tous avec le mot de passe `motdepasse` :
+
+| Compte | E-mail | Ce qu'il voit |
+| --- | --- | --- |
+| Membre admis | `membre.test@exemple.com` | Les cinq onglets |
+| Candidat | `candidat.test@exemple.com` | Le suivi de son adhésion |
+| Membre du bureau | `bureau.test@exemple.com` | Les onglets et le scan des présences |
+| Compte sans fiche | `admin.test@exemple.com` | Refusé : « Ce compte n'a pas d'espace membre » |
+
+En saveur `dev`, la page « Composants » (lien depuis l'accueil) règle la latence simulée et déclenche une erreur à la prochaine requête : réseau, 401, 422 ou 500.
+
 ## Thème
 
 Les couleurs, tailles, espacements et rayons viennent de `docs/design/tokens.json`. Après toute modification de ce fichier :
