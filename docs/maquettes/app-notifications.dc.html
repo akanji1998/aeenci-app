@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Application — Notifications</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2b3990}
+.muted{color:#55615a;font-size:14px;line-height:20px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#55615a;padding:4px 0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; background: #fbfaf6; color: #13201a; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 16px; line-height: 24px; display: flex; flex-direction: column;">
+
+<header style="padding: 48px 12px 10px; display: flex; align-items: center; gap: 4px;">
+<a href="App-Accueil.dc.html" aria-label="Retour à l'accueil" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 999px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#13201a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+<h1 style="margin: 0; flex: 1; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 30px;">Notifications</h1>
+<button type="button" onClick="{{readAll}}" style="min-height: 44px; padding: 0 12px; border: 0; background: transparent; color: #2b3990; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer;">Tout marquer lu</button>
+</header>
+
+<main style="flex: 1; overflow-y: auto; padding: 0 20px 24px; display: flex; flex-direction: column; gap: 8px;">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+<div style="display: flex; flex-direction: column; gap: 8px; padding-top: 6px;">
+<span class="eyebrow">{{g.label}}</span>
+<sc-for list="{{g.items}}" as="n" hint-placeholder-count="2">
+<a href="{{n.href}}" style="{{n.box}}">
+<span style="{{n.icon}}" aria-hidden="true">{{n.glyph}}</span>
+<span style="display: flex; flex-direction: column; flex: 1; min-width: 0;">
+<span style="font-weight: 700; font-size: 15px; line-height: 21px;">{{n.title}}</span>
+<span class="muted">{{n.body}}</span>
+<span style="font-size: 12px; color: #55615a; padding-top: 2px;">{{n.when}}</span>
+</span>
+<sc-if value="{{n.unread}}" hint-placeholder-val="{{false}}"><span style="width: 10px; height: 10px; flex-shrink: 0; border-radius: 999px; background: #d7262e; margin-top: 6px;" aria-label="Non lue"></span></sc-if>
+</a>
+</sc-for>
+</div>
+</sc-for>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+var s = this.state || {};
+var self = this;
+var kinds = {
+pay: ['#e3f4eb', '#006b40', 'F'],
+event: ['#e8ebf8', '#2b3990', 'É'],
+meet: ['#e8ebf8', '#2b3990', 'A'],
+news: ['#fde8e8', '#b31d24', 'N'],
+account: ['#e3f4eb', '#006b40', '✓']
+};
+var data = [
+{ group: 'Aujourd’hui', kind: 'pay', title: 'Paiement enregistré', body: '[MONTANT] F CFA pour l’année [2026-2027]. Ton reçu est disponible.', when: 'Il y a [N] h', unread: true, href: 'App-Cotisations.dc.html' },
+{ group: 'Aujourd’hui', kind: 'event', title: 'Rappel : JOE 2026 demain', body: '[HEURE] · [LIEU]. Pense à ta carte de membre.', when: 'Il y a [N] h', unread: true, href: 'App-Evenements.dc.html' },
+{ group: 'Cette semaine', kind: 'meet', title: 'Assemblée mensuelle', body: '[DATE] · [LIEU]', when: '[JOUR]', unread: false, href: 'App-Evenements.dc.html' },
+{ group: 'Cette semaine', kind: 'account', title: 'Profil validé', body: 'Ton profil est visible dans la vitrine de talents.', when: '[JOUR]', unread: false, href: 'App-Profil.dc.html' },
+{ group: 'Cette semaine', kind: 'news', title: '[Titre de l’actualité]', body: 'Nouvelle actualité de l’AEENCI', when: '[JOUR]', unread: false, href: '#actualite' }
+];
+var read = !!s.allRead;
+var order = [];
+var map = {};
+data.forEach(function (d) {
+if (!map[d.group]) { map[d.group] = []; order.push(d.group); }
+var k = kinds[d.kind];
+var unread = d.unread && !read;
+map[d.group].push({
+title: d.title, body: d.body, when: d.when, href: d.href, glyph: k[2], unread: unread,
+box: 'display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 14px; text-decoration: none; color: #13201a; background: ' + (unread ? '#ffffff' : 'transparent') + '; border: 1px solid ' + (unread ? '#e1e5dd' : 'transparent') + ';',
+icon: 'width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; background: ' + k[0] + '; color: ' + k[1] + ';'
+});
+});
+var groups = order.map(function (g) { return { label: g, items: map[g] }; });
+return { groups: groups, readAll: function () { self.setState({ allRead: true }); } };
+}
+}
+</script>
+</body>
+</html>

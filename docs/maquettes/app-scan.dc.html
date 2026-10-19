@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Application — Scan des présences</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0}
+.corner{position:absolute;width:40px;height:40px;border-color:#34c27f;border-style:solid;border-width:0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; background: #0f1713; color: #eef3ef; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 16px; line-height: 24px; display: flex; flex-direction: column;">
+
+<header style="padding: 48px 12px 10px; display: flex; align-items: center; gap: 4px;">
+<a href="App-Carte.dc.html" aria-label="Fermer le scan" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 999px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#eef3ef" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></a>
+<div style="display: flex; flex-direction: column; flex: 1; min-width: 0;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 28px;">Scan des présences</h1>
+<label for="assemblee" style="font-size: 13px; color: #a7b4ac;">Assemblée</label>
+</div>
+</header>
+
+<div style="padding: 0 20px 12px;">
+<select id="assemblee" style="width: 100%; min-height: 48px; padding: 0 14px; border-radius: 10px; border: 1.5px solid #2b3a31; background: #17221c; color: #eef3ef; font: inherit; font-weight: 600;"><option>Assemblée du [DATE] · [LIEU]</option></select>
+</div>
+
+<main style="flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 4px 20px 24px;">
+<div style="position: relative; flex: 1; min-height: 300px; border-radius: 24px; background: #17221c; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+<span style="color: #a7b4ac; font-size: 13px; font-weight: 600;">[VUE DE LA CAMÉRA]</span>
+<div style="position: absolute; width: 230px; height: 230px; left: 50%; top: 50%; transform: translate(-50%, -50%);" aria-hidden="true">
+<span class="corner" style="top: 0; left: 0; border-top-width: 5px; border-left-width: 5px; border-top-left-radius: 14px;"></span>
+<span class="corner" style="top: 0; right: 0; border-top-width: 5px; border-right-width: 5px; border-top-right-radius: 14px;"></span>
+<span class="corner" style="bottom: 0; left: 0; border-bottom-width: 5px; border-left-width: 5px; border-bottom-left-radius: 14px;"></span>
+<span class="corner" style="bottom: 0; right: 0; border-bottom-width: 5px; border-right-width: 5px; border-bottom-right-radius: 14px;"></span>
+</div>
+</div>
+
+<sc-if value="{{hasResult}}" hint-placeholder-val="{{false}}">
+<div role="status" style="{{resultBox}}">
+<span style="{{resultIcon}}" aria-hidden="true">{{resultGlyph}}</span>
+<div style="display: flex; flex-direction: column; min-width: 0;">
+<span style="font-weight: 700;">{{resultTitle}}</span>
+<span style="font-size: 14px; line-height: 20px; color: #3c4943;">{{resultBody}}</span>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{noResult}}" hint-placeholder-val="{{true}}">
+<p style="margin: 0; text-align: center; font-size: 14px; line-height: 20px; color: #a7b4ac;">Vise le QR code de la carte de membre. La présence s'enregistre toute seule.</p>
+</sc-if>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+<span style="font-size: 14px; color: #a7b4ac;"><strong style="color: #eef3ef; font-size: 20px; font-family: 'Bricolage Grotesque', sans-serif;">{{count}}</strong> présences enregistrées</span>
+<button type="button" onClick="{{simulate}}" style="min-height: 46px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #a7b4ac; background: transparent; color: #eef3ef; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer;">Simuler un scan</button>
+</div>
+<span style="font-size: 12px; color: #a7b4ac; text-align: center;">Réservé au secrétaire général et au bureau. Fonctionne aussi sans réseau : les présences sont envoyées dès le retour de la connexion.</span>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+var s = this.state || {};
+var self = this;
+var n = s.n || 0;
+var outcomes = [
+{ ok: true, title: 'Présence enregistrée', body: '[Nom et prénoms] · Membre actif' },
+{ ok: true, title: 'Présence enregistrée', body: '[Nom et prénoms] · Aîné' },
+{ ok: false, title: 'Déjà enregistré', body: '[Nom et prénoms] a déjà été scanné pour cette assemblée.' },
+{ ok: false, title: 'Code non valide', body: 'Ce QR code a expiré ou n’est pas une carte AEENCI. Demande au membre d’ouvrir sa carte à nouveau.' }
+];
+var r = n > 0 ? outcomes[(n - 1) % outcomes.length] : null;
+var count = 0;
+for (var i = 0; i < n; i++) { if (outcomes[i % outcomes.length].ok) { count++; } }
+return {
+hasResult: !!r,
+noResult: !r,
+count: count,
+resultTitle: r ? r.title : '',
+resultBody: r ? r.body : '',
+resultGlyph: r && r.ok ? '✓' : '!',
+resultBox: 'display: flex; gap: 12px; align-items: center; padding: 14px 16px; border-radius: 14px; color: #13201a; background: ' + (r && r.ok ? '#e3f4eb' : '#fde8e8') + ';',
+resultIcon: 'width: 40px; height: 40px; flex-shrink: 0; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #ffffff; background: ' + (r && r.ok ? '#008751' : '#b31d24') + ';',
+simulate: function () { self.setState({ n: n + 1 }); }
+};
+}
+}
+</script>
+</body>
+</html>

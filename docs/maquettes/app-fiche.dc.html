@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Application — Ma fiche</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2b3990}
+.muted{color:#55615a;font-size:14px;line-height:20px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:56px;font-size:12px;font-weight:600;text-decoration:none;color:#55615a}
+.tab.on{color:#008751;font-weight:700}
+.sec{border-radius:14px;background:#ffffff;border:1px solid #e1e5dd;padding:16px;display:flex;flex-direction:column;gap:12px}
+.sec-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.h2{margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;line-height:24px}
+.kv{display:flex;flex-direction:column;gap:1px}
+.k{font-size:13px;font-weight:600;color:#55615a}
+.v{font-weight:600}
+.link{min-height:44px;padding:0 6px;border:0;background:transparent;color:#2b3990;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-size:14px;font-weight:600}
+.fld input{min-height:48px;padding:0 14px;border-radius:8px;border:1.5px solid #c9cfc6;background:#ffffff;font:inherit;font-size:16px;color:#13201a;box-sizing:border-box;width:100%}
+.fld input:focus{outline:2px solid #2b3990;outline-offset:1px;border-color:#2b3990}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; background: #fbfaf6; color: #13201a; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 16px; line-height: 24px; display: flex; flex-direction: column;">
+
+<header style="padding: 48px 12px 10px; display: flex; align-items: center; gap: 4px;">
+<a href="App-Profil.dc.html" aria-label="Retour au profil" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 999px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#13201a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 30px;">Ma fiche</h1>
+</header>
+
+<main style="flex: 1; overflow-y: auto; padding: 0 20px 24px; display: flex; flex-direction: column; gap: 14px;">
+
+<div style="display: flex; align-items: center; gap: 16px; padding: 4px 0 6px;">
+<span style="width: 80px; height: 80px; border-radius: 999px; background: #e3f4eb; color: #006b40; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">[PHOTO]</span>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<button type="button" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #c9cfc6; background: #ffffff; font: inherit; font-size: 14px; font-weight: 700; color: #13201a; cursor: pointer;">Changer la photo</button>
+<span class="muted" style="font-size: 12px;">Utilisée sur ta carte de membre</span>
+</div>
+</div>
+
+<section class="sec" aria-label="Identité">
+<div class="sec-h"><h2 class="h2">Identité</h2></div>
+<div class="kv"><span class="k">Nom et prénoms</span><span class="v">[Nom et prénoms]</span></div>
+<div class="kv"><span class="k">Date et lieu de naissance</span><span class="v">[DATE] · [LIEU]</span></div>
+<div class="kv"><span class="k">Nationalité</span><span class="v">Nigériane</span></div>
+<span class="muted" style="font-size: 13px; line-height: 18px;">Une erreur sur ton identité ? Elle se corrige auprès du secrétaire général.</span>
+</section>
+
+<section class="sec" aria-label="Contacts">
+<div class="sec-h"><h2 class="h2">Contacts</h2>
+<sc-if value="{{viewMode}}" hint-placeholder-val="{{true}}"><button type="button" class="link" onClick="{{edit}}">Modifier</button></sc-if>
+</div>
+<sc-if value="{{viewMode}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<div class="kv"><span class="k">Téléphone</span><span class="v">[+225 …]</span></div>
+<div class="kv"><span class="k">WhatsApp</span><span class="v">[+225 …]</span></div>
+<div class="kv"><span class="k">E-mail</span><span class="v">[adresse@exemple.com]</span></div>
+<div class="kv"><span class="k">Adresse</span><span class="v">[Adresse], [Ville]</span></div>
+</div>
+</sc-if>
+<sc-if value="{{editMode}}" hint-placeholder-val="{{false}}">
+<form onSubmit="{{save}}" style="display: flex; flex-direction: column; gap: 12px;">
+<div class="fld"><label for="tel">Téléphone</label><input id="tel" type="tel" autocomplete="tel" value="[+225 …]"></div>
+<div class="fld"><label for="wa">WhatsApp</label><input id="wa" type="tel" value="[+225 …]"></div>
+<div class="fld"><label for="mail">E-mail</label><input id="mail" type="email" autocomplete="email" value="[adresse@exemple.com]"></div>
+<div class="fld"><label for="adr">Adresse</label><input id="adr" type="text" autocomplete="street-address" value="[Adresse]"></div>
+<div class="fld"><label for="ville">Ville</label><input id="ville" type="text" autocomplete="address-level2" value="[Ville]"></div>
+<div style="display: flex; gap: 10px;">
+<button type="button" onClick="{{cancel}}" style="flex: 1; min-height: 48px; border-radius: 999px; border: 1.5px solid #c9cfc6; background: #ffffff; font: inherit; font-weight: 700; color: #13201a; cursor: pointer;">Annuler</button>
+<button type="submit" style="flex: 1; min-height: 48px; border-radius: 999px; border: 0; background: #008751; color: #ffffff; font: inherit; font-weight: 700; cursor: pointer;">Enregistrer</button>
+</div>
+</form>
+</sc-if>
+<sc-if value="{{saved}}" hint-placeholder-val="{{false}}"><span style="font-size: 13px; font-weight: 700; color: #006b40;">Modifications enregistrées ✓</span></sc-if>
+</section>
+
+<a href="App-Parcours.dc.html" class="sec" style="text-decoration: none; color: #13201a; flex-direction: row; align-items: center; justify-content: space-between;">
+<div class="kv"><span class="h2">Parcours scolaire</span><span class="muted">[N] formation · [Niveau] · [Établissement]</span></div>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#55615a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+</a>
+
+<section class="sec" aria-label="Mon adhésion" style="background: #f3f5f1;">
+<h2 class="h2">Mon adhésion</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+<div class="kv"><span class="k">Statut</span><span class="v">Membre · Actif</span></div>
+<div class="kv"><span class="k">Catégorie</span><span class="v">Élève ou étudiant</span></div>
+<div class="kv"><span class="k">Matricule</span><span class="v">AEENCI-[AAAA]-[NNNN]</span></div>
+<div class="kv"><span class="k">Membre depuis</span><span class="v">[DATE]</span></div>
+</div>
+<span class="muted" style="font-size: 13px; line-height: 18px;">Le statut et l'ancienneté sont calculés par la plateforme. Ta catégorie a changé (fin d'études, premier emploi) ? Signale-le au secrétaire général.</span>
+</section>
+</main>
+
+<nav aria-label="Navigation principale" style="display: flex; padding: 6px 8px 22px; background: #ffffff; border-top: 1px solid #e1e5dd;">
+<a href="App-Accueil.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Accueil</a>
+<a href="App-Carte.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><circle cx="9" cy="11" r="2"></circle><path d="M6 16c.8-1.4 1.8-2 3-2s2.2.6 3 2M14 10h4M14 13h3"></path></svg>Carte</a>
+<a href="App-Evenements.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Événements</a>
+<a href="App-Cotisations.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2.5"></rect><path d="M3 10h18M16 15h2"></path></svg>Cotisations</a>
+<a href="App-Profil.dc.html" class="tab on" aria-current="page"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>Profil</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+var s = this.state || {};
+var self = this;
+return {
+viewMode: !s.editing,
+editMode: !!s.editing,
+saved: !!s.saved && !s.editing,
+edit: function () { self.setState({ editing: true, saved: false }); },
+cancel: function () { self.setState({ editing: false }); },
+save: function (e) { if (e && e.preventDefault) { e.preventDefault(); } self.setState({ editing: false, saved: true }); }
+};
+}
+}
+</script>
+</body>
+</html>

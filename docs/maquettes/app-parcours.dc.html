@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Application — Parcours scolaire</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2b3990}
+.muted{color:#55615a;font-size:14px;line-height:20px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:56px;font-size:12px;font-weight:600;text-decoration:none;color:#55615a}
+.tab.on{color:#008751;font-weight:700}
+.fld{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+.fld label{font-size:14px;font-weight:600}
+.fld input,.fld select{min-height:48px;padding:0 14px;border-radius:8px;border:1.5px solid #c9cfc6;background:#ffffff;font:inherit;font-size:16px;color:#13201a;box-sizing:border-box;width:100%}
+.fld input:focus,.fld select:focus{outline:2px solid #2b3990;outline-offset:1px;border-color:#2b3990}
+.icon-btn{width:44px;height:44px;border-radius:999px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer}
+</style>
+</helmet>
+<div style="position: relative; width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; background: #fbfaf6; color: #13201a; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 16px; line-height: 24px; display: flex; flex-direction: column;">
+
+<header style="padding: 48px 12px 10px; display: flex; align-items: center; gap: 4px;">
+<a href="App-Fiche.dc.html" aria-label="Retour à ma fiche" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 999px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#13201a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 30px;">Parcours scolaire</h1>
+</header>
+
+<main style="flex: 1; overflow-y: auto; padding: 0 20px 24px; display: flex; flex-direction: column; gap: 12px;">
+<span class="muted">Du plus récent au plus ancien. Ces informations ne sont visibles que par toi et le bureau.</span>
+
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px;">
+<sc-for list="{{items}}" as="it" hint-placeholder-count="2">
+<li style="display: flex; gap: 12px; padding: 16px; border-radius: 14px; background: #ffffff; border: 1px solid #e1e5dd;">
+<span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px; background: #e8ebf8; display: flex; align-items: center; justify-content: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2b3990" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"></path><path d="M6 11v5c2 2 10 2 12 0v-5"></path></svg></span>
+<div style="display: flex; flex-direction: column; flex: 1; min-width: 0;">
+<span style="font-weight: 700;">{{it.level}}</span>
+<span style="font-size: 15px;">{{it.school}}</span>
+<span class="muted">{{it.field}} · {{it.years}}</span>
+</div>
+<div style="display: flex; flex-direction: column;">
+<button type="button" class="icon-btn" aria-label="Modifier la formation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#55615a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg></button>
+<button type="button" class="icon-btn" onClick="{{it.remove}}" aria-label="Supprimer la formation"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b31d24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg></button>
+</div>
+</li>
+</sc-for>
+</ol>
+
+<button type="button" onClick="{{openSheet}}" style="min-height: 52px; border-radius: 999px; border: 2px dashed #008751; background: #ffffff; color: #006b40; font: inherit; font-weight: 700; cursor: pointer;">+ Ajouter une formation</button>
+</main>
+
+<sc-if value="{{sheet}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; inset: 0; background: rgba(19,32,26,0.45); display: flex; align-items: flex-end;">
+<form onSubmit="{{add}}" role="dialog" aria-label="Ajouter une formation" style="width: 100%; box-sizing: border-box; border-radius: 24px 24px 0 0; background: #ffffff; padding: 12px 20px 28px; display: flex; flex-direction: column; gap: 14px;">
+<span style="align-self: center; width: 40px; height: 5px; border-radius: 999px; background: #c9cfc6;" aria-hidden="true"></span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 21px;">Ajouter une formation</h2>
+<div class="fld"><label for="niv">Niveau</label><select id="niv"><option>Terminale</option><option>BTS / formation professionnelle</option><option selected>Licence</option><option>Master</option><option>Doctorat</option><option>Autre</option></select></div>
+<div class="fld"><label for="etab">Établissement</label><input id="etab" type="text"></div>
+<div class="fld"><label for="fil">Filière ou spécialité</label><input id="fil" type="text"></div>
+<div class="fld"><label for="dip">Diplôme obtenu <span style="font-weight: 400; color: #55615a;">(facultatif)</span></label><input id="dip" type="text"></div>
+<div style="display: flex; gap: 12px;">
+<div class="fld"><label for="deb">Début</label><input id="deb" type="text" inputmode="numeric" placeholder="Année"></div>
+<div class="fld"><label for="fin">Fin</label><input id="fin" type="text" inputmode="numeric" placeholder="En cours"></div>
+</div>
+<div style="display: flex; gap: 10px; padding-top: 4px;">
+<button type="button" onClick="{{closeSheet}}" style="flex: 1; min-height: 50px; border-radius: 999px; border: 1.5px solid #c9cfc6; background: #ffffff; font: inherit; font-weight: 700; color: #13201a; cursor: pointer;">Annuler</button>
+<button type="submit" style="flex: 1; min-height: 50px; border-radius: 999px; border: 0; background: #008751; color: #ffffff; font: inherit; font-weight: 700; cursor: pointer;">Ajouter</button>
+</div>
+</form>
+</div>
+</sc-if>
+
+<nav aria-label="Navigation principale" style="display: flex; padding: 6px 8px 22px; background: #ffffff; border-top: 1px solid #e1e5dd;">
+<a href="App-Accueil.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Accueil</a>
+<a href="App-Carte.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><circle cx="9" cy="11" r="2"></circle><path d="M6 16c.8-1.4 1.8-2 3-2s2.2.6 3 2M14 10h4M14 13h3"></path></svg>Carte</a>
+<a href="App-Evenements.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Événements</a>
+<a href="App-Cotisations.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2.5"></rect><path d="M3 10h18M16 15h2"></path></svg>Cotisations</a>
+<a href="App-Profil.dc.html" class="tab on" aria-current="page"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>Profil</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+var s = this.state || {};
+var self = this;
+var base = [
+{ id: 1, level: 'Licence', school: '[Établissement]', field: '[Filière]', years: '[AAAA] – en cours' },
+{ id: 2, level: 'Terminale', school: '[Lycée]', field: '[Série]', years: '[AAAA] – [AAAA]' }
+];
+var list = s.list || base;
+var items = list.map(function (it) {
+return { level: it.level, school: it.school, field: it.field, years: it.years, remove: function () { self.setState({ list: list.filter(function (x) { return x.id !== it.id; }) }); } };
+});
+return {
+items: items,
+sheet: !!s.sheet,
+openSheet: function () { self.setState({ sheet: true }); },
+closeSheet: function () { self.setState({ sheet: false }); },
+add: function (e) {
+if (e && e.preventDefault) { e.preventDefault(); }
+var n = [{ id: (s.next || 100) + 1, level: 'Licence', school: '[Nouvel établissement]', field: '[Filière]', years: '[AAAA] – en cours' }].concat(list);
+self.setState({ sheet: false, list: n, next: (s.next || 100) + 1 });
+}
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Application — Cotisations et reçus</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2b3990}
+.muted{color:#55615a;font-size:14px;line-height:20px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:56px;font-size:12px;font-weight:600;text-decoration:none;color:#55615a}
+.tab.on{color:#008751;font-weight:700}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#55615a}
+.tag{padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.year{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border-radius:14px;background:#ffffff;border:1px solid #e1e5dd}
+.pay{width:100%;display:flex;align-items:center;gap:12px;padding:12px 4px;border:0;border-bottom:1px solid #e1e5dd;background:transparent;font:inherit;color:#13201a;text-align:left;cursor:pointer;min-height:64px}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; background: #fbfaf6; color: #13201a; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 16px; line-height: 24px; display: flex; flex-direction: column;">
+
+<header style="padding: 52px 20px 12px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px; line-height: 34px;">Cotisations</h1>
+</header>
+
+<main style="flex: 1; overflow-y: auto; padding: 4px 20px 20px; display: flex; flex-direction: column; gap: 16px;">
+
+<section style="border-radius: 24px; background: #ffffff; border: 1px solid #e1e5dd; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 18px;">Année [2026-2027]</span>
+<span class="tag" style="background: #fde8e8; color: #b31d24;">Partielle</span>
+</div>
+<div style="height: 12px; border-radius: 999px; background: #eef0ea; overflow: hidden;" role="img" aria-label="Cotisation payée en partie"><div style="width: 50%; height: 100%; background: #008751; border-radius: 999px;"></div></div>
+<div style="display: flex; justify-content: space-between; font-size: 14px;"><span class="muted">Payé</span><span style="font-weight: 700;">[MONTANT] / [MONTANT] F CFA</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 14px;"><span class="muted">Reste à payer</span><span style="font-weight: 700; color: #b31d24;">[MONTANT] F CFA</span></div>
+</section>
+
+<section aria-label="Comment payer" style="border-radius: 14px; background: #e8ebf8; padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 17px; color: #2b3990;">Comment payer ?</span>
+<span style="font-size: 14px; line-height: 20px; color: #3c4943;">Remets ton paiement au trésorier, ou envoie-le par Mobile Money en indiquant ton matricule. Il apparaîtra ici dès qu'il sera enregistré.</span>
+<sc-for list="{{numbers}}" as="n" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 10px; background: #ffffff;">
+<div style="display: flex; flex-direction: column;"><span style="font-size: 13px; color: #55615a;">{{n.operator}}</span><span style="font-weight: 700; letter-spacing: 0.02em;">[NUMÉRO]</span></div>
+<button type="button" onClick="{{n.copy}}" style="min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #2b3990; background: #ffffff; color: #2b3990; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;">{{n.copyLabel}}</button>
+</div>
+</sc-for>
+</section>
+
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span class="eyebrow">Mes années</span>
+<div class="year"><div style="display: flex; flex-direction: column;"><span style="font-weight: 700;">Droit d'adhésion</span><span class="muted">2 000 F CFA</span></div><span class="tag" style="background: #e3f4eb; color: #006b40;">Payé</span></div>
+<div class="year"><div style="display: flex; flex-direction: column;"><span style="font-weight: 700;">Année [2025-2026]</span><span class="muted">[MONTANT] F CFA</span></div><span class="tag" style="background: #e3f4eb; color: #006b40;">Payée</span></div>
+</div>
+
+<div style="display: flex; flex-direction: column;">
+<span class="eyebrow" style="padding-bottom: 4px;">Paiements et reçus</span>
+<sc-for list="{{payments}}" as="p" hint-placeholder-count="3">
+<button type="button" class="pay" onClick="{{p.open}}" aria-label="{{p.aria}}">
+<span style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px; background: #e3f4eb; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#006b40" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"></path><path d="M14 3v5h5M10 13h6M10 17h4"></path></svg></span>
+<span style="display: flex; flex-direction: column; flex: 1; min-width: 0;"><span style="font-weight: 700; font-size: 15px;">{{p.label}}</span><span class="muted">[DATE] · {{p.method}}</span></span>
+<span style="font-weight: 700; font-size: 15px; white-space: nowrap;">{{p.amount}}</span>
+</button>
+</sc-for>
+</div>
+
+<sc-if value="{{showReceipt}}" hint-placeholder-val="{{false}}">
+<div role="dialog" aria-label="Reçu" style="border-radius: 24px; background: #13201a; color: #eef3ef; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<span style="font-weight: 700;">Reçu REC-[AAAA]-[NNNNN]</span>
+<span style="font-size: 14px; color: #a7b4ac;">{{receiptLabel}} · gardé sur ton téléphone pour être consulté hors connexion.</span>
+<div style="display: flex; gap: 10px;">
+<button type="button" style="flex: 1; min-height: 46px; border-radius: 999px; border: 0; background: #34c27f; color: #08140e; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer;">Ouvrir le PDF</button>
+<button type="button" style="flex: 1; min-height: 46px; border-radius: 999px; border: 1.5px solid #a7b4ac; background: transparent; color: #eef3ef; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer;">Partager</button>
+</div>
+<button type="button" onClick="{{closeReceipt}}" style="min-height: 44px; border: 0; background: transparent; color: #a7b4ac; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;">Fermer</button>
+</div>
+</sc-if>
+</main>
+
+<nav aria-label="Navigation principale" style="display: flex; padding: 6px 8px 22px; background: #ffffff; border-top: 1px solid #e1e5dd;">
+<a href="App-Accueil.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Accueil</a>
+<a href="App-Carte.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><circle cx="9" cy="11" r="2"></circle><path d="M6 16c.8-1.4 1.8-2 3-2s2.2.6 3 2M14 10h4M14 13h3"></path></svg>Carte</a>
+<a href="App-Evenements.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Événements</a>
+<a href="App-Cotisations.dc.html" class="tab on" aria-current="page"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2.5"></rect><path d="M3 10h18M16 15h2"></path></svg>Cotisations</a>
+<a href="App-Profil.dc.html" class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>Profil</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+var s = this.state || {};
+var self = this;
+var ops = ['[OPÉRATEUR 1]', '[OPÉRATEUR 2]'];
+var numbers = ops.map(function (o) {
+var done = s.copied === o;
+return { operator: o, copyLabel: done ? 'Copié ✓' : 'Copier', copy: function () { self.setState({ copied: o }); } };
+});
+var list = [
+{ label: 'Cotisation [2026-2027]', method: '[MODE]', amount: '[MONTANT] F' },
+{ label: 'Cotisation [2025-2026]', method: '[MODE]', amount: '[MONTANT] F' },
+{ label: 'Droit d’adhésion', method: '[MODE]', amount: '2 000 F' }
+];
+var payments = list.map(function (p) {
+return { label: p.label, method: p.method, amount: p.amount, aria: 'Reçu : ' + p.label, open: function () { self.setState({ receipt: p.label }); } };
+});
+return {
+numbers: numbers,
+payments: payments,
+showReceipt: !!s.receipt,
+receiptLabel: s.receipt || '',
+closeReceipt: function () { self.setState({ receipt: null }); }
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Application — Suivi de l'adhésion</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2b3990}
+.muted{color:#55615a;font-size:14px;line-height:20px}
+.step{display:flex;gap:14px}
+.dot{width:32px;height:32px;flex-shrink:0;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; background: #fbfaf6; color: #13201a; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-size: 16px; line-height: 24px; display: flex; flex-direction: column; padding: 52px 20px 28px; gap: 20px;">
+
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; color: #008751;">AEENCI</span>
+<a href="App-Connexion.dc.html" style="font-size: 14px; font-weight: 600; min-height: 44px; display: inline-flex; align-items: center;">Se déconnecter</a>
+</div>
+
+<div role="group" aria-label="État affiché dans la maquette" style="display: flex; padding: 4px; border-radius: 999px; background: #eef0ea;">
+<button type="button" onClick="{{showPending}}" aria-pressed="{{pendingPressed}}" style="{{pendingStyle}}">En attente</button>
+<button type="button" onClick="{{showRejected}}" aria-pressed="{{rejectedPressed}}" style="{{rejectedStyle}}">Refusée</button>
+</div>
+
+<sc-if value="{{isPending}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px; line-height: 34px;">Ta demande est en cours d'examen</h1>
+<span class="muted">Envoyée le [DATE]. Tu recevras une notification dès que le secrétaire général aura répondu.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px; padding: 18px; border-radius: 14px; background: #ffffff; border: 1px solid #e1e5dd;">
+<div class="step"><span class="dot" style="background: #008751; color: #ffffff;">✓</span><div style="display: flex; flex-direction: column;"><span style="font-weight: 700;">Demande envoyée</span><span class="muted">[DATE]</span></div></div>
+<div class="step"><span class="dot" style="background: #fff4d6; color: #7a5200;">2</span><div style="display: flex; flex-direction: column;"><span style="font-weight: 700;">Examen par le bureau</span><span class="muted">En cours</span></div></div>
+<div class="step"><span class="dot" style="background: #eef0ea; color: #55615a;">3</span><div style="display: flex; flex-direction: column;"><span style="font-weight: 700;">Droit d'adhésion</span><span class="muted">[MONTANT] F CFA, à régler auprès du trésorier après validation</span></div></div>
+<div class="step"><span class="dot" style="background: #eef0ea; color: #55615a;">4</span><div style="display: flex; flex-direction: column;"><span style="font-weight: 700;">Carte de membre</span><span class="muted">Disponible dans l'application</span></div></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isRejected}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 18px;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px; line-height: 34px;">Ta demande n'a pas été validée</h1>
+<span class="muted">Réponse du [DATE].</span>
+</div>
+<div style="padding: 16px 18px; border-radius: 14px; background: #fde8e8; display: flex; flex-direction: column; gap: 4px;">
+<span style="font-weight: 700; color: #b31d24;">Motif</span>
+<span style="font-size: 15px; line-height: 22px; color: #3c4943;">[Motif indiqué par le secrétaire général]</span>
+</div>
+<span class="muted">Tu peux corriger ta demande et l'envoyer de nouveau sur aeenci.com.</span>
+<a href="#nouvelle-demande" style="display: inline-flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 999px; background: #008751; color: #ffffff; font-weight: 700; text-decoration: none;">Refaire ma demande sur aeenci.com</a>
+</div>
+</sc-if>
+
+<div style="margin-top: auto; padding: 16px 18px; border-radius: 14px; background: #e8ebf8; display: flex; flex-direction: column; gap: 4px;">
+<span style="font-weight: 700; color: #2b3990;">Une question ?</span>
+<span style="font-size: 14px; line-height: 20px; color: #3c4943;">Écris à l'association : [E-MAIL DE L'ASSOCIATION]</span>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+var s = this.state || {};
+var self = this;
+var rej = !!s.rejected;
+var seg = function (on) { return 'flex: 1; min-height: 40px; border-radius: 999px; border: 0; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; background: ' + (on ? '#ffffff' : 'transparent') + '; color: ' + (on ? '#13201a' : '#55615a') + ';'; };
+return {
+isPending: !rej,
+isRejected: rej,
+pendingPressed: rej ? 'false' : 'true',
+rejectedPressed: rej ? 'true' : 'false',
+pendingStyle: seg(!rej),
+rejectedStyle: seg(rej),
+showPending: function () { self.setState({ rejected: false }); },
+showRejected: function () { self.setState({ rejected: true }); }
+};
+}
+}
+</script>
+</body>
+</html>
