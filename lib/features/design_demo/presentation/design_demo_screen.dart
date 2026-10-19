@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../app/config/app_config.dart';
+import '../../../app/config/env_config.dart';
 import '../../../app/theme_mode_controller.dart';
 import '../../../core/design/app_theme.dart';
 import '../../../core/design/components/app_badge.dart';
@@ -16,7 +16,7 @@ class DesignDemoScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final config = ref.watch(appConfigProvider);
+    final config = ref.watch(envConfigProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.demoTitle)),
@@ -87,7 +87,7 @@ class _Section extends StatelessWidget {
 class _FlavorBanner extends StatelessWidget {
   const _FlavorBanner({required this.config});
 
-  final AppConfig config;
+  final EnvConfig config;
 
   @override
   Widget build(BuildContext context) {

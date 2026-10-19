@@ -1,16 +1,16 @@
 import 'package:aeenci_app/app/app.dart';
-import 'package:aeenci_app/app/config/app_config.dart';
+import 'package:aeenci_app/app/config/env_config.dart';
 import 'package:aeenci_app/core/design/app_theme.dart';
 import 'package:aeenci_app/features/design_demo/presentation/design_demo_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-final _devMocks = AppConfig.resolve(flavor: Flavor.dev, apiBaseUrl: '');
+final _devMocks = EnvConfig.resolve(flavor: Flavor.dev, apiBaseUrl: '');
 
 Future<void> _pumpApp(
   WidgetTester tester, {
-  AppConfig? config,
+  EnvConfig? config,
   Size size = const Size(390, 844),
   double textScale = 1,
 }) async {
@@ -23,7 +23,7 @@ Future<void> _pumpApp(
 
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [appConfigProvider.overrideWithValue(config ?? _devMocks)],
+      overrides: [envConfigProvider.overrideWithValue(config ?? _devMocks)],
       child: const AeenciApp(),
     ),
   );
@@ -75,7 +75,7 @@ void main() {
   testWidgets('indique l\'API quand les mocks sont coupés', (tester) async {
     await _pumpApp(
       tester,
-      config: AppConfig.resolve(
+      config: EnvConfig.resolve(
         flavor: Flavor.prod,
         apiBaseUrl: 'https://api.aeenci.com/api/v1',
       ),
