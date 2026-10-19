@@ -1,0 +1,57 @@
+{
+  "@@locale": "fr",
+  "appTitle": "AEENCI",
+  "motto": "Knowledge is Power",
+  "@motto": {"description": "Devise de l'association, toujours en anglais."},
+
+  "demoTitle": "Composants",
+  "demoFlavorMocks": "Saveur {flavor} · données factices",
+  "@demoFlavorMocks": {"placeholders": {"flavor": {"type": "String"}}},
+  "demoFlavorApi": "Saveur {flavor} · API {url}",
+  "@demoFlavorApi": {"placeholders": {"flavor": {"type": "String"}, "url": {"type": "String"}}},
+
+  "demoSectionTheme": "Thème",
+  "themeLight": "Clair",
+  "themeDark": "Sombre",
+  "themeSystem": "Système",
+
+  "demoSectionLogo": "Logo",
+  "logoLabel": "Logo de l'AEENCI",
+  "symbolLabel": "Symbole de l'AEENCI",
+
+  "demoSectionTypography": "Typographie",
+  "demoSampleHeading": "Découvre les événements",
+  "demoSampleBody": "Texte courant de démonstration, lisible sur mobile.",
+  "demoSampleSmall": "Métadonnée de démonstration",
+  "demoSampleLabel": "Étiquette",
+
+  "demoSectionColors": "Couleurs",
+
+  "demoSectionButtons": "Boutons",
+  "demoButtonPrimary": "Bouton principal",
+  "demoButtonSecondary": "Bouton secondaire",
+  "demoButtonText": "Bouton texte",
+  "demoButtonDisabled": "Désactivé",
+
+  "demoSectionBadges": "Badges",
+  "demoBadgeGreen": "Tu es inscrit",
+  "demoBadgeBlue": "Assemblée",
+  "demoBadgeRed": "Nouveau",
+
+  "demoSectionCard": "Carte",
+  "demoCardTitle": "Titre de carte",
+  "demoCardBody": "Contenu de démonstration posé sur surface-raised, bordé d'un filet.",
+
+  "demoSectionFields": "Champs",
+  "demoFieldEmail": "E-mail",
+  "demoFieldEmailHint": "ton.adresse@exemple.com",
+  "demoFieldError": "Ce champ est obligatoire.",
+  "demoSwitch": "Recevoir les notifications",
+
+  "demoSectionIcons": "Icônes",
+  "iconHome": "Accueil",
+  "iconCard": "Carte",
+  "iconEvents": "Événements",
+  "iconContributions": "Cotisations",
+  "iconProfile": "Profil"
+}
