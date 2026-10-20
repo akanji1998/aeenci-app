@@ -33,7 +33,8 @@ abstract final class AppRoutes {
   static const profileEducation = '$profile/parcours';
   static const profilePro = '$profile/pro';
   static const profileShowcase = '$profile/vitrine';
-  static const profileSettings = '$profile/reglages';
+  static const profilePassword = '$profile/mot-de-passe';
+  static const profileDeleteAccount = '$profile/supprimer-mon-compte';
 
   // Hors onglets.
   static const news = '/actualites';

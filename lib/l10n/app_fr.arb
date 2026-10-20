@@ -681,5 +681,265 @@
   "receiptOffline": "Connecte-toi à Internet pour télécharger ce reçu.",
   "receiptNotFound": "Ce reçu est introuvable.",
   "receiptNoViewer": "Aucune application ne peut ouvrir ce PDF sur ton téléphone.",
-  "loginAccountDeleted": "Ton compte a été supprimé. Ta fiche de membre reste conservée par l'association."
+  "loginAccountDeleted": "Ton compte a été supprimé. Ta fiche de membre reste conservée par l'association.",
+  "profileHeaderLine": "{number} · {status}",
+  "@profileHeaderLine": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "showcaseTitle": "Vitrine de talents",
+  "showcaseSwitchLabel": "Apparaître dans la vitrine de talents",
+  "showcaseOnText": "Ton profil sera visible des recruteurs après validation. Ton téléphone et ton e-mail ne sont jamais affichés.",
+  "showcaseOffText": "Désactivée : ton profil n'est visible que par toi et le bureau.",
+  "showcasePendingBadge": "En attente de validation par le bureau",
+  "showcasePublishedBadge": "Publiée dans la vitrine",
+  "showcaseConsentTitle": "Activer la vitrine de talents ?",
+  "showcaseConsentText": "Ton profil sera visible des recruteurs après validation par le bureau. Ton téléphone et ton e-mail ne sont jamais affichés.",
+  "showcaseConsentCheckbox": "J'accepte que mon profil professionnel soit publié dans la vitrine de talents.",
+  "showcaseConsentConfirm": "Activer",
+  "showcaseConsentCancel": "Annuler",
+  "showcaseEnabledDone": "Vitrine activée : ton profil attend la validation du bureau.",
+  "showcaseDisabledDone": "Vitrine désactivée : ton profil n'est plus publié.",
+  "myInfoTitle": "Mes informations",
+  "profileSheetSubtitle": "Identité, contacts",
+  "educationCount": "{count, plural, =0{Aucune formation} =1{1 formation} other{{count} formations}}",
+  "@educationCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "completionPercent": "{percent} %",
+  "@completionPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "cvAndWorks": "CV et réalisations",
+  "cvToAdd": "À ajouter",
+  "cvAdded": "CV ajouté",
+  "notificationsTitle": "Notifications",
+  "notificationsLockedNote": "Les messages sur ton compte (adhésion, paiements, vitrine) sont toujours envoyés.",
+  "notificationSwitchLabel": "Notifications : {category}",
+  "@notificationSwitchLabel": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "accountTitle": "Compte",
+  "changePassword": "Changer de mot de passe",
+  "deleteAccount": "Supprimer mon compte",
+  "deleteAccountNote": "Supprimer ton compte retire ton accès et ton profil de la vitrine. Ta fiche de membre reste conservée par l'association.",
+  "sheetTitle": "Ma fiche",
+  "changePhoto": "Changer la photo",
+  "photoHint": "Utilisée sur ta carte de membre",
+  "photoFromGallery": "Choisir dans mes photos",
+  "photoFromCamera": "Prendre une photo",
+  "photoUpdated": "Photo mise à jour.",
+  "identityTitle": "Identité",
+  "identityName": "Nom et prénoms",
+  "identityBirth": "Date et lieu de naissance",
+  "identityNationality": "Nationalité",
+  "identityNote": "Une erreur sur ton identité ? Elle se corrige auprès du secrétaire général.",
+  "contactsTitle": "Contacts",
+  "edit": "Modifier",
+  "cancel": "Annuler",
+  "save": "Enregistrer",
+  "add": "Ajouter",
+  "delete": "Supprimer",
+  "fieldPhone": "Téléphone",
+  "fieldWhatsapp": "WhatsApp",
+  "fieldEmail": "E-mail",
+  "fieldAddress": "Adresse",
+  "fieldCity": "Ville",
+  "notProvided": "Non renseigné",
+  "savedDone": "Modifications enregistrées ✓",
+  "membershipTitle": "Mon adhésion",
+  "membershipStatus": "Statut",
+  "membershipCategory": "Catégorie",
+  "membershipNumber": "Matricule",
+  "membershipSince": "Membre depuis",
+  "membershipNote": "Le statut et l'ancienneté sont calculés par la plateforme. Ta catégorie a changé (fin d'études, premier emploi) ? Signale-le au secrétaire général.",
+  "educationTitle": "Parcours scolaire",
+  "educationIntro": "Du plus récent au plus ancien. Ces informations ne sont visibles que par toi et le bureau.",
+  "educationSummary": "{count, plural, =1{1 formation} other{{count} formations}} · {level} · {school}",
+  "@educationSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "level": {
+        "type": "String"
+      },
+      "school": {
+        "type": "String"
+      }
+    }
+  },
+  "educationYears": "{start} – {end}",
+  "@educationYears": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "inProgress": "en cours",
+  "educationAdd": "Ajouter une formation",
+  "educationEdit": "Modifier la formation",
+  "educationDelete": "Supprimer la formation",
+  "educationDeleteConfirm": "Supprimer « {school} » de ton parcours ?",
+  "@educationDeleteConfirm": {
+    "placeholders": {
+      "school": {
+        "type": "String"
+      }
+    }
+  },
+  "educationEmpty": "Aucune formation pour l'instant.",
+  "fieldLevel": "Niveau",
+  "fieldSchool": "Établissement",
+  "fieldStudy": "Filière ou spécialité",
+  "fieldDiploma": "Diplôme obtenu (facultatif)",
+  "fieldStartYear": "Début",
+  "fieldEndYear": "Fin",
+  "yearHint": "Année",
+  "endYearHint": "En cours",
+  "invalidYear": "Saisis une année à 4 chiffres.",
+  "proTitle": "Profil professionnel",
+  "proCompletion": "Profil complété",
+  "proCompletionLabel": "Profil complété à {percent} %",
+  "@proCompletionLabel": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "proCompletionHint": "C'est ce que verront les recruteurs si tu actives la vitrine.",
+  "proShowcaseLink": "Réglage de la vitrine",
+  "proSummaryTitle": "En bref",
+  "fieldHeadline": "Titre",
+  "fieldHeadlineHint": "Métier ou poste visé",
+  "fieldDomain": "Domaine",
+  "fieldSummary": "Présentation",
+  "fieldSummaryHint": "Quelques lignes sur ton parcours et ce que tu recherches.",
+  "skillsTitle": "Compétences",
+  "skillNew": "Nouvelle compétence",
+  "skillHint": "Ajouter une compétence",
+  "skillRemove": "Retirer {skill}",
+  "@skillRemove": {
+    "placeholders": {
+      "skill": {
+        "type": "String"
+      }
+    }
+  },
+  "skillsEmpty": "Aucune compétence pour l'instant.",
+  "languagesTitle": "Langues",
+  "languagesEmpty": "Aucune langue pour l'instant.",
+  "languageName": "Langue",
+  "languageLevel": "Niveau (facultatif)",
+  "languageLevelHint": "Courant, notions…",
+  "languageAdd": "Ajouter une langue",
+  "languageRemove": "Retirer {language}",
+  "@languageRemove": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "experiencesTitle": "Expériences",
+  "experiencesEmpty": "Aucune expérience pour l'instant.",
+  "experienceAdd": "Ajouter une expérience",
+  "experienceEdit": "Modifier l'expérience",
+  "experienceDeleteConfirm": "Supprimer l'expérience « {title} » ?",
+  "@experienceDeleteConfirm": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "fieldPosition": "Poste",
+  "fieldOrganization": "Organisation",
+  "fieldLocation": "Lieu (facultatif)",
+  "fieldStart": "Début",
+  "fieldEnd": "Fin",
+  "pickMonth": "Choisir",
+  "currentPosition": "J'occupe ce poste actuellement",
+  "fieldDescription": "Description (facultatif)",
+  "experiencePeriod": "{start} – {end}",
+  "@experiencePeriod": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "today": "aujourd'hui",
+  "cvTitle": "CV et réalisations",
+  "cvNone": "Aucun CV",
+  "cvPresent": "CV enregistré",
+  "cvHint": "PDF, 5 Mo au plus",
+  "cvUpload": "Téléverser",
+  "cvReplace": "Remplacer",
+  "cvTooLarge": "Ce fichier dépasse 5 Mo. Choisis un PDF plus léger.",
+  "cvUploaded": "CV enregistré.",
+  "portfolioTitle": "Réalisations",
+  "portfolioEmpty": "Réalisations : aucune pour l'instant",
+  "portfolioAdd": "Ajouter une réalisation",
+  "portfolioEdit": "Modifier la réalisation",
+  "portfolioDeleteConfirm": "Supprimer la réalisation « {title} » ?",
+  "@portfolioDeleteConfirm": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "fieldTitle": "Titre",
+  "fieldLink": "Lien (facultatif)",
+  "fieldFile": "Fichier (facultatif)",
+  "pickFile": "Choisir un fichier",
+  "fileChosen": "Fichier : {name}",
+  "@fileChosen": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "linkedinTitle": "Profil LinkedIn",
+  "linkedinNone": "Profil LinkedIn : non renseigné",
+  "linkedinHint": "https://www.linkedin.com/in/…",
+  "deleteConfirmTitle": "Supprimer ?",
+  "passwordTitle": "Changer de mot de passe",
+  "passwordIntro": "Tes autres appareils seront déconnectés. Celui-ci reste connecté.",
+  "currentPassword": "Mot de passe actuel",
+  "passwordChanged": "Mot de passe modifié.",
+  "deleteTitle": "Supprimer mon compte",
+  "deleteIntro": "Supprimer ton compte retire ton accès à l'application et à l'espace membre, et retire ton profil de la vitrine de talents.",
+  "deleteKept": "Ta fiche de membre, tes cotisations, tes paiements et tes présences restent conservés par l'association. Le bureau pourra relier un nouveau compte à ta fiche plus tard.",
+  "deletePasswordLabel": "Confirme avec ton mot de passe",
+  "deleteConfirm": "Supprimer définitivement mon compte",
+  "saveFailed": "L'enregistrement n'a pas abouti."
 }
