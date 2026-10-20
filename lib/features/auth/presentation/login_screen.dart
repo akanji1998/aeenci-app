@@ -80,6 +80,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       SessionSignedOut(reason: SignedOutReason.expired) => l10n.loginExpired,
       SessionSignedOut(reason: SignedOutReason.noMemberProfile) =>
         l10n.loginNoMemberProfile,
+      SessionSignedOut(reason: SignedOutReason.accountDeleted) =>
+        l10n.loginAccountDeleted,
       _ => null,
     };
 

@@ -680,5 +680,6 @@
   },
   "receiptOffline": "Connecte-toi à Internet pour télécharger ce reçu.",
   "receiptNotFound": "Ce reçu est introuvable.",
-  "receiptNoViewer": "Aucune application ne peut ouvrir ce PDF sur ton téléphone."
+  "receiptNoViewer": "Aucune application ne peut ouvrir ce PDF sur ton téléphone.",
+  "loginAccountDeleted": "Ton compte a été supprimé. Ta fiche de membre reste conservée par l'association."
 }

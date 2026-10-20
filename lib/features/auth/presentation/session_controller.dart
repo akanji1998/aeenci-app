@@ -7,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/cache/cached_fetch.dart';
+import '../../profile/data/account_repository.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/domain/member.dart';
 import '../data/auth_repository.dart';
@@ -27,6 +28,9 @@ enum SignedOutReason {
 
   /// Compte de connexion sans fiche de membre.
   noMemberProfile,
+
+  /// Compte supprimé par la personne (`DELETE /me/account`).
+  accountDeleted,
 }
 
 /// État de la session, lu par la garde du routeur.
@@ -157,6 +161,21 @@ class SessionController extends _$SessionController {
     await _clearLocalData();
     await tokens.write(session.token);
     await _loadMember();
+  }
+
+  /// Fiche mise à jour (contacts, photo) : nouvel état et cache.
+  Future<void> updateMember(Member member) async {
+    await ref.read(cacheStoreProvider).write(_meCacheKey, member.toJson());
+    state = _stateFor(Cached(member));
+  }
+
+  /// Suppression du compte de connexion. Les erreurs (422 sous `password`)
+  /// remontent à l'écran. La fiche de membre reste chez l'association.
+  Future<void> deleteAccount({required String password}) async {
+    await ref.read(accountRepositoryProvider).deleteAccount(password: password);
+    await ref.read(tokenStoreProvider).clear();
+    await _clearLocalData();
+    state = const SessionSignedOut(SignedOutReason.accountDeleted);
   }
 
   /// Fiche rechargée (ex. suivi de l'adhésion : la demande a été validée).
