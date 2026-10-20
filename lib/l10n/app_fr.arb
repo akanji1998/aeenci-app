@@ -492,7 +492,7 @@
     }
   },
   "eventRegister": "S'inscrire",
-  "eventRegistered": "{gender, select, female{Inscrite ✓} other{Inscrit ✓}}",
+  "eventRegistered": "{gender, select, female{Inscrite} other{Inscrit}}",
   "@eventRegistered": {
     "placeholders": {
       "gender": {

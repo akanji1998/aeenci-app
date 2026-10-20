@@ -13,6 +13,8 @@ import '../../features/auth/presentation/session_controller.dart';
 import '../../features/auth/presentation/splash_screen.dart';
 import '../../features/card/presentation/card_screen.dart';
 import '../../features/design_demo/presentation/design_demo_screen.dart';
+import '../../features/events/presentation/event_detail_screen.dart';
+import '../../features/events/presentation/events_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -113,19 +115,14 @@ GoRouter appRouter(Ref ref) {
             routes: [
               GoRoute(
                 path: AppRoutes.events,
-                builder: (context, state) {
-                  final l10n = AppLocalizations.of(context);
-                  return PlaceholderScreen(
-                    title: l10n.screenEvents,
-                    links: [
-                      PlaceholderLink(
-                        l10n.placeholderEventExample,
-                        AppRoutes.eventDetail('exemple'),
-                      ),
-                    ],
-                  );
-                },
-                routes: [_placeholder(':slug', (l) => l.screenEventDetail)],
+                builder: (context, state) => const EventsScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':slug',
+                    builder: (context, state) =>
+                        EventDetailScreen(slug: state.pathParameters['slug']!),
+                  ),
+                ],
               ),
             ],
           ),
