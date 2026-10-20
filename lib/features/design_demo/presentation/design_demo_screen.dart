@@ -15,8 +15,11 @@ import '../../../core/design/components/error_state.dart';
 import '../../../core/design/components/offline_banner.dart';
 import '../../../core/design/components/skeleton.dart';
 import '../../../core/mock/mock_behavior.dart';
+import '../../../core/push/push_providers.dart';
+import '../../../core/push/push_service.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../app_config/presentation/app_gate_controller.dart';
+import '../../notifications/presentation/notifications_providers.dart';
 
 /// Page de démonstration du design system (lot 0), dans les deux thèmes.
 class DesignDemoScreen extends ConsumerWidget {
@@ -64,6 +67,8 @@ class DesignDemoScreen extends ConsumerWidget {
             _Section(title: l10n.demoSectionStates, child: const _States()),
             if (config.useMocks)
               _Section(title: l10n.demoSectionMocks, child: const _Mocks()),
+            if (ref.watch(pushServiceProvider) is ManualPushService)
+              _Section(title: l10n.devPushTitle, child: const _PushDemo()),
           ],
         ),
       ),
@@ -546,6 +551,59 @@ class _Mocks extends ConsumerWidget {
                     controller.set(behavior.copyWith(failure: failure)),
               ),
           ],
+        ),
+      ],
+    );
+  }
+}
+
+/// Notifications simulées (mocks) : ouverture d'un écran par sa route,
+/// réception au premier plan, retour de l'écran d'explication.
+class _PushDemo extends ConsumerWidget {
+  const _PushDemo();
+
+  static const _routes = [
+    '/evenements/evenement-test-a-venir',
+    '/cotisations',
+    '/opportunites/40',
+    '/actualites/actualite-test-1',
+    '/profil/vitrine',
+    '/carte',
+    '/notifications',
+    '/route-inconnue',
+  ];
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final push = ref.watch(pushServiceProvider) as ManualPushService;
+    return Wrap(
+      spacing: AppSpacing.space2,
+      runSpacing: AppSpacing.space2,
+      children: [
+        for (final route in _routes)
+          AppButton.secondary(
+            label: l10n.devPushOpen(route),
+            compact: true,
+            onPressed: () => push.open(PushMessage(route: route)),
+          ),
+        AppButton.secondary(
+          label: l10n.devPushReceive,
+          compact: true,
+          onPressed: () => push.receive(
+            const PushMessage(title: 'Notification de test', route: '/carte'),
+          ),
+        ),
+        AppButton.text(
+          label: l10n.devPushReset,
+          compact: true,
+          onPressed: () async {
+            push.currentPermission = PushPermission.notDetermined;
+            await ref.read(cacheStoreProvider).remove(pushPromptDismissedKey);
+            ref
+              ..invalidate(pushPromptProvider)
+              ..invalidate(pushPermissionProvider);
+          },
         ),
       ],
     );

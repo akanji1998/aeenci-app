@@ -4,9 +4,12 @@ import 'package:aeenci_app/core/api/token_store.dart';
 import 'package:aeenci_app/core/cache/cache_store.dart';
 import 'package:aeenci_app/core/cache/file_store.dart';
 import 'package:aeenci_app/core/mock/mock_behavior.dart';
+import 'package:aeenci_app/core/push/push_providers.dart';
+import 'package:aeenci_app/core/push/push_service.dart';
 import 'package:aeenci_app/core/utils/connectivity.dart';
 import 'package:aeenci_app/core/utils/screen_brightness_service.dart';
 import 'package:aeenci_app/features/app_config/presentation/app_gate_controller.dart';
+import 'package:aeenci_app/features/notifications/data/devices_repository.dart';
 import 'package:flutter_riverpod/misc.dart';
 
 final devMocksConfig = EnvConfig.resolve(flavor: Flavor.dev, apiBaseUrl: '');
@@ -19,6 +22,7 @@ List<Override> testOverrides({
   MockBehavior behavior = MockBehavior.instant,
   FakeBrightness? brightness,
   FileStore? files,
+  PushService? push,
 }) => [
   envConfigProvider.overrideWithValue(env ?? devMocksConfig),
   tokenStoreProvider.overrideWithValue(tokens),
@@ -26,6 +30,11 @@ List<Override> testOverrides({
   fileStoreProvider.overrideWithValue(files ?? MemoryFileStore()),
   mockBehaviorControllerProvider.overrideWith(() => _TestMocks(behavior)),
   installedVersionProvider.overrideWith((ref) async => '1.0.0'),
+  appVersionProvider.overrideWith((ref) async => '1.0.0'),
+  // Notifications déjà autorisées : pas d'écran d'explication par défaut.
+  pushServiceProvider.overrideWithValue(
+    push ?? ManualPushService(currentPermission: PushPermission.granted),
+  ),
   // Greffons de la plateforme, absents des tests.
   connectivityProvider.overrideWith((ref) => const Stream<bool>.empty()),
   screenBrightnessProvider.overrideWithValue(brightness ?? FakeBrightness()),

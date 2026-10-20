@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/design/app_theme.dart';
+import '../../features/notifications/presentation/push_prompt_screen.dart';
 import '../../l10n/generated/app_localizations.dart';
 
 /// Les cinq onglets. Chaque onglet garde sa propre pile d'écrans.
@@ -15,7 +16,7 @@ class AppShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      body: shell,
+      body: PushPromptLauncher(child: shell),
       bottomNavigationBar: DecoratedBox(
         decoration: BoxDecoration(
           border: Border(top: BorderSide(color: context.colors.line)),

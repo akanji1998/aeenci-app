@@ -17,6 +17,9 @@ import '../../features/design_demo/presentation/design_demo_screen.dart';
 import '../../features/events/presentation/event_detail_screen.dart';
 import '../../features/events/presentation/events_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
+import '../../features/news/presentation/news_screens.dart';
+import '../../features/notifications/presentation/notifications_screen.dart';
+import '../../features/notifications/presentation/push_prompt_screen.dart';
 import '../../features/profile/presentation/account_screens.dart';
 import '../../features/profile/presentation/education_screen.dart';
 import '../../features/profile/presentation/pro_profile_screen.dart';
@@ -178,22 +181,23 @@ GoRouter appRouter(Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.news,
-        builder: (context, state) {
-          final l10n = AppLocalizations.of(context);
-          return PlaceholderScreen(
-            title: l10n.screenNews,
-            links: [
-              PlaceholderLink(
-                l10n.placeholderNewsExample,
-                AppRoutes.newsDetail('exemple'),
-                push: true,
-              ),
-            ],
-          );
-        },
+        builder: (context, state) => const NewsListScreen(),
+        routes: [
+          GoRoute(
+            path: ':slug',
+            builder: (context, state) =>
+                NewsDetailScreen(slug: state.pathParameters['slug']!),
+          ),
+        ],
       ),
-      _placeholder('${AppRoutes.news}/:slug', (l) => l.screenNewsDetail),
-      _placeholder(AppRoutes.notifications, (l) => l.screenNotifications),
+      GoRoute(
+        path: AppRoutes.notifications,
+        builder: (context, state) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.pushPrompt,
+        builder: (context, state) => const PushPromptScreen(),
+      ),
       GoRoute(
         path: AppRoutes.opportunities,
         builder: (context, state) {

@@ -941,5 +941,91 @@
   "deleteKept": "Ta fiche de membre, tes cotisations, tes paiements et tes présences restent conservés par l'association. Le bureau pourra relier un nouveau compte à ta fiche plus tard.",
   "deletePasswordLabel": "Confirme avec ton mot de passe",
   "deleteConfirm": "Supprimer définitivement mon compte",
-  "saveFailed": "L'enregistrement n'a pas abouti."
+  "saveFailed": "L'enregistrement n'a pas abouti.",
+  "pushPromptTitle": "Ne rate rien de l'AEENCI",
+  "pushPromptText": "Événements, assemblées, cotisations, opportunités et annonces du bureau : reçois un message au bon moment.",
+  "pushPromptSettings": "Tu choisis les catégories dans ton profil, et tu peux tout couper à tout moment.",
+  "pushPromptEnable": "Activer les notifications",
+  "pushPromptLater": "Plus tard",
+  "pushDisabledText": "Les notifications sont désactivées sur ce téléphone.",
+  "pushDisabledEnable": "Autoriser les notifications",
+  "pushDisabledSettings": "Active-les dans les réglages de ton téléphone, rubrique Notifications.",
+  "markAllRead": "Tout marquer lu",
+  "groupToday": "Aujourd'hui",
+  "groupYesterday": "Hier",
+  "groupThisWeek": "Cette semaine",
+  "groupEarlier": "Plus tôt",
+  "notificationsEmpty": "Aucune notification pour l'instant.",
+  "notificationsEmptyHint": "Les messages de l'AEENCI s'afficheront ici.",
+  "notificationsMore": "Voir les notifications précédentes",
+  "notificationUnread": "Non lue",
+  "minutesAgo": "{count, plural, =0{À l'instant} =1{Il y a 1 min} other{Il y a {count} min}}",
+  "@minutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{count, plural, =1{Il y a 1 h} other{Il y a {count} h}}",
+  "@hoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeAt": "{time}",
+  "@timeAt": {
+    "description": "Heure : « 14:05 ».",
+    "placeholders": {
+      "time": {
+        "type": "DateTime",
+        "format": "Hm"
+      }
+    }
+  },
+  "weekdayShort": "{date}",
+  "@weekdayShort": {
+    "description": "Jour de la semaine : « lundi ».",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "EEEE"
+      }
+    }
+  },
+  "dayMonth": "{date}",
+  "@dayMonth": {
+    "description": "Jour et mois : « 12 oct. ».",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "MMMd"
+      }
+    }
+  },
+  "newsEmpty": "Aucune actualité pour l'instant.",
+  "newsMore": "Voir les actualités précédentes",
+  "newsPublished": "Publiée le {date}",
+  "@newsPublished": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMMd"
+      }
+    }
+  },
+  "newsNotFound": "Cette actualité n'existe pas ou n'est plus en ligne.",
+  "devPushTitle": "Notifications (mocks)",
+  "devPushOpen": "Ouvrir {route}",
+  "@devPushOpen": {
+    "placeholders": {
+      "route": {
+        "type": "String"
+      }
+    }
+  },
+  "devPushReceive": "Recevoir une notification au premier plan",
+  "devPushReset": "Revoir l'écran d'explication"
 }

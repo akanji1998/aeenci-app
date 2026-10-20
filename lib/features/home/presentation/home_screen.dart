@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +19,7 @@ import '../../auth/presentation/session_controller.dart';
 import '../../contributions/domain/contribution.dart';
 import '../../events/domain/event.dart';
 import '../../news/domain/news.dart';
+import '../../news/presentation/widgets/news_card.dart';
 import 'home_providers.dart';
 
 /// Accueil (maquette `app-accueil`).
@@ -603,70 +603,10 @@ class _NewsList extends StatelessWidget {
         _SectionLabel(l10n.homeNews),
         const SizedBox(height: AppSpacing.space2),
         for (final item in news) ...[
-          _NewsCard(news: item),
+          NewsCard(news: item),
           if (item != news.last) const SizedBox(height: AppSpacing.space3),
         ],
       ],
-    );
-  }
-}
-
-class _NewsCard extends StatelessWidget {
-  const _NewsCard({required this.news});
-
-  final News news;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    final image = news.imageUrl;
-    final placeholder = Container(
-      width: 72,
-      height: 72,
-      color: c.greenSoft,
-      child: Icon(LucideIcons.newspaper, color: c.green),
-    );
-    return MergeSemantics(
-      child: AppCard(
-        onTap: () => context.push(AppRoutes.newsDetail(news.slug)),
-        padding: const EdgeInsets.all(AppSpacing.space3),
-        child: Row(
-          children: [
-            ExcludeSemantics(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(AppRadius.sm),
-                child: image == null
-                    ? placeholder
-                    : CachedNetworkImage(
-                        imageUrl: image,
-                        width: 72,
-                        height: 72,
-                        // Image réduite en mémoire : téléphones modestes.
-                        memCacheWidth: 216,
-                        fit: BoxFit.cover,
-                        placeholder: (_, _) => placeholder,
-                        errorWidget: (_, _, _) => placeholder,
-                      ),
-              ),
-            ),
-            const SizedBox(width: AppSpacing.space3),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(news.title, style: context.textTheme.titleMedium),
-                  Text(
-                    AppLocalizations.of(
-                      context,
-                    ).dateShort(news.publishedAt.toLocal()),
-                    style: context.textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

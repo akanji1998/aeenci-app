@@ -299,19 +299,27 @@ Map<String, Object?> mockNextMeetingJson(DateTime now) {
   };
 }
 
-/// `GET /news` (première page).
-Map<String, Object?> mockNewsPageJson(DateTime now) => _page([
-  for (var i = 1; i <= 3; i++)
+/// `GET /news` : sept actualités de test, la plus récente d'abord. La
+/// première montre le Markdown du corps (titres, listes, liens).
+List<Map<String, Object?>> mockNewsJson(DateTime now) => [
+  for (var i = 1; i <= 7; i++)
     {
       'id': i,
       'slug': 'actualite-test-$i',
       'title': 'Actualité de test n° $i',
       'excerpt': 'Chapeau de test.',
-      'body': 'Texte **de test**.',
+      'body': i == 1
+          ? '## Intertitre de test\n\n'
+                'Paragraphe **de test** avec un mot en *italique* et un '
+                '[lien de test](https://aeenci.com).\n\n'
+                '- Premier point de test\n'
+                '- Second point de test\n\n'
+                '<b>Balise HTML de test, affichée telle quelle.</b>'
+          : 'Texte **de test**.',
       'image_url': null,
       'published_at': _iso(now.subtract(Duration(days: i * 3))),
     },
-]);
+];
 
 /// `GET /events?upcoming=1` : un événement de chaque type, dont un aux
 /// inscriptions fermées. Le premier correspond à l'inscription factice.

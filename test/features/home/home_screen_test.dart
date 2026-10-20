@@ -38,6 +38,10 @@ class _FailingNews implements NewsRepository {
     calls++;
     throw const ServerException(statusCode: 500);
   }
+
+  @override
+  Future<News> fetchBySlug(String slug) async =>
+      throw const ServerException(statusCode: 500);
 }
 
 void main() {

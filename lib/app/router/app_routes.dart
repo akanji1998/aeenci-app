@@ -40,6 +40,9 @@ abstract final class AppRoutes {
   static const news = '/actualites';
   static String newsDetail(String slug) => '$news/$slug';
   static const notifications = '/notifications';
+
+  /// Explication avant la demande d'autorisation des notifications.
+  static const pushPrompt = '/notifications/activer';
   static const opportunities = '/opportunites';
   static String opportunityDetail(int id) => '$opportunities/$id';
   static const scan = '/scan';

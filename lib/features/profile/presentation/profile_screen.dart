@@ -1,18 +1,27 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../app/router/app_routes.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/design/app_theme.dart';
+import '../../../core/design/components/app_button.dart';
 import '../../../core/design/components/app_card.dart';
 import '../../../core/design/components/app_switch_tile.dart';
 import '../../../core/design/components/member_avatar.dart';
 import '../../../core/domain/enums.dart';
 import '../../../core/l10n/enum_labels.dart';
+import '../../../core/push/push_providers.dart';
+import '../../../core/push/push_service.dart';
+import '../../../core/utils/device_services.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../auth/presentation/session_controller.dart';
 import '../../card/presentation/card_status_label.dart';
+import '../../notifications/presentation/notifications_providers.dart';
+import '../../notifications/presentation/push_controller.dart';
 import '../domain/professional_profile.dart';
 import '../domain/profile_rules.dart';
 import 'profile_providers.dart';
@@ -126,6 +135,7 @@ class ProfileScreen extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpacing.space6),
               Eyebrow(l10n.notificationsTitle),
+              const PushPermissionBanner(),
               const _NotificationPreferences(),
               const SizedBox(height: AppSpacing.space6),
               Eyebrow(l10n.accountTitle),
@@ -375,6 +385,66 @@ class _NotificationPreferences extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Notifications coupées sur ce téléphone (refusées, ou « Plus tard ») :
+/// un bouton pour les autoriser, et sinon le chemin des réglages.
+class PushPermissionBanner extends ConsumerStatefulWidget {
+  const PushPermissionBanner({super.key});
+
+  @override
+  ConsumerState<PushPermissionBanner> createState() =>
+      _PushPermissionBannerState();
+}
+
+class _PushPermissionBannerState extends ConsumerState<PushPermissionBanner> {
+  bool _busy = false;
+
+  Future<void> _allow() async {
+    final l10n = AppLocalizations.of(context);
+    setState(() => _busy = true);
+    final permission = await ref.read(pushServiceProvider).requestPermission();
+    if (permission == PushPermission.granted) {
+      await ref.read(pushControllerProvider.notifier).registerIfAllowed();
+    } else if (Platform.isIOS) {
+      // Refus déjà donné : iOS ne redemande plus, on ouvre les réglages.
+      await ref.read(deviceServicesProvider).openUrl('app-settings:');
+    } else if (mounted) {
+      showSnack(context, l10n.pushDisabledSettings);
+    }
+    ref.invalidate(pushPermissionProvider);
+    if (mounted) setState(() => _busy = false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final c = context.colors;
+    final permission = ref.watch(pushPermissionProvider).value;
+    if (permission == null || permission == PushPermission.granted) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.space3),
+      child: AppCard(
+        color: c.redSoft,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.pushDisabledText, style: context.textTheme.titleMedium),
+            const SizedBox(height: AppSpacing.space2),
+            AppButton.secondary(
+              label: l10n.pushDisabledEnable,
+              icon: LucideIcons.bell,
+              compact: true,
+              loading: _busy,
+              onPressed: _allow,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
