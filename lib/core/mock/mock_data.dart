@@ -4,6 +4,8 @@
 // Elles restent en JSON pour que les mocks passent par les mêmes fromJson
 // que l'API.
 
+import 'mock_card_signer.dart';
+
 /// Les trois comptes de démonstration.
 enum MockPersona {
   /// Membre admis, sans rôle au bureau.
@@ -243,6 +245,7 @@ Map<String, Object?> mockAppConfigJson({
   'maintenance_message': maintenance
       ? 'Maintenance de test : le service revient dans quelques minutes.'
       : null,
-  'card_public_key': 'cl\u00e9-de-test-non-valide',
+  // Clé de test : les cartes des mocks sont vraiment signées (scan).
+  'card_public_key': mockCardPublicKey,
   'support_email': 'contact@exemple.com',
 };

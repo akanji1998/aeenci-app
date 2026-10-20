@@ -27,9 +27,9 @@ Map<String, Object?> _page(
 };
 
 extension MockPersonaContent on MockPersona {
-  /// `GET /me/card`. Le contenu du QR code est factice : il ne vérifie
-  /// aucune signature (mocks seulement ; l'application ne fabrique jamais
-  /// de QR code à partir de l'API).
+  /// `GET /me/card`. Le `qr_payload` ci-dessous n'est pas signé : le dépôt
+  /// mock le remplace par une carte signée avec la clé de test
+  /// (`signMockCard`), comme le backend.
   Map<String, Object?> cardJson(DateTime now) => {
     'member_number': meJson['member_number'],
     'full_name': '${meJson['first_names']} ${meJson['last_name']}',
@@ -38,7 +38,7 @@ extension MockPersonaContent on MockPersona {
     'engagement': meJson['engagement'],
     'category': meJson['category'],
     'joined_at': meJson['joined_at'],
-    'qr_payload': 'AEENCI1.donnees-factices-$name.signature-factice',
+    'qr_payload': 'AEENCI1.non-signee.$name',
     'qr_expires_at': _iso(now.add(const Duration(days: 30))),
   };
 
