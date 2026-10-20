@@ -6,6 +6,7 @@ import 'package:aeenci_app/features/auth/presentation/session_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../helpers/pump_aeenci.dart';
 
@@ -120,7 +121,7 @@ void main() {
       expect(location(container), AppRoutes.profileSheet);
 
       await tapTab(tester, 'Carte');
-      expect(appBarTitle('Ma carte'), findsOneWidget);
+      expect(find.text('Ma carte'), findsOneWidget);
 
       await tapTab(tester, 'Profil');
       expect(location(container), AppRoutes.profileSheet);
@@ -135,7 +136,8 @@ void main() {
         tester,
         token: MockPersona.member.token,
       );
-      await tester.tap(find.text('Notifications'));
+      // Cloche de l'en-tête de l'accueil.
+      await tester.tap(find.byIcon(LucideIcons.bell));
       await tester.pumpAndSettle();
       expect(find.byType(NavigationBar), findsNothing);
       expect(location(container), AppRoutes.notifications);
@@ -146,17 +148,25 @@ void main() {
       expect(location(container), AppRoutes.home);
     });
 
-    testWidgets('scan : lien et accès réservés au bureau', (tester) async {
+    testWidgets('scan : bouton et accès réservés au bureau', (tester) async {
       final member = await pumpAeenci(tester, token: MockPersona.member.token);
+      await tapTab(tester, 'Carte');
       expect(find.text('Scanner les présences'), findsNothing);
       member.read(appRouterProvider).go(AppRoutes.scan);
       await tester.pumpAndSettle();
       expect(location(member), AppRoutes.home);
     });
 
-    testWidgets('scan accessible au bureau', (tester) async {
+    testWidgets('scan accessible au bureau depuis la carte', (tester) async {
       final bureau = await pumpAeenci(tester, token: MockPersona.bureau.token);
-      await tester.tap(find.text('Scanner les présences'));
+      await tapTab(tester, 'Carte');
+      final scan = find.text('Scanner les présences');
+      await tester.scrollUntilVisible(
+        scan,
+        200,
+        scrollable: find.byType(Scrollable).last,
+      );
+      await tester.tap(scan);
       await tester.pumpAndSettle();
       expect(location(bureau), AppRoutes.scan);
     });

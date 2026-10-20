@@ -309,5 +309,151 @@
   "statusRejectedHint": "Tu peux corriger ta demande et l'envoyer de nouveau sur aeenci.com.",
   "statusRejectedAction": "Refaire ma demande sur aeenci.com",
   "statusQuestionTitle": "Une question ?",
-  "statusQuestionText": "Écris à l'association :"
+  "statusQuestionText": "Écris à l'association :",
+  "cardTitle": "Ma carte",
+  "cardOfflineBadge": "Disponible hors connexion",
+  "cardStatusMember": "Membre",
+  "cardStatusFormer": "{gender, select, female{Ancienne membre} other{Ancien membre}}",
+  "@cardStatusFormer": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "cardStatusElder": "{gender, select, female{Aînée} other{Aîné}}",
+  "@cardStatusElder": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "cardEngagementActive": "{gender, select, female{active} other{actif}}",
+  "@cardEngagementActive": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "cardEngagementDormant": "en sourdine",
+  "cardStatusWithEngagement": "{status} {engagement}",
+  "@cardStatusWithEngagement": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "engagement": {
+        "type": "String"
+      }
+    }
+  },
+  "cardMemberNumber": "Matricule",
+  "cardMemberSince": "Membre depuis",
+  "cardQrLabel": "QR code de ta carte de membre",
+  "cardQrHint": "Présente ce code à l'entrée des assemblées et des événements. Il se renouvelle automatiquement.",
+  "cardExpired": "Ta carte a expiré : connecte-toi à Internet pour la renouveler.",
+  "cardBureauLabel": "Visible pour le bureau",
+  "cardScanAction": "Scanner les présences",
+  "cardPhotoLabel": "Photo de {name}",
+  "@cardPhotoLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "homeDate": "{date}",
+  "@homeDate": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "MMMMEEEEd"
+      }
+    }
+  },
+  "homeGreeting": "Bonjour {firstName}",
+  "@homeGreeting": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "homeNotifications": "{count, plural, =0{Notifications} =1{Notifications, 1 non lue} other{Notifications, {count} non lues}}",
+  "@homeNotifications": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeContributionTitle": "Cotisation {year}",
+  "@homeContributionTitle": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "homeContributionRemaining": "Reste {amount} F CFA à régler",
+  "@homeContributionRemaining": {
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "homeContributionUpToDate": "Ta cotisation est à jour.",
+  "homeContributionExempt": "Exonération accordée pour cette année.",
+  "homeContributionProgress": "{paid} F CFA payés sur {due} F CFA",
+  "@homeContributionProgress": {
+    "placeholders": {
+      "paid": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "due": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "homeUpcoming": "Bientôt",
+  "homeRegistered": "{gender, select, female{Tu es inscrite} other{Tu es inscrit}}",
+  "homeMeetingTitle": "Assemblée mensuelle",
+  "homeMeetingHint": "Présente ta carte à l'entrée",
+  "homeOpportunitiesTitle": "Opportunités pour toi",
+  "homeOpportunitiesNew": "{count, plural, =1{1 nouvelle} other{{count} nouvelles}}",
+  "@homeOpportunitiesNew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeOpportunityDeadline": "date limite {date}",
+  "@homeOpportunityDeadline": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "MMMd"
+      }
+    }
+  },
+  "homeProfileTitle": "Complète ton profil pro",
+  "homeProfileText": "Ajoute ton CV et tes compétences pour apparaître dans la vitrine de talents.",
+  "homeProfileAction": "Compléter",
+  "homeNews": "Actualités",
+  "homeBlockError": "Ce bloc n'a pas pu être chargé.",
+  "homeDevComponents": "Composants (dev)",
+  "@homeRegistered": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  }
 }

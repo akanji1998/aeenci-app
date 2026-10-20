@@ -11,6 +11,7 @@ import '../../features/auth/presentation/membership_status_screen.dart';
 import '../../features/auth/presentation/reset_password_screen.dart';
 import '../../features/auth/presentation/session_controller.dart';
 import '../../features/auth/presentation/splash_screen.dart';
+import '../../features/card/presentation/card_screen.dart';
 import '../../features/design_demo/presentation/design_demo_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
@@ -101,7 +102,12 @@ GoRouter appRouter(Ref ref) {
             ],
           ),
           StatefulShellBranch(
-            routes: [_placeholder(AppRoutes.card, (l) => l.screenCard)],
+            routes: [
+              GoRoute(
+                path: AppRoutes.card,
+                builder: (context, state) => const CardScreen(),
+              ),
+            ],
           ),
           StatefulShellBranch(
             routes: [

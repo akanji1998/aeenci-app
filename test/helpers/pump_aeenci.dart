@@ -19,6 +19,8 @@ Future<ProviderContainer> pumpAeenci(
   Size size = const Size(390, 844),
   double textScale = 1,
   MockBehavior behavior = MockBehavior.instant,
+  FakeBrightness? brightness,
+  CacheStore? cache,
 }) async {
   tester.view
     ..physicalSize = size * 3
@@ -31,9 +33,10 @@ Future<ProviderContainer> pumpAeenci(
     retry: noAutomaticRetry,
     overrides: testOverrides(
       tokens: MemoryTokenStore(token),
-      cache: MemoryCacheStore(),
+      cache: cache ?? MemoryCacheStore(),
       env: env,
       behavior: behavior,
+      brightness: brightness,
     ),
   );
   addTearDown(container.dispose);
