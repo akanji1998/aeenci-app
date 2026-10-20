@@ -17,6 +17,8 @@ Future<void> showReceiptSheet(
   required String label,
 }) => showModalBottomSheet<void>(
   context: context,
+  // Par-dessus la barre d'onglets.
+  useRootNavigator: true,
   isScrollControlled: true,
   showDragHandle: true,
   builder: (_) => _ReceiptSheet(payment: payment, label: label),

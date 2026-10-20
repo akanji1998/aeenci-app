@@ -12,10 +12,10 @@ import 'session_controller.dart';
 class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
 
-  /// Taille du symbole dans `assets/branding/splash.png` (640 px sur une
-  /// image de 1152 px affichée à 384 points) : même taille et même place
-  /// que l'écran natif, la transition ne se voit pas.
-  static const _nativeSymbolSize = 213.0;
+  /// Taille du symbole de l'écran natif : 640 px dans `splash.png`
+  /// (1152 px), que flutter_native_splash traite comme une image @4x, soit
+  /// 160 points. Même taille et même place : la transition ne se voit pas.
+  static const _nativeSymbolSize = 160.0;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

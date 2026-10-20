@@ -84,7 +84,8 @@ void main() {
     await pumpAeenci(tester, token: MockPersona.member.token);
     await openContributions(tester);
 
-    expect(find.text('Année $year'), findsWidgets);
+    // L'année en cours n'apparaît qu'une fois, en tête.
+    expect(find.text('Année $year'), findsOneWidget);
     expect(find.text('Payée en partie'), findsWidgets);
     expect(
       find.textContaining(RegExp(r'2\s000 / 6\s000 F CFA')),

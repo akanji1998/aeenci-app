@@ -110,8 +110,18 @@ class ContributionsScreen extends ConsumerWidget {
               _Section<List<Contribution>>(
                 value: contributions,
                 onRetry: () => ref.invalidate(contributionsProvider),
+                // L'année en cours est déjà en tête de l'écran.
                 builder: (all) => _MyYears(
-                  contributions: contributionYears(all),
+                  contributions: contributionYears(all)
+                      .where(
+                        (c) =>
+                            c.year !=
+                            currentContribution(
+                              all,
+                              ref.watch(clockProvider)(),
+                            )?.year,
+                      )
+                      .toList(),
                   admission: admissionPayment(
                     payments.value?.data.items ?? const [],
                   ),
