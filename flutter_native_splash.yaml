@@ -1,0 +1,14 @@
+# dart run flutter_native_splash:create
+# Couleurs : tokens surface (clair #fbfaf6, sombre #0f1713).
+flutter_native_splash:
+  color: "#fbfaf6"
+  image: assets/branding/splash.png
+  color_dark: "#0f1713"
+  image_dark: assets/branding/splash_dark.png
+  android_12:
+    color: "#fbfaf6"
+    image: assets/branding/splash.png
+    color_dark: "#0f1713"
+    image_dark: assets/branding/splash_dark.png
+  ios_content_mode: center
+  fullscreen: false

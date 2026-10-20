@@ -49,11 +49,14 @@ Avec les mocks, l'application se développe et se démontre sans backend. Les do
 | Compte | E-mail | Ce qu'il voit |
 | --- | --- | --- |
 | Membre admis | `membre.test@exemple.com` | Les cinq onglets |
-| Candidat | `candidat.test@exemple.com` | Le suivi de son adhésion |
+| Candidat | `candidat.test@exemple.com` | Le suivi de sa demande, en attente |
+| Candidat refusé | `candidat.refuse@exemple.com` | Le suivi de sa demande, refusée avec le motif |
 | Membre du bureau | `bureau.test@exemple.com` | Les onglets et le scan des présences |
 | Compte sans fiche | `admin.test@exemple.com` | Refusé : « Ce compte n'a pas d'espace membre » |
 
-En saveur `dev`, la page « Composants » (lien depuis l'accueil) règle la latence simulée et déclenche une erreur à la prochaine requête : réseau, 401, 422 ou 500.
+En saveur `dev` avec les mocks, le lien « Comptes de démonstration » en bas de l'écran de connexion connecte à ces comptes en un geste. Il ouvre aussi les liens de test : activation (valide ou expirée) et nouveau mot de passe.
+
+La page « Composants » (lien depuis l'accueil) règle la latence simulée et déclenche une erreur à la prochaine requête : réseau, 401, 422 ou 500. Elle simule aussi une mise à jour exigée ou une maintenance au prochain contrôle de `/app/config`.
 
 ## Thème
 
@@ -64,6 +67,18 @@ dart run tool/generate_theme.dart
 ```
 
 Cette commande régénère `lib/core/design/tokens.g.dart`. La CI et un test vérifient qu'il est à jour.
+
+## Icône et écran de démarrage
+
+Ils sont générés à partir de `assets/logos/aeenci-symbole.svg`. Pour les régénérer après une modification du symbole :
+
+```bash
+flutter test tool/brand/render_brand_assets_test.dart
+dart run flutter_launcher_icons
+dart run flutter_native_splash:create
+```
+
+La première commande produit les PNG de `assets/branding/`. Les deux autres mettent à jour les ressources Android et iOS. Après `flutter_launcher_icons`, vérifier dans `ios/Runner.xcodeproj/project.pbxproj` que `ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS` vaut toujours `YES` : le paquet le remplace parfois par erreur.
 
 ## Vérifications
 
