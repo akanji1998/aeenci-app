@@ -202,5 +202,22 @@
   "loginAsMember": "Membre",
   "loginAsCandidate": "Candidat",
   "loginAsBureau": "Bureau",
-  "loginAsNoMember": "Sans fiche"
+  "loginAsNoMember": "Sans fiche",
+  "updateRequiredTitle": "Mise à jour nécessaire",
+  "updateRequiredMessage": "Une nouvelle version de l'application AEENCI est disponible. Mets-la à jour pour continuer.",
+  "updateRequiredAction": "Mettre à jour",
+  "maintenanceTitle": "Maintenance en cours",
+  "maintenanceDefaultMessage": "L'application est momentanément indisponible. Réessaie dans quelques minutes.",
+  "contactSupport": "Une question ? Écris à {email}",
+  "@contactSupport": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "demoMockConfig": "Au prochain démarrage",
+  "demoMockUpdateRequired": "Mise à jour exigée",
+  "demoMockMaintenance": "Maintenance",
+  "demoMockRecheck": "Relire la configuration"
 }

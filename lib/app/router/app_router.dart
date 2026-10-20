@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../features/app_config/presentation/app_gate_controller.dart';
+import '../../features/app_config/presentation/gate_screens.dart';
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/session_controller.dart';
 import '../../features/auth/presentation/sign_out_button.dart';
@@ -23,17 +25,27 @@ part 'app_router.g.dart';
 @Riverpod(keepAlive: true)
 GoRouter appRouter(Ref ref) {
   final devTools = ref.watch(envConfigProvider).isDev;
-  final session = ValueNotifier<SessionState>(
+  final state = ValueNotifier<(AppGateState, SessionState)>((
+    ref.read(appGateControllerProvider),
     ref.read(sessionControllerProvider),
-  );
-  ref.listen(sessionControllerProvider, (_, next) => session.value = next);
+  ));
+  ref
+    ..listen(
+      appGateControllerProvider,
+      (_, gate) => state.value = (gate, state.value.$2),
+    )
+    ..listen(
+      sessionControllerProvider,
+      (_, session) => state.value = (state.value.$1, session),
+    );
 
   final router = GoRouter(
     initialLocation: AppRoutes.home,
-    refreshListenable: session,
-    redirect: (context, state) => guardRedirect(
-      session: session.value,
-      uri: state.uri,
+    refreshListenable: state,
+    redirect: (context, routerState) => guardRedirect(
+      gate: state.value.$1,
+      session: state.value.$2,
+      uri: routerState.uri,
       devTools: devTools,
     ),
     routes: [
@@ -41,6 +53,14 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: AppRoutes.splash,
         builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.updateRequired,
+        builder: (context, state) => const UpdateRequiredScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.maintenance,
+        builder: (context, state) => const MaintenanceScreen(),
       ),
       GoRoute(
         path: AppRoutes.login,
@@ -163,7 +183,7 @@ GoRouter appRouter(Ref ref) {
 
   ref.onDispose(() {
     router.dispose();
-    session.dispose();
+    state.dispose();
   });
   return router;
 }

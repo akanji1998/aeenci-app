@@ -2,6 +2,8 @@ import 'package:aeenci_app/app/router/app_routes.dart';
 import 'package:aeenci_app/app/router/route_guard.dart';
 import 'package:aeenci_app/core/api/api_exception.dart';
 import 'package:aeenci_app/core/mock/mock_data.dart';
+import 'package:aeenci_app/features/app_config/domain/app_config.dart';
+import 'package:aeenci_app/features/app_config/presentation/app_gate_controller.dart';
 import 'package:aeenci_app/features/auth/presentation/session_controller.dart';
 import 'package:aeenci_app/features/profile/domain/member.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,12 +15,19 @@ final _candidate = SessionCandidate(
 );
 const _signedOut = SessionSignedOut();
 
-String? go(SessionState session, String location, {bool devTools = true}) =>
-    guardRedirect(
-      session: session,
-      uri: Uri.parse(location),
-      devTools: devTools,
-    );
+String? go(
+  SessionState session,
+  String location, {
+  bool devTools = true,
+  AppGateState gate = const GateOpen(),
+}) => guardRedirect(
+  gate: gate,
+  session: session,
+  uri: Uri.parse(location),
+  devTools: devTools,
+);
+
+final _config = AppConfig.fromJson(mockAppConfigJson());
 
 void main() {
   group('pendant le chargement', () {
@@ -149,6 +158,51 @@ void main() {
     test('jamais en prod', () {
       expect(go(_member, '/dev/composants', devTools: false), '/accueil');
       expect(go(_signedOut, '/dev/composants', devTools: false), '/accueil');
+    });
+  });
+
+  group('configuration', () {
+    test('lecture en cours → démarrage, en gardant l\'écran demandé', () {
+      expect(
+        go(_member, '/carte', gate: const GateChecking()),
+        '/demarrage?from=%2Fcarte',
+      );
+      expect(go(_member, '/demarrage', gate: const GateChecking()), isNull);
+    });
+
+    test('mise à jour exigée → écran bloquant, quelle que soit la session', () {
+      for (final session in [
+        _member,
+        _candidate,
+        _signedOut,
+        const SessionLoading(),
+      ]) {
+        expect(
+          go(session, '/carte', gate: GateUpdateRequired(_config)),
+          '/mise-a-jour',
+        );
+        expect(
+          go(session, '/mise-a-jour', gate: GateUpdateRequired(_config)),
+          isNull,
+        );
+      }
+    });
+
+    test('maintenance → écran bloquant', () {
+      expect(
+        go(_member, '/accueil', gate: GateMaintenance(_config)),
+        '/maintenance',
+      );
+      expect(
+        go(_member, '/maintenance', gate: GateMaintenance(_config)),
+        isNull,
+      );
+    });
+
+    test('fin de maintenance : on quitte l\'écran bloquant', () {
+      expect(go(_member, '/maintenance'), '/accueil');
+      expect(go(_signedOut, '/maintenance'), '/connexion');
+      expect(go(_candidate, '/mise-a-jour'), '/adhesion/suivi');
     });
   });
 }

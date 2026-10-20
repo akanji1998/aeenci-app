@@ -10,6 +10,10 @@ abstract final class AppRoutes {
   static const activateAccount = '/activer-mon-compte';
   static const resetPassword = '/reinitialiser-mot-de-passe';
 
+  // Écrans bloquants de `/app/config`.
+  static const updateRequired = '/mise-a-jour';
+  static const maintenance = '/maintenance';
+
   /// Accessibles sans être connecté.
   static const public = {login, forgotPassword, activateAccount, resetPassword};
 
