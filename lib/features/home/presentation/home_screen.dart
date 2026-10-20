@@ -606,6 +606,14 @@ class _NewsList extends StatelessWidget {
           NewsCard(news: item),
           if (item != news.last) const SizedBox(height: AppSpacing.space3),
         ],
+        Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: AppButton.text(
+            label: l10n.homeNewsAll,
+            compact: true,
+            onPressed: () => context.push(AppRoutes.news),
+          ),
+        ),
       ],
     );
   }

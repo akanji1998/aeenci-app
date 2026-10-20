@@ -180,7 +180,6 @@
   "placeholderTitle": "Écran à venir",
   "placeholderMessage": "Cet écran arrive dans un prochain lot.",
   "placeholderEventExample": "Ouvrir le détail d'un événement",
-  "placeholderNewsExample": "Ouvrir une actualité",
   "placeholderOpportunityExample": "Ouvrir une opportunité",
   "signOut": "Se déconnecter",
   "backToLogin": "Retour à la connexion",
@@ -1027,5 +1026,6 @@
     }
   },
   "devPushReceive": "Recevoir une notification au premier plan",
-  "devPushReset": "Revoir l'écran d'explication"
+  "devPushReset": "Revoir l'écran d'explication",
+  "homeNewsAll": "Toutes les actualités"
 }

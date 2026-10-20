@@ -39,19 +39,8 @@ class NotificationsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final value = ref.watch(notificationsProvider);
-    final unread = value.value?.data.unreadCount ?? 0;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.screenNotifications),
-        actions: [
-          if (unread > 0)
-            TextButton(
-              style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
-              onPressed: () => _markAll(context, ref),
-              child: Text(l10n.markAllRead),
-            ),
-        ],
-      ),
+      appBar: AppBar(title: Text(l10n.screenNotifications)),
       body: AsyncView<NotificationsState>(
         value: value,
         onRetry: () => ref.invalidate(notificationsProvider),
@@ -68,7 +57,10 @@ class NotificationsScreen extends ConsumerWidget {
                     ),
                   ],
                 )
-              : _NotificationsList(state: state),
+              : _NotificationsList(
+                  state: state,
+                  onMarkAll: () => _markAll(context, ref),
+                ),
         ),
       ),
     );
@@ -76,9 +68,10 @@ class NotificationsScreen extends ConsumerWidget {
 }
 
 class _NotificationsList extends ConsumerWidget {
-  const _NotificationsList({required this.state});
+  const _NotificationsList({required this.state, required this.onMarkAll});
 
   final NotificationsState state;
+  final VoidCallback onMarkAll;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -95,6 +88,16 @@ class _NotificationsList extends ConsumerWidget {
         AppSpacing.space8,
       ),
       children: [
+        // Hors de la barre de titre : elle déborderait à 200 %.
+        if (state.unreadCount > 0)
+          Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: TextButton(
+              style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
+              onPressed: onMarkAll,
+              child: Text(l10n.markAllRead),
+            ),
+          ),
         for (final (group, items) in groups) ...[
           Padding(
             padding: const EdgeInsets.only(
@@ -171,9 +174,9 @@ class _NotificationTile extends ConsumerWidget {
         // Rien : pas de quoi bloquer l'ouverture.
       }
     }
-    if (n.route != null && context.mounted) {
-      await context.push(safePushRoute(n.route));
-    }
+    // `go` et non `push` : la plupart des routes sont dans les onglets, et
+    // un écran poussé là resterait caché sous le centre (hors onglets).
+    if (n.route != null && context.mounted) context.go(safePushRoute(n.route));
   }
 
   @override
