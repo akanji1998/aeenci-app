@@ -30,6 +30,10 @@
 		<string>L'application ajoute à ton calendrier les événements de l'AEENCI auxquels tu t'inscris.</string>
 		<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
 		<string>L'application ajoute à ton calendrier les événements de l'AEENCI auxquels tu t'inscris.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>L'application utilise l'appareil photo pour ta photo de membre, et pour scanner les cartes si tu fais partie du bureau.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>L'application te permet de choisir ta photo de membre dans tes photos.</string>
 		<key>UIApplicationSceneManifest</key>
 		<dict>
 			<key>UIApplicationSupportsMultipleScenes</key>
