@@ -10,6 +10,8 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        // flutter_local_notifications s'appuie sur le desugaring.
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -59,4 +61,17 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+}
+
+// Firebase seulement si sa configuration est là (`flutterfire configure`,
+// voir le README) : sans elle, l'application se construit et fonctionne
+// sans notifications push. Configurer alors les deux saveurs.
+if (file("src/dev/google-services.json").exists() ||
+    file("src/prod/google-services.json").exists()
+) {
+    apply(plugin = "com.google.gms.google-services")
 }

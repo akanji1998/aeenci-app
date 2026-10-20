@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Petite icône des notifications : symbole AEENCI en silhouette blanche
+     (Android colore lui-même les icônes de la barre d'état). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="500"
+    android:viewportHeight="500">
+    <group android:translateX="-10" android:translateY="-16">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:strokeColor="#FFFFFFFF"
+            android:strokeWidth="9"
+            android:strokeLineJoin="round"
+            android:pathData="M92.3,136.9 A468,468 0 0 0 427.7,136.9 L459.5,110.7 L448.8,162.5 L486.7,181.7 L455.0,207.9 A544,544 0 0 1 65.0,207.9 L33.3,181.7 L71.2,162.5 L60.5,110.7 Z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M226,292 A34,34 0 1,0 294,292 A34,34 0 1,0 226,292 Z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M168.0,400.0 C168.0,348.0 208.0,332.0 260.0,332.0 C312.0,332.0 352.0,348.0 352.0,400.0 Z" />
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M112.0,372.0 Q188.0,352.0 260.0,380.0 Q332.0,352.0 408.0,372.0 L408.0,428.0 Q332.0,408.0 260.0,436.0 Q188.0,408.0 112.0,428.0 Z" />
+    </group>
+</vector>

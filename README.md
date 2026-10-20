@@ -98,6 +98,28 @@ Les fichiers suivants ne vont jamais dans Git : `google-services.json`, `GoogleS
 - `android/app/src/{dev,prod}/google-services.json.example`
 - `ios/config/{dev,prod}/GoogleService-Info.plist.example`
 
+## Notifications push (Firebase)
+
+Sans configuration Firebase, l'application se construit et fonctionne normalement : les notifications push sont simplement coupées (c'est toujours le cas avec `USE_MOCKS=true`, où la page des composants permet de simuler l'ouverture d'une notification).
+
+Pour les activer, une fois par poste, avec un compte qui a accès au projet Firebase de l'association (`firebase login`) :
+
+```bash
+flutterfire configure --project=<id-du-projet> --platforms=android,ios --yes \
+  --android-package-name=com.aeenci.app.dev --android-out=android/app/src/dev/google-services.json \
+  --ios-bundle-id=com.aeenci.app.dev --ios-out=ios/config/dev/GoogleService-Info.plist \
+  --out=lib/firebase_options_dev.dart
+flutterfire configure --project=<id-du-projet> --platforms=android,ios --yes \
+  --android-package-name=com.aeenci.app --android-out=android/app/src/prod/google-services.json \
+  --ios-bundle-id=com.aeenci.app --ios-out=ios/config/prod/GoogleService-Info.plist \
+  --out=lib/firebase_options_prod.dart
+```
+
+- Configurer **les deux saveurs** : dès qu'un `google-services.json` est présent, Gradle l'exige pour chaque saveur construite.
+- Les fichiers produits restent hors de Git. L'application n'importe pas `firebase_options_*.dart` : Firebase lit les fichiers natifs de la saveur (une phase de build iOS copie `ios/config/<saveur>/GoogleService-Info.plist`). Si `flutterfire` modifie `ios/Runner.xcodeproj`, `android/` ou `firebase.json`, annuler ces changements.
+- iOS sur un vrai téléphone : déposer la clé APNs (Apple Developer, « Keys ») dans la console Firebase, et activer la capacité Push Notifications de l'identifiant d'application. Le simulateur reçoit des notifications de test : `xcrun simctl push booted com.aeenci.app.dev push.apns` avec `{"aps":{"alert":{"title":"Test","body":"Texte"}},"route":"/cotisations"}`.
+- La charge d'une notification porte l'écran à ouvrir dans `data.route` (table du contrat) ; une route inconnue ouvre le centre de notifications.
+
 ## Polices
 
 Bricolage Grotesque et Plus Jakarta Sans sont embarquées dans `assets/fonts/` pour fonctionner hors connexion. Ce sont les instances statiques de Google Fonts, sous licence SIL Open Font License (voir `assets/fonts/OFL-*.txt`).
