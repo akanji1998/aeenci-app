@@ -16,6 +16,7 @@ import '../../../core/design/components/offline_banner.dart';
 import '../../../core/design/components/skeleton.dart';
 import '../../../core/mock/mock_behavior.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../app_config/presentation/app_gate_controller.dart';
 
 /// Page de démonstration du design system (lot 0), dans les deux thèmes.
 class DesignDemoScreen extends ConsumerWidget {
@@ -504,6 +505,31 @@ class _Mocks extends ConsumerWidget {
                     controller.set(behavior.copyWith(latency: latency)),
               ),
           ],
+        ),
+        const SizedBox(height: AppSpacing.space4),
+        Text(l10n.demoMockConfig, style: context.textTheme.titleSmall),
+        const SizedBox(height: AppSpacing.space2),
+        Wrap(
+          spacing: AppSpacing.space2,
+          runSpacing: AppSpacing.space2,
+          children: [
+            FilterChip(
+              label: Text(l10n.demoMockUpdateRequired),
+              selected: behavior.updateRequired,
+              onSelected: (value) =>
+                  controller.set(behavior.copyWith(updateRequired: value)),
+            ),
+            FilterChip(
+              label: Text(l10n.demoMockMaintenance),
+              selected: behavior.maintenance,
+              onSelected: (value) =>
+                  controller.set(behavior.copyWith(maintenance: value)),
+            ),
+          ],
+        ),
+        AppButton.text(
+          label: l10n.demoMockRecheck,
+          onPressed: () => ref.read(appGateControllerProvider.notifier).check(),
         ),
         const SizedBox(height: AppSpacing.space4),
         Text(l10n.demoMockFailure, style: context.textTheme.titleSmall),

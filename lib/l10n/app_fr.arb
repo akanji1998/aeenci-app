@@ -198,7 +198,6 @@
   "loginExpired": "Ta session a expiré. Reconnecte-toi.",
   "loginNoMemberProfile": "Ce compte n'a pas d'espace membre.",
   "loginDevAccounts": "Comptes de démonstration",
-  "loginDevAccountsHint": "Données factices (USE_MOCKS=true). Cet encart disparaît au lot 2.",
   "loginAsMember": "Membre",
   "loginAsCandidate": "Candidat",
   "loginAsBureau": "Bureau",
@@ -219,5 +218,96 @@
   "demoMockConfig": "Au prochain démarrage",
   "demoMockUpdateRequired": "Mise à jour exigée",
   "demoMockMaintenance": "Maintenance",
-  "demoMockRecheck": "Relire la configuration"
+  "demoMockRecheck": "Relire la configuration",
+  "loginNoAccountTitle": "Pas encore de compte ?",
+  "loginNoAccountText": "Tu as été recensé : ouvre le lien d'invitation reçu par e-mail pour activer ton compte. Pas encore membre : fais ta demande sur aeenci.com.",
+  "loginJoinLink": "Adhérer sur aeenci.com",
+  "loginAsRejectedCandidate": "Candidat refusé",
+  "loginDevLinks": "Liens de test",
+  "loginDevActivation": "Lien d'activation",
+  "loginDevActivationExpired": "Invitation expirée",
+  "loginDevReset": "Lien de nouveau mot de passe",
+  "fieldRequired": "Ce champ est obligatoire.",
+  "passwordMismatch": "Les deux mots de passe ne correspondent pas.",
+  "passwordConfirmation": "Confirme le mot de passe",
+  "newPassword": "Nouveau mot de passe",
+  "forgotPasswordIntro": "Saisis l'adresse e-mail de ton compte. Tu recevras un lien pour choisir un nouveau mot de passe.",
+  "forgotPasswordSubmit": "Envoyer le lien",
+  "forgotPasswordSentTitle": "Vérifie ta boîte e-mail",
+  "forgotPasswordSent": "Si un compte existe pour {email}, un e-mail vient de t'être envoyé. Ouvre le lien qu'il contient sur ce téléphone pour choisir un nouveau mot de passe.",
+  "@forgotPasswordSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "activationGreeting": "Bonjour {firstNames}",
+  "@activationGreeting": {
+    "placeholders": {
+      "firstNames": {
+        "type": "String"
+      }
+    }
+  },
+  "activationIntro": "Choisis ton mot de passe pour activer ton compte de membre.",
+  "activationSubmit": "Activer mon compte",
+  "invalidLinkTitle": "Lien non valide",
+  "invitationNotFound": "Ce lien d'invitation n'est pas valide. Vérifie que tu as ouvert le lien complet reçu par e-mail.",
+  "invitationExpired": "Ce lien d'invitation a expiré ou a déjà servi. Demande une nouvelle invitation au bureau.",
+  "resetLinkInvalid": "Ce lien de réinitialisation n'est pas complet. Refais une demande de nouveau mot de passe.",
+  "resetIntro": "Choisis un nouveau mot de passe pour ton compte.",
+  "resetSubmit": "Enregistrer le mot de passe",
+  "requestNewLink": "Demander un nouveau lien",
+  "statusPendingTitle": "Ta demande est en cours d'examen",
+  "statusPendingIntro": "Envoyée le {date}. Tu recevras une notification dès que le secrétaire général aura répondu.",
+  "@statusPendingIntro": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMMd"
+      }
+    }
+  },
+  "statusStepSent": "Demande envoyée",
+  "statusStepReview": "Examen par le bureau",
+  "statusStepReviewInProgress": "En cours",
+  "statusStepFee": "Droit d'adhésion",
+  "statusStepFeeAmount": "{amount} F CFA, à régler auprès du trésorier après validation",
+  "@statusStepFeeAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "statusStepFeeUnknown": "À régler auprès du trésorier après validation",
+  "statusStepCard": "Carte de membre",
+  "statusStepCardHint": "Disponible dans l'application",
+  "statusStepDone": "Étape terminée",
+  "statusStepCurrent": "Étape en cours",
+  "statusStepNumber": "Étape {number}",
+  "@statusStepNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "statusRejectedTitle": "Ta demande n'a pas été validée",
+  "statusRejectedIntro": "Réponse du {date}.",
+  "@statusRejectedIntro": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMMd"
+      }
+    }
+  },
+  "statusRejectedReason": "Motif",
+  "statusRejectedHint": "Tu peux corriger ta demande et l'envoyer de nouveau sur aeenci.com.",
+  "statusRejectedAction": "Refaire ma demande sur aeenci.com",
+  "statusQuestionTitle": "Une question ?",
+  "statusQuestionText": "Écris à l'association :"
 }

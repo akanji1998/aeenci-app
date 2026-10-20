@@ -4,9 +4,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/app_config/presentation/app_gate_controller.dart';
 import '../../features/app_config/presentation/gate_screens.dart';
+import '../../features/auth/presentation/activate_account_screen.dart';
+import '../../features/auth/presentation/forgot_password_screen.dart';
 import '../../features/auth/presentation/login_screen.dart';
+import '../../features/auth/presentation/membership_status_screen.dart';
+import '../../features/auth/presentation/reset_password_screen.dart';
 import '../../features/auth/presentation/session_controller.dart';
-import '../../features/auth/presentation/sign_out_button.dart';
 import '../../features/auth/presentation/splash_screen.dart';
 import '../../features/design_demo/presentation/design_demo_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
@@ -66,15 +69,25 @@ GoRouter appRouter(Ref ref) {
         path: AppRoutes.login,
         builder: (context, state) => const LoginScreen(),
       ),
-      _placeholder(AppRoutes.forgotPassword, (l) => l.screenForgotPassword),
-      _placeholder(AppRoutes.activateAccount, (l) => l.screenActivateAccount),
-      _placeholder(AppRoutes.resetPassword, (l) => l.screenResetPassword),
+      GoRoute(
+        path: AppRoutes.forgotPassword,
+        builder: (context, state) => const ForgotPasswordScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.activateAccount,
+        builder: (context, state) =>
+            ActivateAccountScreen(token: state.uri.queryParameters['token']),
+      ),
+      GoRoute(
+        path: AppRoutes.resetPassword,
+        builder: (context, state) => ResetPasswordScreen(
+          token: state.uri.queryParameters['token'],
+          email: state.uri.queryParameters['email'],
+        ),
+      ),
       GoRoute(
         path: AppRoutes.membershipStatus,
-        builder: (context, state) => PlaceholderScreen(
-          title: AppLocalizations.of(context).screenMembershipStatus,
-          footer: const SignOutButton(),
-        ),
+        builder: (context, state) => const MembershipStatusScreen(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => AppShell(shell: shell),

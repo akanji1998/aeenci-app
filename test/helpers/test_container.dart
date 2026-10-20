@@ -13,15 +13,20 @@ List<Override> testOverrides({
   required MemoryTokenStore tokens,
   required MemoryCacheStore cache,
   EnvConfig? env,
+  MockBehavior behavior = MockBehavior.instant,
 }) => [
   envConfigProvider.overrideWithValue(env ?? devMocksConfig),
   tokenStoreProvider.overrideWithValue(tokens),
   cacheStoreProvider.overrideWithValue(cache),
-  mockBehaviorControllerProvider.overrideWith(_InstantMocks.new),
+  mockBehaviorControllerProvider.overrideWith(() => _TestMocks(behavior)),
   installedVersionProvider.overrideWith((ref) async => '1.0.0'),
 ];
 
-class _InstantMocks extends MockBehaviorController {
+class _TestMocks extends MockBehaviorController {
+  _TestMocks(this._initial);
+
+  final MockBehavior _initial;
+
   @override
-  MockBehavior build() => MockBehavior.instant;
+  MockBehavior build() => _initial;
 }

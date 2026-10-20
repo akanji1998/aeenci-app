@@ -1,3 +1,4 @@
+import 'package:aeenci_app/app/bootstrap.dart';
 import 'package:aeenci_app/core/api/api_exception.dart';
 import 'package:aeenci_app/core/api/api_providers.dart';
 import 'package:aeenci_app/core/api/token_store.dart';
@@ -19,6 +20,7 @@ void main() {
   Future<SessionState> start({String? token}) async {
     tokens = MemoryTokenStore(token);
     container = ProviderContainer(
+      retry: noAutomaticRetry,
       overrides: testOverrides(tokens: tokens, cache: cache),
     );
     addTearDown(container.dispose);
@@ -90,6 +92,7 @@ void main() {
     test('sans cache → indisponible, puis Réessayer', () async {
       tokens = MemoryTokenStore(MockPersona.member.token);
       container = ProviderContainer(
+        retry: noAutomaticRetry,
         overrides: testOverrides(tokens: tokens, cache: cache),
       );
       addTearDown(container.dispose);

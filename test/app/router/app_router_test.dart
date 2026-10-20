@@ -28,15 +28,14 @@ void main() {
     testWidgets('sans jeton : écran de connexion', (tester) async {
       final container = await pumpAeenci(tester);
       expect(location(container), AppRoutes.login);
-      expect(find.text('Comptes de démonstration'), findsOneWidget);
+      expect(find.text('Pas encore de compte ?'), findsOneWidget);
     });
 
     testWidgets('membre : connexion puis accueil à cinq onglets', (
       tester,
     ) async {
       final container = await pumpAeenci(tester);
-      await tester.tap(find.text('Membre'));
-      await tester.pumpAndSettle();
+      await signInAs(tester, 'Membre');
       expect(location(container), AppRoutes.home);
       expect(find.byType(NavigationBar), findsOneWidget);
       for (final tab in [
@@ -73,8 +72,7 @@ void main() {
 
     testWidgets('candidat : seulement le suivi, sans onglets', (tester) async {
       final container = await pumpAeenci(tester);
-      await tester.tap(find.text('Candidat'));
-      await tester.pumpAndSettle();
+      await signInAs(tester, 'Candidat');
       expect(location(container), AppRoutes.membershipStatus);
       expect(find.byType(NavigationBar), findsNothing);
 
@@ -87,9 +85,8 @@ void main() {
       tester,
     ) async {
       // Écran haut : tout le formulaire tient sans défilement.
-      final container = await pumpAeenci(tester, size: const Size(390, 1400));
-      await tester.tap(find.text('Sans fiche'));
-      await tester.pumpAndSettle();
+      final container = await pumpAeenci(tester);
+      await signInAs(tester, 'Sans fiche');
       expect(location(container), AppRoutes.login);
       expect(find.text('Ce compte n\'a pas d\'espace membre.'), findsOneWidget);
     });
@@ -102,8 +99,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(location(container), '/connexion?from=%2Fevenements%2Fjoe-2026');
 
-        await tester.tap(find.text('Membre'));
-        await tester.pumpAndSettle();
+        await signInAs(tester, 'Membre');
         expect(location(container), '/evenements/joe-2026');
         expect(appBarTitle('Événement'), findsOneWidget);
       },
@@ -198,8 +194,7 @@ void main() {
       expect(location(container), '/connexion?from=%2Fcotisations');
       expect(find.text('Ta session a expiré. Reconnecte-toi.'), findsOneWidget);
 
-      await tester.tap(find.text('Membre'));
-      await tester.pumpAndSettle();
+      await signInAs(tester, 'Membre');
       expect(location(container), AppRoutes.contributions);
     });
 
