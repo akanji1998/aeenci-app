@@ -255,15 +255,24 @@ void main() {
     });
   });
 
-  test('déconnexion : jeton et cache effacés, même hors connexion', () async {
-    await start(token: MockPersona.member.token);
-    expect(await cache.read('me'), isNotNull);
-    failNext(MockFailure.network);
-    await controller().signOut();
-    expect(container.read(sessionControllerProvider), isA<SessionSignedOut>());
-    expect(await tokens.read(), isNull);
-    expect(cache.isEmpty, isTrue);
-  });
+  test(
+    'déconnexion : jeton, cache et reçus effacés, même hors connexion',
+    () async {
+      await start(token: MockPersona.member.token);
+      final files = container.read(fileStoreProvider);
+      await files.write('REC-2026-00001.pdf', [1, 2, 3]);
+      expect(await cache.read('me'), isNotNull);
+      failNext(MockFailure.network);
+      await controller().signOut();
+      expect(
+        container.read(sessionControllerProvider),
+        isA<SessionSignedOut>(),
+      );
+      expect(await tokens.read(), isNull);
+      expect(cache.isEmpty, isTrue);
+      expect(await files.pathFor('REC-2026-00001.pdf'), isNull);
+    },
+  );
 
   test('un 401 pendant la session déconnecte', () async {
     await start(token: MockPersona.member.token);

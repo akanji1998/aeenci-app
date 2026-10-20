@@ -2,6 +2,7 @@ import 'package:aeenci_app/app/config/env_config.dart';
 import 'package:aeenci_app/core/api/api_providers.dart';
 import 'package:aeenci_app/core/api/token_store.dart';
 import 'package:aeenci_app/core/cache/cache_store.dart';
+import 'package:aeenci_app/core/cache/file_store.dart';
 import 'package:aeenci_app/core/mock/mock_behavior.dart';
 import 'package:aeenci_app/core/utils/connectivity.dart';
 import 'package:aeenci_app/core/utils/screen_brightness_service.dart';
@@ -17,10 +18,12 @@ List<Override> testOverrides({
   EnvConfig? env,
   MockBehavior behavior = MockBehavior.instant,
   FakeBrightness? brightness,
+  FileStore? files,
 }) => [
   envConfigProvider.overrideWithValue(env ?? devMocksConfig),
   tokenStoreProvider.overrideWithValue(tokens),
   cacheStoreProvider.overrideWithValue(cache),
+  fileStoreProvider.overrideWithValue(files ?? MemoryFileStore()),
   mockBehaviorControllerProvider.overrideWith(() => _TestMocks(behavior)),
   installedVersionProvider.overrideWith((ref) async => '1.0.0'),
   // Greffons de la plateforme, absents des tests.

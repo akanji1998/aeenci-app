@@ -154,7 +154,7 @@ class SessionController extends _$SessionController {
     }
 
     // Données d'un éventuel compte précédent sur ce téléphone.
-    await ref.read(cacheStoreProvider).clear();
+    await _clearLocalData();
     await tokens.write(session.token);
     await _loadMember();
   }
@@ -166,7 +166,7 @@ class SessionController extends _$SessionController {
   Future<void> signOut() async {
     await _logoutQuietly();
     await ref.read(tokenStoreProvider).clear();
-    await ref.read(cacheStoreProvider).clear();
+    await _clearLocalData();
     state = const SessionSignedOut(SignedOutReason.userRequest);
   }
 
@@ -195,8 +195,14 @@ class SessionController extends _$SessionController {
   Future<void> _expire() async {
     if (state case SessionSignedOut()) return;
     await ref.read(tokenStoreProvider).clear();
-    await ref.read(cacheStoreProvider).clear();
+    await _clearLocalData();
     state = const SessionSignedOut(SignedOutReason.expired);
+  }
+
+  /// Cache JSON et fichiers (reçus) : données personnelles du compte.
+  Future<void> _clearLocalData() async {
+    await ref.read(cacheStoreProvider).clear();
+    await ref.read(fileStoreProvider).clear();
   }
 
   Future<void> _logoutQuietly() async {

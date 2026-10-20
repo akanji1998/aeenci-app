@@ -3,6 +3,7 @@ import 'package:aeenci_app/app/bootstrap.dart';
 import 'package:aeenci_app/app/config/env_config.dart';
 import 'package:aeenci_app/core/api/token_store.dart';
 import 'package:aeenci_app/core/cache/cache_store.dart';
+import 'package:aeenci_app/core/cache/file_store.dart';
 import 'package:aeenci_app/core/mock/mock_behavior.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +23,7 @@ Future<ProviderContainer> pumpAeenci(
   MockBehavior behavior = MockBehavior.instant,
   FakeBrightness? brightness,
   CacheStore? cache,
+  FileStore? files,
   List<Override> overrides = const [],
 }) async {
   tester.view
@@ -40,6 +42,7 @@ Future<ProviderContainer> pumpAeenci(
         env: env,
         behavior: behavior,
         brightness: brightness,
+        files: files,
       ),
       ...overrides,
     ],

@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../app/config/env_config.dart';
 import '../cache/cache_store.dart';
+import '../cache/file_store.dart';
 import '../mock/mock_behavior.dart';
 import 'api_client.dart';
 import 'token_store.dart';
@@ -15,12 +16,16 @@ part 'api_providers.g.dart';
 @Riverpod(keepAlive: true)
 TokenStore tokenStore(Ref ref) => SecureTokenStore();
 
+/// Racine du cache hors connexion (JSON et fichiers).
+Future<Directory> _offlineRoot() async =>
+    Directory('${(await getApplicationSupportDirectory()).path}/offline_cache');
+
 @Riverpod(keepAlive: true)
-CacheStore cacheStore(Ref ref) => FileCacheStore(
-  () async => Directory(
-    '${(await getApplicationSupportDirectory()).path}/offline_cache',
-  ),
-);
+CacheStore cacheStore(Ref ref) => FileCacheStore(_offlineRoot);
+
+/// Reçus PDF gardés hors connexion, dans la même racine que le cache.
+@Riverpod(keepAlive: true)
+FileStore fileStore(Ref ref) => DirectoryFileStore(_offlineRoot);
 
 @Riverpod(keepAlive: true)
 ApiClient apiClient(Ref ref) {
