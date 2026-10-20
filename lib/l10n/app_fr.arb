@@ -180,7 +180,6 @@
   "placeholderTitle": "Écran à venir",
   "placeholderMessage": "Cet écran arrive dans un prochain lot.",
   "placeholderEventExample": "Ouvrir le détail d'un événement",
-  "placeholderOpportunityExample": "Ouvrir une opportunité",
   "signOut": "Se déconnecter",
   "backToLogin": "Retour à la connexion",
   "loginTitle": "Connexion",
@@ -1027,5 +1026,122 @@
   },
   "devPushReceive": "Recevoir une notification au premier plan",
   "devPushReset": "Revoir l'écran d'explication",
-  "homeNewsAll": "Toutes les actualités"
+  "homeNewsAll": "Toutes les actualités",
+  "opportunitiesIntro": "Offres relayées par le bureau et choisies d'après ton profil. Elles ne sont visibles que par les membres concernés.",
+  "opportunitiesEmpty": "Aucune offre pour l'instant.",
+  "opportunitiesEmptyHint": "Complète ton profil professionnel : le bureau t'enverra les offres qui te correspondent.",
+  "opportunitiesMore": "Voir les offres précédentes",
+  "opportunitiesFooter": "Tu ne veux plus en recevoir ? Désactive « Opportunités » dans Profil › Notifications.",
+  "opportunitiesFooterLink": "Ouvrir mes réglages",
+  "opportunityNew": "Nouvelle",
+  "opportunitySeen": "Vue",
+  "opportunityInterestedBadge": "{gender, select, female{Intéressée ✓} other{Intéressé ✓}}",
+  "@opportunityInterestedBadge": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "opportunityVerified": "Vérifiée par le bureau",
+  "opportunityOrganization": "Organisation",
+  "opportunityLocation": "Lieu",
+  "opportunityDeadline": "Date limite",
+  "opportunityReceived": "Reçue le",
+  "opportunityDescription": "Description",
+  "opportunityWhy": "Pourquoi tu la reçois",
+  "whyDomains": "ton domaine ({list})",
+  "@whyDomains": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "whySkills": "tes compétences ({list})",
+  "@whySkills": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "whyCities": "ta ville ({list})",
+  "@whyCities": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "whyCategories": "ta catégorie ({list})",
+  "@whyCategories": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "whyLevels": "ton niveau d'études ({list})",
+  "@whyLevels": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "whySentence": "{count, plural, =1{{criteria} correspond au profil recherché.} other{{criteria} correspondent au profil recherché.}}",
+  "@whySentence": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "criteria": {
+        "type": "String"
+      }
+    }
+  },
+  "whyGeneric": "Ton profil correspond aux critères choisis par le bureau.",
+  "listAnd": " et ",
+  "applyDirect": "Postuler directement",
+  "applyByEmail": "Postuler par e-mail",
+  "applyViaBureauTitle": "Candidature par le bureau",
+  "applyViaBureauDefault": "Le bureau transmet les candidatures pour cette offre : indique-lui ton intérêt.",
+  "jobDescription": "Fiche de poste",
+  "jobDescriptionOpen": "Ouvrir la fiche de poste",
+  "jobDescriptionShareText": "Fiche de poste — {title}",
+  "@jobDescriptionShareText": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "interestButton": "{gender, select, female{Je suis intéressée} other{Je suis intéressé}}",
+  "@interestButton": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "interestSheetText": "Le bureau sera prévenu et pourra te recontacter au sujet de cette offre.",
+  "interestShareCv": "J'autorise le bureau à transmettre mon CV au recruteur, pour cette offre uniquement.",
+  "interestNoCv": "Tu n'as pas encore de CV dans ton profil professionnel.",
+  "interestAddCv": "Ajouter mon CV",
+  "interestConfirm": "Confirmer",
+  "interestDone": "{gender, select, female{Le bureau sait que tu es intéressée ✓} other{Le bureau sait que tu es intéressé ✓}}",
+  "@interestDone": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "interestCvShared": "Tu as autorisé la transmission de ton CV pour cette offre.",
+  "interestCvNotShared": "Ton CV ne sera pas transmis sans ton accord.",
+  "interestWithdraw": "Retirer mon intérêt",
+  "interestWithdrawn": "Ton intérêt est retiré.",
+  "opportunityNotFound": "Cette offre n'existe pas ou ne t'a pas été adressée.",
+  "fileNoViewer": "Aucune application ne peut ouvrir ce fichier sur ton téléphone."
 }

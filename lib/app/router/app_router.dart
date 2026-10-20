@@ -20,6 +20,7 @@ import '../../features/home/presentation/home_screen.dart';
 import '../../features/news/presentation/news_screens.dart';
 import '../../features/notifications/presentation/notifications_screen.dart';
 import '../../features/notifications/presentation/push_prompt_screen.dart';
+import '../../features/opportunities/presentation/opportunities_screens.dart';
 import '../../features/profile/presentation/account_screens.dart';
 import '../../features/profile/presentation/education_screen.dart';
 import '../../features/profile/presentation/pro_profile_screen.dart';
@@ -200,23 +201,15 @@ GoRouter appRouter(Ref ref) {
       ),
       GoRoute(
         path: AppRoutes.opportunities,
-        builder: (context, state) {
-          final l10n = AppLocalizations.of(context);
-          return PlaceholderScreen(
-            title: l10n.screenOpportunities,
-            links: [
-              PlaceholderLink(
-                l10n.placeholderOpportunityExample,
-                AppRoutes.opportunityDetail(1),
-                push: true,
-              ),
-            ],
-          );
-        },
-      ),
-      _placeholder(
-        '${AppRoutes.opportunities}/:id',
-        (l) => l.screenOpportunityDetail,
+        builder: (context, state) => const OpportunitiesScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (context, state) => OpportunityDetailScreen(
+              id: int.tryParse(state.pathParameters['id']!) ?? 0,
+            ),
+          ),
+        ],
       ),
       _placeholder(AppRoutes.scan, (l) => l.screenScan),
       GoRoute(
