@@ -177,9 +177,6 @@
   "screenForgotPassword": "Mot de passe oublié",
   "screenActivateAccount": "Activer mon compte",
   "screenResetPassword": "Nouveau mot de passe",
-  "placeholderTitle": "Écran à venir",
-  "placeholderMessage": "Cet écran arrive dans un prochain lot.",
-  "placeholderEventExample": "Ouvrir le détail d'un événement",
   "signOut": "Se déconnecter",
   "backToLogin": "Retour à la connexion",
   "loginTitle": "Connexion",
@@ -1143,5 +1140,88 @@
   "interestWithdraw": "Retirer mon intérêt",
   "interestWithdrawn": "Ton intérêt est retiré.",
   "opportunityNotFound": "Cette offre n'existe pas ou ne t'a pas été adressée.",
-  "fileNoViewer": "Aucune application ne peut ouvrir ce fichier sur ton téléphone."
+  "fileNoViewer": "Aucune application ne peut ouvrir ce fichier sur ton téléphone.",
+  "scanMeetingEyebrow": "Assemblée",
+  "scanMeetingLabel": "Assemblée du {date}",
+  "@scanMeetingLabel": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "MMMMEEEEd"
+      }
+    }
+  },
+  "scanNoMeeting": "Aucune assemblée aujourd'hui ni hier.",
+  "scanNoMeetingHint": "Le secrétaire général crée l'assemblée sur la plateforme de gestion, puis tu pourras scanner les cartes.",
+  "scanAim": "Vise le QR code de la carte de membre. La présence s'enregistre toute seule.",
+  "scanCameraLabel": "Caméra : vise le QR code d'une carte de membre",
+  "scanCameraDenied": "Autorise l'appareil photo dans les réglages du téléphone pour scanner les cartes.",
+  "scanCameraError": "La caméra ne démarre pas sur ce téléphone.",
+  "scanCount": "{count, plural, =0{Aucune présence enregistrée} =1{1 présence enregistrée} other{{count} présences enregistrées}}",
+  "@scanCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scanPending": "{count, plural, =1{1 scan en attente d'envoi} other{{count} scans en attente d'envoi}}",
+  "@scanPending": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scanOffline": "Hors connexion : les scans partiront dès le retour du réseau.",
+  "scanSendNow": "Envoyer maintenant",
+  "scanFooter": "Réservé au secrétaire général et au bureau. Fonctionne aussi sans réseau : les présences sont envoyées dès le retour de la connexion.",
+  "scanSimulate": "Simuler un scan",
+  "scanNoKey": "Vérification sur le téléphone indisponible : les cartes seront vérifiées à l'envoi.",
+  "scanAccepted": "Carte valide",
+  "scanAcceptedBody": "{number} · envoi de la présence",
+  "@scanAcceptedBody": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "scanUnverified": "Carte lue",
+  "scanUnverifiedBody": "Elle sera vérifiée à l'envoi.",
+  "scanAlreadyBody": "Cette carte a déjà été scannée pour cette assemblée.",
+  "scanAlreadyNamed": "Présence de {name} déjà enregistrée pour cette assemblée.",
+  "@scanAlreadyNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "scanCodeInvalid": "Code non valide",
+  "scanInvalidBody": "Ce QR code n'est pas une carte AEENCI. Demande au membre d'ouvrir sa carte à nouveau.",
+  "scanExpiredBody": "Demande au membre d'ouvrir sa carte avec du réseau pour la renouveler.",
+  "scanNotMemberBody": "Oriente la personne vers le secrétaire général.",
+  "scanSendError": "Les scans n'ont pas pu être envoyés : {message}",
+  "@scanSendError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "scanHomeTitle": "Scanner les présences",
+  "scanHomeText": "Assemblée du jour : scanne les cartes des membres à l'entrée.",
+  "signOutPendingTitle": "Présences pas encore envoyées",
+  "signOutPendingText": "{count, plural, =1{1 présence scannée n'est pas encore envoyée. Si tu te déconnectes maintenant, elle sera perdue.} other{{count} présences scannées ne sont pas encore envoyées. Si tu te déconnectes maintenant, elles seront perdues.}}",
+  "@signOutPendingText": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "signOutSendFirst": "Envoyer d'abord",
+  "signOutAnyway": "Se déconnecter quand même",
+  "signOutSendFailed": "L'envoi n'a pas abouti. Réessaie avec du réseau, ou déconnecte-toi quand même."
 }

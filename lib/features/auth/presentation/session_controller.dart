@@ -11,6 +11,7 @@ import '../../notifications/data/devices_repository.dart';
 import '../../profile/data/account_repository.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/domain/member.dart';
+import '../../scan/data/scan_queue_store.dart';
 import '../data/auth_repository.dart';
 import '../domain/auth_user.dart';
 
@@ -227,6 +228,8 @@ class SessionController extends _$SessionController {
   Future<void> _clearLocalData() async {
     await ref.read(cacheStoreProvider).clear();
     await ref.read(fileStoreProvider).clear();
+    // Scans pas encore envoyés : l'écran a prévenu avant la déconnexion.
+    await ref.read(scanQueueStoreProvider).clear();
   }
 
   Future<void> _logoutQuietly() async {

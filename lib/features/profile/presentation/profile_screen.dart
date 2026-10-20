@@ -22,6 +22,7 @@ import '../../auth/presentation/session_controller.dart';
 import '../../card/presentation/card_status_label.dart';
 import '../../notifications/presentation/notifications_providers.dart';
 import '../../notifications/presentation/push_controller.dart';
+import '../../scan/presentation/sign_out_guard.dart';
 import '../domain/professional_profile.dart';
 import '../domain/profile_rules.dart';
 import 'profile_providers.dart';
@@ -147,8 +148,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   NavRow(
                     title: l10n.signOut,
-                    onTap: () =>
-                        ref.read(sessionControllerProvider.notifier).signOut(),
+                    onTap: () => signOutWithScanCheck(context, ref),
                   ),
                   NavRow(
                     title: l10n.deleteAccount,

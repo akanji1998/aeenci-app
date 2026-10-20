@@ -26,11 +26,10 @@ import '../../features/profile/presentation/education_screen.dart';
 import '../../features/profile/presentation/pro_profile_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 import '../../features/profile/presentation/profile_sheet_screen.dart';
-import '../../l10n/generated/app_localizations.dart';
+import '../../features/scan/presentation/scan_screen.dart';
 import '../config/env_config.dart';
 import '../shell/app_shell.dart';
 import 'app_routes.dart';
-import 'placeholder_screen.dart';
 import 'route_guard.dart';
 
 part 'app_router.g.dart';
@@ -211,7 +210,10 @@ GoRouter appRouter(Ref ref) {
           ),
         ],
       ),
-      _placeholder(AppRoutes.scan, (l) => l.screenScan),
+      GoRoute(
+        path: AppRoutes.scan,
+        builder: (context, state) => const ScanScreen(),
+      ),
       GoRoute(
         path: AppRoutes.devComponents,
         builder: (context, state) => const DesignDemoScreen(),
@@ -225,10 +227,3 @@ GoRouter appRouter(Ref ref) {
   });
   return router;
 }
-
-GoRoute _placeholder(String path, String Function(AppLocalizations) title) =>
-    GoRoute(
-      path: path,
-      builder: (context, state) =>
-          PlaceholderScreen(title: title(AppLocalizations.of(context))),
-    );

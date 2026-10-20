@@ -85,6 +85,10 @@ class HomeScreen extends ConsumerWidget {
             ),
             children: [
               _Header(firstName: firstName),
+              if (member != null && member.can(Abilities.attendanceScan)) ...[
+                const SizedBox(height: AppSpacing.space4),
+                const _ScanCard(),
+              ],
               if (offlineSince != null) ...[
                 const SizedBox(height: AppSpacing.space3),
                 OfflineBanner(updatedAt: offlineSince),
@@ -101,9 +105,9 @@ class HomeScreen extends ConsumerWidget {
               _Block(
                 value: ref.watch(homeOpportunitiesProvider),
                 onRetry: () => ref.invalidate(homeOpportunitiesProvider),
-                builder: (data) => data.unseenCount == 0 || data.latest == null
-                    ? null
-                    : _OpportunitiesCard(data: data),
+                // Gardée même sans nouvelle offre : c'est l'accès à la liste.
+                builder: (data) =>
+                    data.latest == null ? null : _OpportunitiesCard(data: data),
               ),
               _Block(
                 value: ref.watch(homeProfileReminderProvider),
@@ -538,22 +542,23 @@ class _OpportunitiesCard extends StatelessWidget {
                   l10n.homeOpportunitiesTitle,
                   style: context.textTheme.titleSmall?.copyWith(color: c.blue),
                 ),
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: c.redSoft,
-                    borderRadius: BorderRadius.circular(AppRadius.pill),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.space3,
-                      vertical: AppSpacing.space1,
+                if (data.unseenCount > 0)
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: c.redSoft,
+                      borderRadius: BorderRadius.circular(AppRadius.pill),
                     ),
-                    child: Text(
-                      l10n.homeOpportunitiesNew(data.unseenCount),
-                      style: AppTypography.label.toTextStyle(color: c.red),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.space3,
+                        vertical: AppSpacing.space1,
+                      ),
+                      child: Text(
+                        l10n.homeOpportunitiesNew(data.unseenCount),
+                        style: AppTypography.label.toTextStyle(color: c.red),
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
             const SizedBox(height: AppSpacing.space2),
@@ -615,6 +620,48 @@ class _NewsList extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Bureau seulement (`attendance.scan`) : accès au scan des présences.
+class _ScanCard extends StatelessWidget {
+  const _ScanCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final c = context.colors;
+    return MergeSemantics(
+      child: AppCard(
+        color: c.blueSoft,
+        onTap: () => context.push(AppRoutes.scan),
+        child: Row(
+          children: [
+            ExcludeSemantics(
+              child: Icon(LucideIcons.scanLine, color: c.blue, size: 32),
+            ),
+            const SizedBox(width: AppSpacing.space3),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.scanHomeTitle,
+                    style: context.textTheme.titleMedium?.copyWith(
+                      color: c.blue,
+                    ),
+                  ),
+                  Text(l10n.scanHomeText, style: context.textTheme.bodySmall),
+                ],
+              ),
+            ),
+            ExcludeSemantics(
+              child: Icon(LucideIcons.chevronRight, color: c.blue),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

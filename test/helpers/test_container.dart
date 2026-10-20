@@ -10,6 +10,7 @@ import 'package:aeenci_app/core/utils/connectivity.dart';
 import 'package:aeenci_app/core/utils/screen_brightness_service.dart';
 import 'package:aeenci_app/features/app_config/presentation/app_gate_controller.dart';
 import 'package:aeenci_app/features/notifications/data/devices_repository.dart';
+import 'package:aeenci_app/features/scan/data/scan_queue_store.dart';
 import 'package:flutter_riverpod/misc.dart';
 
 final devMocksConfig = EnvConfig.resolve(flavor: Flavor.dev, apiBaseUrl: '');
@@ -23,6 +24,7 @@ List<Override> testOverrides({
   FakeBrightness? brightness,
   FileStore? files,
   PushService? push,
+  ScanQueueStore? scanQueue,
 }) => [
   envConfigProvider.overrideWithValue(env ?? devMocksConfig),
   tokenStoreProvider.overrideWithValue(tokens),
@@ -32,6 +34,7 @@ List<Override> testOverrides({
   installedVersionProvider.overrideWith((ref) async => '1.0.0'),
   appVersionProvider.overrideWith((ref) async => '1.0.0'),
   // Notifications déjà autorisées : pas d'écran d'explication par défaut.
+  scanQueueStoreProvider.overrideWithValue(scanQueue ?? MemoryScanQueueStore()),
   pushServiceProvider.overrideWithValue(
     push ?? ManualPushService(currentPermission: PushPermission.granted),
   ),
