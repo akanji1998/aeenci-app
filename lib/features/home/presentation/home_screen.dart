@@ -371,49 +371,47 @@ class _Upcoming extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.space4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _SectionLabel(l10n.homeUpcoming),
-          const SizedBox(height: AppSpacing.space2),
-          _Block<Registration?>(
-            value: registration,
-            onRetry: () => ref.invalidate(homeNextRegistrationProvider),
-            builder: (next) => next == null
-                ? null
-                : _DateTile(
-                    date: next.event.startsAt.toLocal(),
-                    background: c.green,
-                    foreground: c.onGreen,
-                    title: next.event.title,
-                    subtitle: [
-                      if (next.event.location != null) next.event.location!,
-                      l10n.homeRegistered(gender),
-                    ].join(' · '),
-                    onTap: () =>
-                        context.go(AppRoutes.eventDetail(next.event.slug)),
-                  ),
-          ),
-          _Block<NextMeeting?>(
-            value: meeting,
-            onRetry: () => ref.invalidate(homeNextMeetingProvider),
-            builder: (next) => next == null
-                ? null
-                : _DateTile(
-                    date: next.date,
-                    background: c.blueSoft,
-                    foreground: c.blue,
-                    title: l10n.homeMeetingTitle,
-                    subtitle: [
-                      if (next.location != null) next.location!,
-                      l10n.homeMeetingHint,
-                    ].join(' · '),
-                  ),
-          ),
-        ],
-      ),
+    // Pas de marge sous la section : chaque bloc a déjà la sienne.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _SectionLabel(l10n.homeUpcoming),
+        const SizedBox(height: AppSpacing.space2),
+        _Block<Registration?>(
+          value: registration,
+          onRetry: () => ref.invalidate(homeNextRegistrationProvider),
+          builder: (next) => next == null
+              ? null
+              : _DateTile(
+                  date: next.event.startsAt.toLocal(),
+                  background: c.green,
+                  foreground: c.onGreen,
+                  title: next.event.title,
+                  subtitle: [
+                    if (next.event.location != null) next.event.location!,
+                    l10n.homeRegistered(gender),
+                  ].join(' · '),
+                  onTap: () =>
+                      context.go(AppRoutes.eventDetail(next.event.slug)),
+                ),
+        ),
+        _Block<NextMeeting?>(
+          value: meeting,
+          onRetry: () => ref.invalidate(homeNextMeetingProvider),
+          builder: (next) => next == null
+              ? null
+              : _DateTile(
+                  date: next.date,
+                  background: c.blueSoft,
+                  foreground: c.blue,
+                  title: l10n.homeMeetingTitle,
+                  subtitle: [
+                    if (next.location != null) next.location!,
+                    l10n.homeMeetingHint,
+                  ].join(' · '),
+                ),
+        ),
+      ],
     );
   }
 }
@@ -658,9 +656,9 @@ class _NewsCard extends StatelessWidget {
                 children: [
                   Text(news.title, style: context.textTheme.titleMedium),
                   Text(
-                    MaterialLocalizations.of(
+                    AppLocalizations.of(
                       context,
-                    ).formatMediumDate(news.publishedAt.toLocal()),
+                    ).dateShort(news.publishedAt.toLocal()),
                     style: context.textTheme.bodySmall,
                   ),
                 ],

@@ -208,9 +208,7 @@ class _MemberCardView extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     const brand = AppColors.light;
     final onCard = context.textTheme.bodyMedium!.copyWith(color: brand.onGreen);
-    final joined = MaterialLocalizations.of(
-      context,
-    ).formatMediumDate(card.joinedAt);
+    final joined = AppLocalizations.of(context).dateShort(card.joinedAt);
 
     return Semantics(
       container: true,
@@ -234,29 +232,30 @@ class _MemberCardView extends StatelessWidget {
                     excludeFromSemantics: true,
                   ),
                   const SizedBox(width: AppSpacing.space3),
-                  const Spacer(),
-                  Flexible(
-                    flex: 4,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: brand.surfaceRaised,
-                        borderRadius: BorderRadius.circular(AppRadius.pill),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppSpacing.space3,
-                          vertical: AppSpacing.space1,
+                  Expanded(
+                    child: Align(
+                      alignment: AlignmentDirectional.topEnd,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: brand.surfaceRaised,
+                          borderRadius: BorderRadius.circular(AppRadius.pill),
                         ),
-                        child: Text(
-                          cardStatusLabel(
-                            l10n,
-                            status: card.status,
-                            engagement: card.engagement,
-                            gender: gender,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.space3,
+                            vertical: AppSpacing.space1,
                           ),
-                          textAlign: TextAlign.center,
-                          style: AppTypography.label.toTextStyle(
-                            color: brand.green,
+                          child: Text(
+                            cardStatusLabel(
+                              l10n,
+                              status: card.status,
+                              engagement: card.engagement,
+                              gender: gender,
+                            ),
+                            textAlign: TextAlign.center,
+                            style: AppTypography.label.toTextStyle(
+                              color: brand.green,
+                            ),
                           ),
                         ),
                       ),

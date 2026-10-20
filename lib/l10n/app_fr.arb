@@ -455,5 +455,15 @@
         "type": "String"
       }
     }
+  },
+  "dateShort": "{date}",
+  "@dateShort": {
+    "description": "Date avec l'année : « 4 oct. 2025 ».",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMd"
+      }
+    }
   }
 }

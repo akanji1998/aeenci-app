@@ -204,7 +204,7 @@ class _Pending extends StatelessWidget {
           number: 1,
           state: _StepState.done,
           title: l10n.statusStepSent,
-          detail: MaterialLocalizations.of(context).formatMediumDate(submitted),
+          detail: AppLocalizations.of(context).dateShort(submitted),
         ),
         _Step(
           number: 2,
