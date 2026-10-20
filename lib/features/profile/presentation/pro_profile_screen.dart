@@ -33,7 +33,12 @@ class ProProfileScreen extends ConsumerWidget {
         value: ref.watch(professionalProfileProvider),
         onRetry: () => ref.invalidate(professionalProfileProvider),
         builder: (context, profile) => ListView(
-          padding: const EdgeInsets.all(AppSpacing.space4),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.space4,
+            AppSpacing.space4,
+            AppSpacing.space4,
+            AppSpacing.space8,
+          ),
           children: [
             _CompletionCard(profile: profile),
             _SummarySection(profile: profile),
