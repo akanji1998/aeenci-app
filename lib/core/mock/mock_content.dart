@@ -72,6 +72,43 @@ extension MockPersonaContent on MockPersona {
     };
   }
 
+  /// `GET /me/payments` : acompte de l'année en cours, année précédente,
+  /// droit d'adhésion. Du plus récent au plus ancien.
+  List<Map<String, Object?>> paymentsJson(DateTime now) {
+    final current = academicYearOf(now);
+    final previous = academicYearOf(DateTime(now.year - 1, now.month));
+    final bureau = this == MockPersona.bureau;
+    return [
+      {
+        'id': memberId * 10 + 3,
+        'receipt_number': 'REC-${now.year}-${memberId}03',
+        'paid_on': _day(now.subtract(const Duration(days: 12))),
+        'purpose': 'contribution',
+        'contribution_year': current,
+        'amount': bureau ? 10000 : 2000,
+        'method': 'wave',
+      },
+      {
+        'id': memberId * 10 + 2,
+        'receipt_number': 'REC-${now.year - 1}-${memberId}02',
+        'paid_on': _day(now.subtract(const Duration(days: 300))),
+        'purpose': 'contribution',
+        'contribution_year': previous,
+        'amount': 6000,
+        'method': 'orange_money',
+      },
+      {
+        'id': memberId * 10 + 1,
+        'receipt_number': 'REC-${now.year - 1}-${memberId}01',
+        'paid_on': meJson['joined_at'],
+        'purpose': 'admission',
+        'contribution_year': null,
+        'amount': 2000,
+        'method': 'cash',
+      },
+    ];
+  }
+
   /// `GET /me/registrations` : une inscription à venir, une passée.
   Map<String, Object?> registrationsJson(DateTime now) => {
     'data': [
