@@ -1,0 +1,45 @@
+{
+  "_comment": "Vecteurs de TEST générés par tool/generate_card_vectors.dart avec la clé de test des mocks (jamais en production).",
+  "public_key": "A6EHv/POEL4dcN0Y50vAmWfk1jCbpQ1fHdyGZBJVMbg=",
+  "now": "2026-10-20T12:00:00Z",
+  "cases": [
+    {
+      "name": "valide",
+      "qr_payload": "AEENCI1.eyJtaWQiOjQyLCJudW0iOiJURVNULTAwNDIiLCJpYXQiOjE3OTA4MTI4MDAsImV4cCI6NDA3MDkwODgwMH0.voMnDKVJ3tS7cSGLSmwfEnANmk7p2nxoaMpCNf-Ren6bcB9W3VAPAMQSA4JhP9ZN93A9ELPXfO6nwcm9lbe9Bg",
+      "expected": "valid",
+      "member_id": 42,
+      "member_number": "TEST-0042"
+    },
+    {
+      "name": "expiree",
+      "qr_payload": "AEENCI1.eyJtaWQiOjQzLCJudW0iOiJURVNULTAwNDMiLCJpYXQiOjE1Nzc4MzY4MDAsImV4cCI6MTU4MDQyODgwMH0.qi6TAHdVokCV8WCcNWZ2CzTEJ2cuyla8hokggFeiLvvVa5ho8UjZSv3T8ufA2A8TbX_kslUyGgu850ZpKpz8DQ",
+      "expected": "expired",
+      "member_number": "TEST-0043"
+    },
+    {
+      "name": "autre_cle",
+      "qr_payload": "AEENCI1.eyJtaWQiOjQ0LCJudW0iOiJURVNULTAwNDQiLCJpYXQiOjE3OTA4MTI4MDAsImV4cCI6NDA3MDkwODgwMH0.AeipLDOhQr475tEmM1rduJKVh7sFEMibJPnI96bdWa66opi3YaJyBqvOE8bzD6qM12V7UUGF8Ygt1tI9eZ65DQ",
+      "expected": "invalid"
+    },
+    {
+      "name": "donnees_modifiees",
+      "qr_payload": "AEENCI1.eyJtaWQiOjQyLCJudW0iOiJURVNULTk5OTkiLCJpYXQiOjE3OTA4MTI4MDAsImV4cCI6NDA3MDkwODgwMH0.voMnDKVJ3tS7cSGLSmwfEnANmk7p2nxoaMpCNf-Ren6bcB9W3VAPAMQSA4JhP9ZN93A9ELPXfO6nwcm9lbe9Bg",
+      "expected": "invalid"
+    },
+    {
+      "name": "signature_tronquee",
+      "qr_payload": "AEENCI1.eyJtaWQiOjQyLCJudW0iOiJURVNULTAwNDIiLCJpYXQiOjE3OTA4MTI4MDAsImV4cCI6NDA3MDkwODgwMH0.DKVJ3tS7cSGLSmwfEnANmk7p2nxoaMpCNf-Ren6bcB9W3VAPAMQSA4JhP9ZN93A9ELPXfO6nwcm9lbe9Bg",
+      "expected": "invalid"
+    },
+    {
+      "name": "mauvais_prefixe",
+      "qr_payload": "AEENCI2.eyJtaWQiOjQyLCJudW0iOiJURVNULTAwNDIiLCJpYXQiOjE3OTA4MTI4MDAsImV4cCI6NDA3MDkwODgwMH0.voMnDKVJ3tS7cSGLSmwfEnANmk7p2nxoaMpCNf-Ren6bcB9W3VAPAMQSA4JhP9ZN93A9ELPXfO6nwcm9lbe9Bg",
+      "expected": "invalid"
+    },
+    {
+      "name": "texte_quelconque",
+      "qr_payload": "https://exemple.com/carte",
+      "expected": "invalid"
+    }
+  ]
+}
