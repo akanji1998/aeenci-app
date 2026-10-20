@@ -465,5 +465,93 @@
         "format": "yMMMd"
       }
     }
+  },
+  "eventsTitle": "Événements",
+  "eventsViewUpcoming": "À venir",
+  "eventsViewMine": "Mes inscriptions",
+  "eventsViewAttendance": "Présences",
+  "eventsFilterAll": "Tous",
+  "eventTagJoe": "JOE",
+  "eventTagEmployment": "Emploi",
+  "eventTagImpact": "Impact",
+  "eventTagOther": "Autre",
+  "eventsEmptyTitle": "Aucun événement à venir",
+  "eventsEmptyMessage": "Les prochains événements de l'association apparaîtront ici.",
+  "eventsEmptyFiltered": "Aucun événement de ce type pour l'instant.",
+  "eventDateTime": "{date} · {time}",
+  "@eventDateTime": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "MMMEd"
+      },
+      "time": {
+        "type": "DateTime",
+        "format": "Hm"
+      }
+    }
+  },
+  "eventRegister": "S'inscrire",
+  "eventRegistered": "{gender, select, female{Inscrite ✓} other{Inscrit ✓}}",
+  "@eventRegistered": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "eventRegistrationClosed": "Inscriptions fermées",
+  "eventAddToCalendar": "Ajouter au calendrier",
+  "eventCalendarFailed": "Impossible d'ouvrir le calendrier du téléphone.",
+  "eventOpenMap": "Voir le lieu sur la carte",
+  "eventMapFailed": "Impossible d'ouvrir l'application de cartes.",
+  "eventAudience": "Public",
+  "eventRegisteredDone": "Inscription enregistrée.",
+  "eventCancelledDone": "Inscription annulée.",
+  "eventCancelTitle": "Annuler ton inscription ?",
+  "eventCancelMessage": "Ton inscription à « {title} » sera annulée.",
+  "@eventCancelMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "eventCancelConfirm": "Annuler l'inscription",
+  "eventCancelKeep": "Garder",
+  "eventCancel": "Annuler",
+  "eventCannotCancel": "Cette inscription ne peut plus être annulée.",
+  "eventAlreadyRegistered": "Ton inscription à cet événement est déjà enregistrée.",
+  "eventClosed": "Les inscriptions à cet événement sont fermées.",
+  "mineEmptyTitle": "Aucune inscription à venir",
+  "mineEmptyMessage": "Inscris-toi depuis l'onglet « À venir ».",
+  "attendanceTitle": "Assemblées",
+  "attendanceSummary": "{count, plural, =0{Aucune présence sur les 12 derniers mois.} =1{1 présence sur les 12 derniers mois.} other{{count} présences sur les 12 derniers mois.}} Il en faut au moins {threshold} pour rester {gender, select, female{active} other{actif}}.",
+  "@attendanceSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "threshold": {
+        "type": "int"
+      },
+      "gender": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceNone": "Pas d'assemblée",
+  "attendanceGridLabel": "Présences des 12 derniers mois",
+  "attendanceCell": "{month} : {state}",
+  "@attendanceCell": {
+    "placeholders": {
+      "month": {
+        "type": "DateTime",
+        "format": "yMMMM"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
   }
 }
