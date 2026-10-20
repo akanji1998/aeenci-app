@@ -553,5 +553,132 @@
         "type": "String"
       }
     }
-  }
+  },
+  "contributionsTitle": "Cotisations",
+  "contributionsYear": "Année {year}",
+  "@contributionsYear": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "contributionsPaid": "Payé",
+  "contributionsPaidOf": "{paid} / {due} F CFA",
+  "@contributionsPaidOf": {
+    "placeholders": {
+      "paid": {
+        "type": "int",
+        "format": "decimalPattern"
+      },
+      "due": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "contributionsRemaining": "Reste à payer",
+  "amountFcfa": "{amount} F CFA",
+  "@amountFcfa": {
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "amountShort": "{amount} F",
+  "@amountShort": {
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "contributionsNone": "Aucune cotisation enregistrée pour l'instant.",
+  "howToPayTitle": "Comment payer ?",
+  "howToPayText": "Remets ton paiement au trésorier, ou envoie-le par Mobile Money en indiquant ton matricule. Il apparaîtra ici dès qu'il sera enregistré.",
+  "howToPayAccount": "Au nom de {name}",
+  "@howToPayAccount": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "copy": "Copier",
+  "copied": "Copié",
+  "copyNumber": "Copier le numéro {operator}",
+  "@copyNumber": {
+    "placeholders": {
+      "operator": {
+        "type": "String"
+      }
+    }
+  },
+  "myYearsTitle": "Mes années",
+  "admissionFee": "Droit d'adhésion",
+  "admissionFeePaid": "Payé",
+  "paymentsTitle": "Paiements et reçus",
+  "paymentsNone": "Aucun paiement enregistré pour l'instant.",
+  "paymentsMore": "Voir les paiements précédents",
+  "paymentContribution": "Cotisation {year}",
+  "@paymentContribution": {
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentReceiptLabel": "Reçu : {label}, {amount} F CFA",
+  "@paymentReceiptLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "receiptTitle": "Reçu {number}",
+  "@receiptTitle": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "receiptStored": "{label} · gardé sur ton téléphone pour être consulté hors connexion.",
+  "@receiptStored": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "receiptNotStored": "{label} · le reçu sera gardé sur ton téléphone dès que tu l'auras ouvert.",
+  "@receiptNotStored": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "receiptOpen": "Ouvrir le PDF",
+  "receiptShare": "Partager",
+  "receiptClose": "Fermer",
+  "receiptShareText": "Reçu {number} — AEENCI",
+  "@receiptShareText": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "receiptOffline": "Connecte-toi à Internet pour télécharger ce reçu.",
+  "receiptNotFound": "Ce reçu est introuvable.",
+  "receiptNoViewer": "Aucune application ne peut ouvrir ce PDF sur ton téléphone."
 }
