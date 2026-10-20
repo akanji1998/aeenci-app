@@ -8,7 +8,6 @@ import '../../../core/api/paginated.dart';
 import '../../../core/api/token_store.dart';
 import '../../../core/domain/enums.dart';
 import '../../../core/mock/mock_behavior.dart';
-import '../../../core/mock/mock_content.dart';
 import '../../../core/mock/mock_profile_store.dart';
 import '../../auth/data/auth_repository.dart';
 import '../domain/app_notification.dart';
@@ -19,6 +18,9 @@ part 'notifications_repository.g.dart';
 abstract interface class NotificationsRepository {
   /// `GET /me/notifications?page=` ; `meta.unread_count` : non lues.
   Future<Paginated<AppNotification>> fetchPage({int page = 1});
+
+  /// `POST /me/notifications/read` : `ids[]`, ou `all` = `1` ; 204.
+  Future<void> markRead({List<int> ids = const [], bool all = false});
 
   /// `GET /me/notification-preferences`.
   Future<List<NotificationPreference>> fetchPreferences();
@@ -38,6 +40,14 @@ class ApiNotificationsRepository implements NotificationsRepository {
   @override
   Future<Paginated<AppNotification>> fetchPage({int page = 1}) =>
       _api.getPage('/me/notifications', AppNotification.fromJson, page: page);
+
+  @override
+  Future<void> markRead({List<int> ids = const [], bool all = false}) =>
+      _api.send(
+        'POST',
+        '/me/notifications/read',
+        data: all ? {'all': 1} : {'ids': ids},
+      );
 
   @override
   Future<List<NotificationPreference>> fetchPreferences() => _api.getList(
@@ -72,14 +82,34 @@ class MockNotificationsRepository implements NotificationsRepository {
   final TokenStore _tokens;
   final MockProfileStore _store;
 
+  /// Petites pages pour montrer le chargement des pages suivantes.
+  static const _perPage = 5;
+
   @override
   Future<Paginated<AppNotification>> fetchPage({int page = 1}) async {
     await _runtime.simulate();
-    final persona = await currentMockPersona(_tokens);
-    return Paginated.fromJson(
-      persona.notificationsPageJson(DateTime.now()),
-      AppNotification.fromJson,
-    );
+    final all = _store.notifications(await currentMockPersona(_tokens));
+    return Paginated.fromJson({
+      'data': all.skip((page - 1) * _perPage).take(_perPage).toList(),
+      'meta': {
+        'current_page': page,
+        'last_page': (all.length / _perPage).ceil(),
+        'per_page': _perPage,
+        'total': all.length,
+        'unread_count': all.where((n) => n['read_at'] == null).length,
+      },
+    }, AppNotification.fromJson);
+  }
+
+  @override
+  Future<void> markRead({List<int> ids = const [], bool all = false}) async {
+    await _runtime.simulate();
+    final now = DateTime.now().toUtc().toIso8601String();
+    for (final n in _store.notifications(await currentMockPersona(_tokens))) {
+      if (n['read_at'] == null && (all || ids.contains(n['id']))) {
+        n['read_at'] = now;
+      }
+    }
   }
 
   List<NotificationPreference> _list(Map<String, bool> prefs) => [

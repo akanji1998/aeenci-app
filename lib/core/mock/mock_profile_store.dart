@@ -12,11 +12,19 @@ class MockProfileStore {
   final _educations = <MockPersona, List<Map<String, Object?>>>{};
   final _profile = <MockPersona, Map<String, Object?>>{};
   final _preferences = <MockPersona, Map<String, bool>>{};
+  final _notifications = <MockPersona, List<Map<String, Object?>>>{};
   var _nextId = 500;
 
   static T _copy<T>(T json) => jsonDecode(jsonEncode(json)) as T;
 
   int nextId() => _nextId++;
+
+  /// Centre de notifications : l'état « lu » change quand on le marque.
+  List<Map<String, Object?>> notifications(MockPersona persona) =>
+      _notifications.putIfAbsent(
+        persona,
+        () => persona.notificationsJson(DateTime.now()),
+      );
 
   Map<String, Object?> me(MockPersona persona) =>
       _me.putIfAbsent(persona, () => _copy(persona.meJson));

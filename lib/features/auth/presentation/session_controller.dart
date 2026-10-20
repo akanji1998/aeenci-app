@@ -7,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/api/api_exception.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/cache/cached_fetch.dart';
+import '../../notifications/data/devices_repository.dart';
 import '../../profile/data/account_repository.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/domain/member.dart';
@@ -173,6 +174,8 @@ class SessionController extends _$SessionController {
   /// remontent à l'écran. La fiche de membre reste chez l'association.
   Future<void> deleteAccount({required String password}) async {
     await ref.read(accountRepositoryProvider).deleteAccount(password: password);
+    // Le compte et ses téléphones sont supprimés côté API.
+    ref.read(deviceRegistrarProvider).forget();
     await ref.read(tokenStoreProvider).clear();
     await _clearLocalData();
     state = const SessionSignedOut(SignedOutReason.accountDeleted);
@@ -183,6 +186,8 @@ class SessionController extends _$SessionController {
 
   /// Déconnexion : jeton révoqué si possible, puis effacé avec le cache.
   Future<void> signOut() async {
+    // Le téléphone ne doit plus recevoir les notifications de ce compte.
+    await ref.read(deviceRegistrarProvider).unregisterQuietly();
     await _logoutQuietly();
     await ref.read(tokenStoreProvider).clear();
     await _clearLocalData();

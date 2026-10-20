@@ -202,39 +202,88 @@ extension MockPersonaContent on MockPersona {
           'consented_at': null,
         };
 
-  /// `GET /me/notifications` (première page) : deux non lues.
-  Map<String, Object?> notificationsPageJson(DateTime now) => _page(
-    [
-      {
-        'id': 3,
-        'category': 'events',
-        'title': 'Notification de test',
-        'body': 'Texte de test.',
-        'route': '/evenements/evenement-test-a-venir',
-        'read_at': null,
-        'created_at': _iso(now.subtract(const Duration(hours: 2))),
-      },
-      {
-        'id': 2,
-        'category': 'opportunities',
-        'title': 'Notification de test',
-        'body': 'Texte de test.',
-        'route': '/opportunites/40',
-        'read_at': null,
-        'created_at': _iso(now.subtract(const Duration(days: 1))),
-      },
-      {
-        'id': 1,
-        'category': 'account',
-        'title': 'Notification de test lue',
-        'body': 'Texte de test.',
-        'route': null,
-        'read_at': _iso(now.subtract(const Duration(days: 2))),
-        'created_at': _iso(now.subtract(const Duration(days: 3))),
-      },
-    ],
-    {'unread_count': 2},
-  );
+  /// `GET /me/notifications` : huit notifications, deux non lues, de la
+  /// plus récente à la plus ancienne (aujourd'hui, hier, cette semaine,
+  /// plus tôt).
+  List<Map<String, Object?>> notificationsJson(DateTime now) {
+    Map<String, Object?> item(
+      int id,
+      String category,
+      String title,
+      String? route,
+      Duration ago, {
+      bool read = true,
+    }) => {
+      'id': id,
+      'category': category,
+      'title': title,
+      'body': 'Texte de test.',
+      'route': route,
+      'read_at': read
+          ? _iso(now.subtract(ago - const Duration(minutes: 5)))
+          : null,
+      'created_at': _iso(now.subtract(ago)),
+    };
+    // Heures prises dans la journée en cours, pour rester « aujourd'hui ».
+    final sinceMidnight = now.difference(
+      DateTime(now.year, now.month, now.day),
+    );
+    final today = sinceMidnight ~/ 3;
+    return [
+      item(
+        8,
+        'events',
+        'Notification de test',
+        '/evenements/evenement-test-a-venir',
+        today,
+        read: false,
+      ),
+      item(
+        7,
+        'contributions',
+        'Notification de test lue',
+        '/cotisations',
+        today * 2,
+      ),
+      item(
+        6,
+        'opportunities',
+        'Notification de test',
+        '/opportunites/40',
+        sinceMidnight + const Duration(hours: 3),
+        read: false,
+      ),
+      item(
+        5,
+        'news',
+        'Actualité de test n° 1',
+        '/actualites/actualite-test-1',
+        const Duration(days: 3),
+      ),
+      item(
+        4,
+        'account',
+        'Notification de test lue',
+        null,
+        const Duration(days: 4),
+      ),
+      item(3, 'meetings', 'Assemblée de test', null, const Duration(days: 9)),
+      item(
+        2,
+        'announcements',
+        'Annonce de test',
+        null,
+        const Duration(days: 20),
+      ),
+      item(
+        1,
+        'account',
+        'Profil de test validé',
+        '/profil/vitrine',
+        const Duration(days: 40),
+      ),
+    ];
+  }
 }
 
 /// `GET /meetings/next` : le samedi suivant.
