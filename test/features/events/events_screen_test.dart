@@ -12,34 +12,8 @@ import 'package:aeenci_app/features/events/presentation/widgets/event_card.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../helpers/fake_device_services.dart';
 import '../../helpers/pump_aeenci.dart';
-
-class FakeDeviceServices implements DeviceServices {
-  final calendar =
-      <({String title, DateTime start, DateTime end, String? location})>[];
-  final maps = <String>[];
-
-  @override
-  Future<bool> addToCalendar({
-    required String title,
-    required DateTime start,
-    required DateTime end,
-    String? description,
-    String? location,
-  }) async {
-    calendar.add((title: title, start: start, end: end, location: location));
-    return true;
-  }
-
-  @override
-  Future<bool> openMap(String location) async {
-    maps.add(location);
-    return true;
-  }
-
-  @override
-  Future<bool> openUrl(String url) async => true;
-}
 
 /// Dépôt mock dont l'inscription répond 422 « inscriptions fermées » :
 /// l'événement a été fermé entre-temps côté backend.
