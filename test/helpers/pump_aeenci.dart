@@ -6,6 +6,7 @@ import 'package:aeenci_app/core/cache/cache_store.dart';
 import 'package:aeenci_app/core/mock/mock_behavior.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'test_container.dart';
@@ -21,6 +22,7 @@ Future<ProviderContainer> pumpAeenci(
   MockBehavior behavior = MockBehavior.instant,
   FakeBrightness? brightness,
   CacheStore? cache,
+  List<Override> overrides = const [],
 }) async {
   tester.view
     ..physicalSize = size * 3
@@ -31,13 +33,16 @@ Future<ProviderContainer> pumpAeenci(
 
   final container = ProviderContainer(
     retry: noAutomaticRetry,
-    overrides: testOverrides(
-      tokens: MemoryTokenStore(token),
-      cache: cache ?? MemoryCacheStore(),
-      env: env,
-      behavior: behavior,
-      brightness: brightness,
-    ),
+    overrides: [
+      ...testOverrides(
+        tokens: MemoryTokenStore(token),
+        cache: cache ?? MemoryCacheStore(),
+        env: env,
+        behavior: behavior,
+        brightness: brightness,
+      ),
+      ...overrides,
+    ],
   );
   addTearDown(container.dispose);
   await tester.pumpWidget(

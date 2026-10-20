@@ -109,4 +109,7 @@ class MemoryCacheStore implements CacheStore {
   Future<void> clear() async => _entries.clear();
 
   bool get isEmpty => _entries.isEmpty;
+
+  @visibleForTesting
+  Map<String, CachedEntry> get entries => Map.unmodifiable(_entries);
 }
