@@ -115,6 +115,15 @@ void main() {
       );
     });
 
+    test('sendObject accepte une réponse avec ou sans data', () async {
+      respond(200, {'token': 't', 'user': <String, Object?>{}});
+      expect((await client.sendObject('POST', '/auth/login'))['token'], 't');
+      respond(200, {
+        'data': {'token': 'u'},
+      });
+      expect((await client.sendObject('POST', '/auth/login'))['token'], 'u');
+    });
+
     test('send renvoie null sur 204', () async {
       respond(204);
       expect(await client.send('DELETE', '/me/registrations/3'), isNull);
@@ -224,7 +233,7 @@ void main() {
       final sub = client.unauthorized.listen((_) => notified++);
       addTearDown(sub.cancel);
 
-      await failure(client.sendRaw('POST', '/auth/login'));
+      await failure(client.sendObject('POST', '/auth/login'));
       await pumpEventQueue();
       expect(await tokens.read(), 'kept');
       expect(notified, 0);

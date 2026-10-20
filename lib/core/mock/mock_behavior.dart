@@ -12,6 +12,8 @@ class MockBehavior {
     this.latency = const Duration(milliseconds: 400),
     this.failure = MockFailure.none,
     this.failOnce = true,
+    this.updateRequired = false,
+    this.maintenance = false,
   });
 
   /// Sans latence ni erreur (tests).
@@ -23,14 +25,24 @@ class MockBehavior {
   /// `true` : seule la prochaine requête échoue.
   final bool failOnce;
 
+  /// `/app/config` exige une version plus récente (une seule fois).
+  final bool updateRequired;
+
+  /// `/app/config` annonce une maintenance (une seule fois).
+  final bool maintenance;
+
   MockBehavior copyWith({
     Duration? latency,
     MockFailure? failure,
     bool? failOnce,
+    bool? updateRequired,
+    bool? maintenance,
   }) => MockBehavior(
     latency: latency ?? this.latency,
     failure: failure ?? this.failure,
     failOnce: failOnce ?? this.failOnce,
+    updateRequired: updateRequired ?? this.updateRequired,
+    maintenance: maintenance ?? this.maintenance,
   );
 
   ApiException? get exception => switch (failure) {
@@ -56,6 +68,18 @@ class MockRuntime {
 
   /// Même effet qu'un 401 de l'API : jeton effacé, session prévenue.
   final Future<void> Function()? onUnauthorized;
+
+  /// Lit puis efface les drapeaux de configuration simulés.
+  ({bool updateRequired, bool maintenance}) takeConfigFlags() {
+    final behavior = _read();
+    if (behavior.updateRequired || behavior.maintenance) {
+      _write(behavior.copyWith(updateRequired: false, maintenance: false));
+    }
+    return (
+      updateRequired: behavior.updateRequired,
+      maintenance: behavior.maintenance,
+    );
+  }
 
   /// À appeler au début de chaque méthode mock.
   Future<void> simulate() async {

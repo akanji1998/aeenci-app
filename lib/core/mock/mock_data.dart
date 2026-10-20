@@ -12,6 +12,9 @@ enum MockPersona {
   /// Candidat dont la demande est en attente.
   candidate,
 
+  /// Candidat dont la demande a été refusée.
+  rejectedCandidate,
+
   /// Membre du bureau : peut scanner les présences.
   bureau,
 }
@@ -26,6 +29,7 @@ extension MockPersonaData on MockPersona {
   String get email => switch (this) {
     MockPersona.member => 'membre.test@exemple.com',
     MockPersona.candidate => 'candidat.test@exemple.com',
+    MockPersona.rejectedCandidate => 'candidat.refuse@exemple.com',
     MockPersona.bureau => 'bureau.test@exemple.com',
   };
 
@@ -35,6 +39,7 @@ extension MockPersonaData on MockPersona {
   int get memberId => switch (this) {
     MockPersona.member => 101,
     MockPersona.candidate => 102,
+    MockPersona.rejectedCandidate => 104,
     MockPersona.bureau => 103,
   };
 
@@ -46,7 +51,7 @@ extension MockPersonaData on MockPersona {
     'email': email,
     'roles': switch (this) {
       MockPersona.member => ['member'],
-      MockPersona.candidate => ['candidate'],
+      MockPersona.candidate || MockPersona.rejectedCandidate => ['candidate'],
       MockPersona.bureau => ['member', 'secretary_general'],
     },
     'abilities': abilities,
@@ -99,6 +104,16 @@ extension MockPersonaData on MockPersona {
       'joined_at': null,
       'abilities': abilities,
     },
+    MockPersona.rejectedCandidate => {
+      ...MockPersona.candidate.meJson,
+      'id': memberId,
+      'first_names': 'Candidate',
+      'gender': 'female',
+      'email': email,
+      'phone': '+225 00 00 00 00 04',
+      'admission_state': 'rejected',
+      'category': 'young_professional',
+    },
     MockPersona.bureau => {
       'id': memberId,
       'member_number': 'TEST-0003',
@@ -123,15 +138,30 @@ extension MockPersonaData on MockPersona {
     },
   };
 
-  /// `GET /membership-application` (candidat seulement).
-  Map<String, Object?> get membershipApplicationJson => {
-    'id': 1,
-    'state': this == MockPersona.candidate ? 'pending' : 'approved',
-    'submitted_at': '2026-10-01T09:00:00+00:00',
-    'reviewed_at': this == MockPersona.candidate
-        ? null
-        : '2026-10-04T09:00:00+00:00',
-    'decision_reason': null,
+  /// `GET /membership-application`.
+  Map<String, Object?> get membershipApplicationJson => switch (this) {
+    MockPersona.candidate => {
+      'id': 2,
+      'state': 'pending',
+      'submitted_at': '2026-10-12T09:00:00+00:00',
+      'reviewed_at': null,
+      'decision_reason': null,
+    },
+    MockPersona.rejectedCandidate => {
+      'id': 4,
+      'state': 'rejected',
+      'submitted_at': '2026-09-01T09:00:00+00:00',
+      'reviewed_at': '2026-09-10T15:30:00+00:00',
+      'decision_reason':
+          'Motif de test : la pièce justificative du niveau d\'études manque.',
+    },
+    _ => {
+      'id': 1,
+      'state': 'approved',
+      'submitted_at': '2025-09-28T09:00:00+00:00',
+      'reviewed_at': '2025-10-04T09:00:00+00:00',
+      'decision_reason': null,
+    },
   };
 }
 
@@ -151,3 +181,68 @@ MockPersona? mockPersonaForEmail(String email) {
   }
   return null;
 }
+
+/// Jetons d'invitation (`GET /invitations/{token}`).
+abstract final class MockInvitations {
+  /// Valide : son acceptation ouvre la session du membre factice.
+  static const valid = 'invitation-test';
+
+  /// Expirée ou déjà utilisée : 410.
+  static const expired = 'invitation-expiree';
+
+  /// Tout autre jeton : 404.
+  static const Map<String, Object?> validJson = {
+    'first_names': 'Membre',
+    'expires_at': '2030-01-01T00:00:00+00:00',
+  };
+}
+
+/// Jeton de réinitialisation accepté par les mocks (avec un e-mail factice).
+const mockResetToken = 'reinitialisation-test';
+
+/// `GET /membership-fees`.
+const mockMembershipFeesJson = <Map<String, Object?>>[
+  {'category': 'student', 'amount': 2000},
+  {'category': 'young_professional', 'amount': 5000},
+  {'category': 'professional', 'amount': 10000},
+];
+
+/// `GET /site/contact`.
+const mockContactJson = <String, Object?>{
+  'email': 'contact@exemple.com',
+  'phone': '+225 00 00 00 00 90',
+  'whatsapp': null,
+  'address': null,
+  'mobile_money': [
+    {
+      'operator': 'orange_money',
+      'number': '+225 00 00 00 00 91',
+      'account_name': 'AEENCI (compte de test)',
+    },
+    {
+      'operator': 'wave',
+      'number': '+225 00 00 00 00 92',
+      'account_name': 'AEENCI (compte de test)',
+    },
+  ],
+  'social_links': <Object?>[],
+};
+
+/// `GET /app/config`. La clé ne vérifie aucune vraie carte.
+Map<String, Object?> mockAppConfigJson({
+  String minVersion = '1.0.0',
+  bool maintenance = false,
+}) => {
+  'min_version': minVersion,
+  'latest_version': '1.0.0',
+  'store_urls': {
+    'android': 'https://play.google.com/store/apps/details?id=com.aeenci.app',
+    'ios': 'https://apps.apple.com/app/aeenci',
+  },
+  'maintenance': maintenance,
+  'maintenance_message': maintenance
+      ? 'Maintenance de test : le service revient dans quelques minutes.'
+      : null,
+  'card_public_key': 'cl\u00e9-de-test-non-valide',
+  'support_email': 'contact@exemple.com',
+};

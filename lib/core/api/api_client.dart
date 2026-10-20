@@ -126,12 +126,18 @@ class ApiClient {
     return fromJson(_dataObject(body));
   }
 
-  /// Comme [send], pour une réponse sans enveloppe `data` (ex. connexion).
-  Future<JsonMap> sendRaw(String method, String path, {Object? data}) async {
-    final body = await _request(method, path, data: data);
-    if (body is! JsonMap) throw const UnknownApiException();
-    return body;
-  }
+  /// Objet JSON avec ou sans enveloppe `data` : le contrat ne précise pas
+  /// la forme des réponses d'authentification (connexion, activation,
+  /// réinitialisation) ni de `/invitations/{token}`.
+  Future<JsonMap> sendObject(
+    String method,
+    String path, {
+    Object? data,
+  }) async => _objectOrData(await _request(method, path, data: data));
+
+  /// `GET` d'un objet, avec ou sans enveloppe `data`.
+  Future<JsonMap> getObject(String path) async =>
+      _objectOrData(await _request('GET', path));
 
   /// Téléchargement authentifié d'un fichier (reçu PDF…).
   Future<List<int>> download(String path) async {
@@ -165,6 +171,12 @@ class ApiClient {
     } on DioException catch (e) {
       throw ApiException.fromDio(e);
     }
+  }
+
+  JsonMap _objectOrData(Object? body) {
+    if (body is! JsonMap) throw const UnknownApiException();
+    final data = body['data'];
+    return data is JsonMap ? data : body;
   }
 
   JsonMap _dataObject(Object? body) {

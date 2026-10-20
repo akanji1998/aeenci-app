@@ -172,6 +172,86 @@ void main() {
     });
   });
 
+  group('activation et réinitialisation', () {
+    test('invitation valide → session du membre ouverte', () async {
+      await start();
+      await controller().activate(
+        token: MockInvitations.valid,
+        password: 'motdepasse-neuf',
+        passwordConfirmation: 'motdepasse-neuf',
+      );
+      expect(container.read(sessionControllerProvider), isA<SessionMember>());
+      expect(await tokens.read(), MockPersona.member.token);
+    });
+
+    test('invitation expirée → 410, toujours déconnecté', () async {
+      await start();
+      await expectLater(
+        controller().activate(
+          token: MockInvitations.expired,
+          password: 'motdepasse-neuf',
+          passwordConfirmation: 'motdepasse-neuf',
+        ),
+        throwsA(isA<GoneException>()),
+      );
+      expect(
+        container.read(sessionControllerProvider),
+        isA<SessionSignedOut>(),
+      );
+    });
+
+    test('confirmation différente → 422 sous password', () async {
+      await start();
+      await expectLater(
+        controller().activate(
+          token: MockInvitations.valid,
+          password: 'motdepasse-neuf',
+          passwordConfirmation: 'autre-chose',
+        ),
+        throwsA(
+          isA<ValidationException>().having(
+            (e) => e.errorFor('password'),
+            'password',
+            isNotNull,
+          ),
+        ),
+      );
+    });
+
+    test('réinitialisation → session ouverte', () async {
+      await start();
+      await controller().resetPassword(
+        token: mockResetToken,
+        email: MockPersona.candidate.email,
+        password: 'motdepasse-neuf',
+        passwordConfirmation: 'motdepasse-neuf',
+      );
+      expect(
+        container.read(sessionControllerProvider),
+        isA<SessionCandidate>(),
+      );
+    });
+
+    test('lien de réinitialisation invalide → 422 sous email', () async {
+      await start();
+      await expectLater(
+        controller().resetPassword(
+          token: 'faux',
+          email: MockPersona.member.email,
+          password: 'motdepasse-neuf',
+          passwordConfirmation: 'motdepasse-neuf',
+        ),
+        throwsA(
+          isA<ValidationException>().having(
+            (e) => e.errorFor('email'),
+            'email',
+            isNotNull,
+          ),
+        ),
+      );
+    });
+  });
+
   test('déconnexion : jeton et cache effacés, même hors connexion', () async {
     await start(token: MockPersona.member.token);
     expect(await cache.read('me'), isNotNull);

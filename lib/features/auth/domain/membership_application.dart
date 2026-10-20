@@ -20,3 +20,18 @@ abstract class MembershipApplication with _$MembershipApplication {
   factory MembershipApplication.fromJson(Map<String, dynamic> json) =>
       _$MembershipApplicationFromJson(json);
 }
+
+/// `GET /membership-fees` : droit d'adhésion en vigueur par catégorie.
+@freezed
+abstract class MembershipFee with _$MembershipFee {
+  const factory MembershipFee({
+    @JsonKey(unknownEnumValue: MemberCategory.unknown)
+    required MemberCategory category,
+
+    /// En F CFA.
+    required int amount,
+  }) = _MembershipFee;
+
+  factory MembershipFee.fromJson(Map<String, dynamic> json) =>
+      _$MembershipFeeFromJson(json);
+}

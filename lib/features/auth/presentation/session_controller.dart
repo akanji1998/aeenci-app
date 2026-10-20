@@ -10,6 +10,7 @@ import '../../../core/cache/cached_fetch.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/domain/member.dart';
 import '../data/auth_repository.dart';
+import '../domain/auth_user.dart';
 
 part 'session_controller.g.dart';
 
@@ -99,14 +100,50 @@ class SessionController extends _$SessionController {
 
   /// Connexion. Les erreurs (422 sous `email`, réseau…) remontent à l'écran.
   Future<void> signIn({required String email, required String password}) async {
-    final auth = ref.read(authRepositoryProvider);
-    final tokens = ref.read(tokenStoreProvider);
-    final session = await auth.login(
-      email: email.trim(),
-      password: password,
-      deviceName: deviceName,
-    );
+    final session = await ref
+        .read(authRepositoryProvider)
+        .login(email: email.trim(), password: password, deviceName: deviceName);
+    await _open(session);
+  }
 
+  /// Activation d'un compte recensé : le compte est créé, la session ouverte.
+  Future<void> activate({
+    required String token,
+    required String password,
+    required String passwordConfirmation,
+  }) async {
+    final session = await ref
+        .read(authRepositoryProvider)
+        .acceptInvitation(
+          token: token,
+          password: password,
+          passwordConfirmation: passwordConfirmation,
+          deviceName: deviceName,
+        );
+    await _open(session);
+  }
+
+  /// Nouveau mot de passe depuis le lien de l'e-mail : session ouverte.
+  Future<void> resetPassword({
+    required String token,
+    required String email,
+    required String password,
+    required String passwordConfirmation,
+  }) async {
+    final session = await ref
+        .read(authRepositoryProvider)
+        .resetPassword(
+          token: token,
+          email: email.trim(),
+          password: password,
+          passwordConfirmation: passwordConfirmation,
+          deviceName: deviceName,
+        );
+    await _open(session);
+  }
+
+  Future<void> _open(AuthSession session) async {
+    final tokens = ref.read(tokenStoreProvider);
     if (session.user.memberId == null) {
       // Pas d'espace membre : on révoque aussitôt le jeton obtenu.
       await tokens.write(session.token);
@@ -121,6 +158,9 @@ class SessionController extends _$SessionController {
     await tokens.write(session.token);
     await _loadMember();
   }
+
+  /// Fiche rechargée (ex. suivi de l'adhésion : la demande a été validée).
+  Future<void> refreshMember() => _loadMember();
 
   /// Déconnexion : jeton révoqué si possible, puis effacé avec le cache.
   Future<void> signOut() async {
