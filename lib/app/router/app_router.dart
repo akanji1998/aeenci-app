@@ -17,7 +17,11 @@ import '../../features/design_demo/presentation/design_demo_screen.dart';
 import '../../features/events/presentation/event_detail_screen.dart';
 import '../../features/events/presentation/events_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
+import '../../features/profile/presentation/account_screens.dart';
+import '../../features/profile/presentation/education_screen.dart';
+import '../../features/profile/presentation/pro_profile_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
+import '../../features/profile/presentation/profile_sheet_screen.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../config/env_config.dart';
 import '../shell/app_shell.dart';
@@ -141,11 +145,31 @@ GoRouter appRouter(Ref ref) {
                 path: AppRoutes.profile,
                 builder: (context, state) => const ProfileScreen(),
                 routes: [
-                  _placeholder('fiche', (l) => l.screenProfileSheet),
-                  _placeholder('parcours', (l) => l.screenEducation),
-                  _placeholder('pro', (l) => l.screenProfessionalProfile),
-                  _placeholder('vitrine', (l) => l.screenShowcase),
-                  _placeholder('reglages', (l) => l.screenSettings),
+                  GoRoute(
+                    path: 'fiche',
+                    builder: (context, state) => const ProfileSheetScreen(),
+                  ),
+                  GoRoute(
+                    path: 'parcours',
+                    builder: (context, state) => const EducationScreen(),
+                  ),
+                  GoRoute(
+                    path: 'pro',
+                    builder: (context, state) => const ProProfileScreen(),
+                  ),
+                  // Le réglage de la vitrine est sur l'écran Profil.
+                  GoRoute(
+                    path: 'vitrine',
+                    redirect: (context, state) => AppRoutes.profile,
+                  ),
+                  GoRoute(
+                    path: 'mot-de-passe',
+                    builder: (context, state) => const ChangePasswordScreen(),
+                  ),
+                  GoRoute(
+                    path: 'supprimer-mon-compte',
+                    builder: (context, state) => const DeleteAccountScreen(),
+                  ),
                 ],
               ),
             ],
