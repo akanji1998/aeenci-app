@@ -13,11 +13,19 @@ class MockProfileStore {
   final _profile = <MockPersona, Map<String, Object?>>{};
   final _preferences = <MockPersona, Map<String, bool>>{};
   final _notifications = <MockPersona, List<Map<String, Object?>>>{};
+  final _opportunities = <MockPersona, List<Map<String, Object?>>>{};
   var _nextId = 500;
 
   static T _copy<T>(T json) => jsonDecode(jsonEncode(json)) as T;
 
   int nextId() => _nextId++;
+
+  /// Opportunités reçues : « vue » et « intéressé » changent en mémoire.
+  List<Map<String, Object?>> opportunities(MockPersona persona) =>
+      _opportunities.putIfAbsent(
+        persona,
+        () => persona.opportunitiesJson(DateTime.now()),
+      );
 
   /// Centre de notifications : l'état « lu » change quand on le marque.
   List<Map<String, Object?>> notifications(MockPersona persona) =>

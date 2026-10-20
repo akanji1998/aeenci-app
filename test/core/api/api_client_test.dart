@@ -271,4 +271,23 @@ void main() {
       expect(logs, ['GET /me/notifications → 200', 'DELETE /me/account → 422']);
     },
   );
+
+  test('téléchargement : jamais le jeton hors de l\'hôte de l\'API', () async {
+    tokens = MemoryTokenStore('jeton-de-test');
+    client = build();
+    await client.download(
+      'https://api.test/api/v1/me/opportunities/39/job-description',
+    );
+    expect(
+      adapter.requests.single.headers['Authorization'],
+      'Bearer jeton-de-test',
+    );
+
+    final error = await failure(
+      client.download('https://exemple.com/fiche.pdf'),
+    );
+    expect(error, isA<NotFoundException>());
+    // Aucune requête de plus : le jeton n'est pas parti.
+    expect(adapter.requests, hasLength(1));
+  });
 }

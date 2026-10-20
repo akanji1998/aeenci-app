@@ -12,20 +12,6 @@ String _day(DateTime date) =>
     '${date.month.toString().padLeft(2, '0')}-'
     '${date.day.toString().padLeft(2, '0')}';
 
-Map<String, Object?> _page(
-  List<Map<String, Object?>> items, [
-  Map<String, Object?> extra = const {},
-]) => {
-  'data': items,
-  'meta': {
-    'current_page': 1,
-    'last_page': 1,
-    'per_page': 20,
-    'total': items.length,
-    ...extra,
-  },
-};
-
 extension MockPersonaContent on MockPersona {
   /// `GET /me/card`. Le `qr_payload` ci-dessous n'est pas signé : le dépôt
   /// mock le remplace par une carte signée avec la clé de test
@@ -139,34 +125,111 @@ extension MockPersonaContent on MockPersona {
     ],
   };
 
-  /// `GET /me/opportunities` (première page).
-  Map<String, Object?> opportunitiesPageJson(DateTime now) => _page(
-    [
-      {
-        'id': 40,
-        'type': 'job',
-        'title': 'Offre d\'emploi de test',
-        'organization': 'Organisation Test',
-        'location': 'Abidjan',
-        'deadline': _day(now.add(const Duration(days: 20))),
-        'received_at': _iso(now.subtract(const Duration(days: 1))),
-        'seen': false,
-        'interested': false,
+  /// `GET /me/opportunities/{id}` : quatre offres de test, la plus récente
+  /// d'abord, une par façon de postuler (lien, e-mail, via le bureau). La
+  /// liste en reprend les champs communs.
+  List<Map<String, Object?>> opportunitiesJson(DateTime now) {
+    Map<String, Object?> offer({
+      required int id,
+      required String type,
+      required String title,
+      required String organization,
+      required String applyMethod,
+      required Duration receivedAgo,
+      String? location,
+      Duration? deadlineIn,
+      bool seen = false,
+      String? applyUrl,
+      String? applyEmail,
+      String? applyNote,
+      String? jobDescriptionUrl,
+      Map<String, Object?> matchedOn = const {},
+    }) => {
+      'id': id,
+      'type': type,
+      'title': title,
+      'organization': organization,
+      'location': location,
+      'deadline': deadlineIn == null ? null : _day(now.add(deadlineIn)),
+      'received_at': _iso(now.subtract(receivedAgo)),
+      'seen': seen,
+      'interested': false,
+      'description':
+          'Description de test : missions et profil recherché, telles que '
+          'transmises au bureau.',
+      'apply_method': applyMethod,
+      'apply_url': applyUrl,
+      'apply_email': applyEmail,
+      'apply_note': applyNote,
+      'job_description_url': jobDescriptionUrl,
+      'matched_on': {
+        'domains': <String>[],
+        'skills': <String>[],
+        'cities': <String>[],
+        'categories': <String>[],
+        'education_levels': <String>[],
+        ...matchedOn,
       },
-      {
-        'id': 39,
-        'type': 'internship',
-        'title': 'Stage de test',
-        'organization': 'Entreprise Test',
-        'location': null,
-        'deadline': null,
-        'received_at': _iso(now.subtract(const Duration(days: 4))),
-        'seen': false,
-        'interested': false,
-      },
-    ],
-    {'unseen_count': 2},
-  );
+      'cv_shared': false,
+    };
+    return [
+      offer(
+        id: 40,
+        type: 'job',
+        title: 'Offre d\'emploi de test',
+        organization: 'Organisation Test',
+        location: 'Abidjan',
+        deadlineIn: const Duration(days: 20),
+        receivedAgo: const Duration(days: 1),
+        applyMethod: 'url',
+        applyUrl: 'https://exemple.com/candidature',
+        matchedOn: {
+          'domains': ['Domaine de test'],
+          'cities': ['Abidjan'],
+        },
+      ),
+      offer(
+        id: 39,
+        type: 'internship',
+        title: 'Stage de test',
+        organization: 'Entreprise Test',
+        receivedAgo: const Duration(days: 4),
+        applyMethod: 'email',
+        applyEmail: 'recrutement@exemple.com',
+        jobDescriptionUrl:
+            'https://api.aeenci.com/api/v1/me/opportunities/39/job-description',
+        matchedOn: {
+          'skills': ['Compétence de test'],
+          'categories': ['student'],
+        },
+      ),
+      offer(
+        id: 38,
+        type: 'scholarship',
+        title: 'Bourse de test',
+        organization: 'Fondation Test',
+        location: 'Bouaké',
+        deadlineIn: const Duration(days: 45),
+        receivedAgo: const Duration(days: 9),
+        seen: true,
+        applyMethod: 'via_bureau',
+        applyNote: 'Dépose ton dossier de test au secrétariat du bureau.',
+        matchedOn: {
+          'education_levels': ['Licence'],
+        },
+      ),
+      offer(
+        id: 37,
+        type: 'training',
+        title: 'Formation de test',
+        organization: 'Centre Test',
+        receivedAgo: const Duration(days: 15),
+        seen: true,
+        applyMethod: 'url',
+        applyUrl: 'https://exemple.com/formation',
+      ),
+    ];
+  }
 
   /// `GET /me/profile` : le membre n'a pas encore de CV (rappel affiché),
   /// le membre du bureau a un profil complet.

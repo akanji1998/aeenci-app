@@ -140,7 +140,17 @@ class ApiClient {
       _objectOrData(await _request('GET', path));
 
   /// Téléchargement authentifié d'un fichier (reçu PDF…).
+  ///
+  /// [path] peut être une adresse absolue renvoyée par l'API (ex.
+  /// `job_description_url`) : elle doit alors être sur l'hôte de l'API,
+  /// sinon le jeton partirait ailleurs.
   Future<List<int>> download(String path) async {
+    final target = Uri.tryParse(path);
+    if (target == null ||
+        (target.hasScheme &&
+            target.origin != Uri.parse(_dio.options.baseUrl).origin)) {
+      throw const NotFoundException();
+    }
     try {
       final response = await _dio.get<List<int>>(
         path,
