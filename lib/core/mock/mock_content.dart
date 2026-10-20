@@ -226,3 +226,105 @@ Map<String, Object?> mockNewsPageJson(DateTime now) => _page([
       'published_at': _iso(now.subtract(Duration(days: i * 3))),
     },
 ]);
+
+/// `GET /events?upcoming=1` : un événement de chaque type, dont un aux
+/// inscriptions fermées. Le premier correspond à l'inscription factice.
+List<Map<String, Object?>> mockUpcomingEventsJson(DateTime now) => [
+  {
+    'id': 10,
+    'slug': 'evenement-test-a-venir',
+    'type': 'joe',
+    'title': 'JOE de test',
+    'summary': 'Résumé de test de la journée.',
+    'description': 'Description de test de la journée d\'orientation.',
+    'edition': now.year,
+    'starts_at': _iso(now.add(const Duration(days: 12, hours: 2))),
+    'ends_at': _iso(now.add(const Duration(days: 12, hours: 8))),
+    'location': 'Lieu de test',
+    'audience': 'Ouvert à tous',
+    'image_url': null,
+    'registration_open': true,
+    'attendees_count': null,
+  },
+  {
+    'id': 11,
+    'slug': 'journee-emploi-test',
+    'type': 'employment_day',
+    'title': 'Journée de l\'emploi de test',
+    'summary': 'Résumé de test.',
+    'description': 'Description de test de la journée de l\'emploi.',
+    'edition': now.year,
+    'starts_at': _iso(now.add(const Duration(days: 20, hours: 1))),
+    'ends_at': null,
+    'location': 'Autre lieu de test',
+    'audience': 'Membres et partenaires',
+    'image_url': null,
+    'registration_open': true,
+    'attendees_count': null,
+  },
+  {
+    'id': 12,
+    'slug': 'impact-test',
+    'type': 'impact',
+    'title': 'Programme Impact de test',
+    'summary': 'Résumé de test.',
+    'description': 'Description de test du programme.',
+    'edition': null,
+    'starts_at': _iso(now.add(const Duration(days: 30))),
+    'ends_at': null,
+    'location': null,
+    'audience': null,
+    'image_url': null,
+    'registration_open': true,
+    'attendees_count': null,
+  },
+  {
+    'id': 13,
+    'slug': 'evenement-ferme-test',
+    'type': 'other',
+    'title': 'Événement de test complet',
+    'summary': 'Résumé de test.',
+    'description': 'Les inscriptions de cet événement de test sont fermées.',
+    'edition': null,
+    'starts_at': _iso(now.add(const Duration(days: 8))),
+    'ends_at': null,
+    'location': 'Lieu de test',
+    'audience': null,
+    'image_url': null,
+    'registration_open': false,
+    'attendees_count': null,
+  },
+];
+
+/// `GET /me/attendances?months=12` : une assemblée par mois, sauf un mois
+/// sans assemblée (case neutre). Du plus ancien au plus récent.
+List<Map<String, Object?>> mockAttendancesJson(DateTime now) {
+  const pattern = [
+    'present',
+    'absent',
+    'present',
+    'excused',
+    'present',
+    'absent',
+    null,
+    'present',
+    'absent',
+    'absent',
+    'present',
+    'absent',
+  ];
+  return [
+    for (var i = 0; i < 12; i++)
+      if (pattern[i] case final String state)
+        {
+          'date': _day(
+            DateTime(
+              now.year,
+              now.month - 11 + i,
+              1,
+            ).add(const Duration(days: 14)),
+          ),
+          'state': state,
+        },
+  ];
+}

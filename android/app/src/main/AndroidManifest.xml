@@ -37,6 +37,16 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
+        <!-- add_2_calendar : ajout d'un événement au calendrier. -->
+        <intent>
+            <action android:name="android.intent.action.INSERT" />
+            <data android:mimeType="vnd.android.cursor.item/event" />
+        </intent>
+        <!-- Lieu d'un événement dans l'application de cartes. -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="geo" />
+        </intent>
         <!-- url_launcher : site, stores, e-mail. -->
         <intent>
             <action android:name="android.intent.action.VIEW" />

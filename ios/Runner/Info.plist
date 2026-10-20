@@ -26,6 +26,10 @@
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
+		<key>NSCalendarsUsageDescription</key>
+		<string>L'application ajoute à ton calendrier les événements de l'AEENCI auxquels tu t'inscris.</string>
+		<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+		<string>L'application ajoute à ton calendrier les événements de l'AEENCI auxquels tu t'inscris.</string>
 		<key>UIApplicationSceneManifest</key>
 		<dict>
 			<key>UIApplicationSupportsMultipleScenes</key>
