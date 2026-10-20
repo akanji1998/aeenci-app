@@ -134,6 +134,11 @@ class _RegisterButtonState extends ConsumerState<RegisterButton> {
         style: OutlinedButton.styleFrom(
           backgroundColor: c.greenSoft,
           foregroundColor: c.green,
+          minimumSize: const Size(48, 48),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.space4),
+          textStyle: AppTypography.small.toTextStyle().copyWith(
+            fontWeight: FontWeight.w700,
+          ),
         ),
         onPressed: _busy || !registration.canCancel
             ? null
@@ -143,11 +148,16 @@ class _RegisterButtonState extends ConsumerState<RegisterButton> {
       );
     }
     if (!widget.event.registrationOpen) {
-      return AppButton(label: l10n.eventRegistrationClosed, onPressed: null);
+      return AppButton(
+        label: l10n.eventRegistrationClosed,
+        onPressed: null,
+        compact: true,
+      );
     }
     return AppButton(
       label: l10n.eventRegister,
       loading: _busy,
+      compact: true,
       onPressed: _register,
     );
   }
@@ -165,6 +175,7 @@ class AddToCalendarButton extends ConsumerWidget {
     return AppButton.secondary(
       label: l10n.eventAddToCalendar,
       icon: LucideIcons.calendarPlus,
+      compact: true,
       onPressed: () async {
         final opened = await ref
             .read(deviceServicesProvider)

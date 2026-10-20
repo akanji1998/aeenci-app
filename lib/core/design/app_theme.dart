@@ -227,6 +227,22 @@ abstract final class AppTheme {
           ),
         ),
       ),
+      // Filtres en pilule : sélection en vert de la marque, coche gardée
+      // (l'état ne repose pas que sur la couleur).
+      chipTheme: ChipThemeData(
+        shape: const StadiumBorder(),
+        side: BorderSide(color: c.line),
+        backgroundColor: c.surfaceRaised,
+        selectedColor: c.greenSoft,
+        checkmarkColor: c.green,
+        labelStyle: AppTypography.small
+            .toTextStyle(color: c.ink)
+            .copyWith(fontWeight: FontWeight.w600),
+        secondaryLabelStyle: AppTypography.small
+            .toTextStyle(color: c.green)
+            .copyWith(fontWeight: FontWeight.w700),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.space2),
+      ),
       progressIndicatorTheme: ProgressIndicatorThemeData(color: c.green),
       dividerTheme: DividerThemeData(color: c.line, thickness: 1, space: 1),
       snackBarTheme: SnackBarThemeData(
