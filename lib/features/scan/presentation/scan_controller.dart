@@ -26,8 +26,12 @@ class ScanSender {
   /// Envoie toute la file de [meetingId] ; renvoie les résultats reçus.
   /// Lève une [ApiException] si un envoi échoue (la file reste alors
   /// intacte pour ce lot et les suivants).
-  Future<List<ScanResult>> flush(int meetingId) => _running[meetingId] ??=
-      _flush(meetingId).whenComplete(() => _running.remove(meetingId));
+  Future<List<ScanResult>> flush(int meetingId) =>
+      _running[meetingId] ??= _flush(meetingId).whenComplete(() {
+        // Bloc sans valeur : renvoyer le futur retiré le ferait s'attendre
+        // lui-même.
+        _running.remove(meetingId);
+      });
 
   Future<List<ScanResult>> _flush(int meetingId) async {
     final store = _ref.read(scanQueueStoreProvider);
