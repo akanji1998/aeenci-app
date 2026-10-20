@@ -5,9 +5,11 @@ import '../../../core/api/api_client.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/api/token_store.dart';
 import '../../../core/mock/mock_behavior.dart';
+import '../../../core/mock/mock_content.dart';
 import '../../../core/mock/mock_data.dart';
 import '../../auth/data/auth_repository.dart';
 import '../domain/member.dart';
+import '../domain/professional_profile.dart';
 
 part 'profile_repository.g.dart';
 
@@ -15,6 +17,9 @@ part 'profile_repository.g.dart';
 abstract interface class ProfileRepository {
   /// `GET /me`.
   Future<Member> fetchMe();
+
+  /// `GET /me/profile` : profil professionnel.
+  Future<ProfessionalProfile> fetchProfessionalProfile();
 }
 
 class ApiProfileRepository implements ProfileRepository {
@@ -24,6 +29,10 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<Member> fetchMe() => _api.getData('/me', Member.fromJson);
+
+  @override
+  Future<ProfessionalProfile> fetchProfessionalProfile() =>
+      _api.getData('/me/profile', ProfessionalProfile.fromJson);
 }
 
 class MockProfileRepository implements ProfileRepository {
@@ -37,6 +46,13 @@ class MockProfileRepository implements ProfileRepository {
     await _runtime.simulate();
     final persona = await currentMockPersona(_tokens);
     return Member.fromJson(persona.meJson);
+  }
+
+  @override
+  Future<ProfessionalProfile> fetchProfessionalProfile() async {
+    await _runtime.simulate();
+    final persona = await currentMockPersona(_tokens);
+    return ProfessionalProfile.fromJson(persona.professionalProfileJson);
   }
 }
 
