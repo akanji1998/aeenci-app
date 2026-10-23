@@ -55,7 +55,9 @@
 				</array>
 			</dict>
 		</dict>
-		<key>UIBackgroundModes</key>
+		<key>FlutterDeepLinkingEnabled</key>
+	<true/>
+	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>

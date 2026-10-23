@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Liens universels (Android App Links), saveur prod seulement : la saveur
+     dev ne les déclare pas, pour qu'un téléphone qui a les deux applications
+     ne demande pas laquelle ouvrir. Mêmes chemins que
+     lib/app/router/universal_links.dart et que
+     https://aeenci.com/.well-known/assetlinks.json (docs/liens-universels.md). -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application>
+        <activity android:name=".MainActivity" tools:node="merge">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" />
+                <data android:host="aeenci.com" />
+                <data android:pathPrefix="/activer-mon-compte" />
+                <data android:pathPrefix="/reinitialiser-mot-de-passe" />
+                <data android:pathPrefix="/espace/opportunites" />
+                <data android:pathPrefix="/evenements" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

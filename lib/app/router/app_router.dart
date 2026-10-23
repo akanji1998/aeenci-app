@@ -31,6 +31,7 @@ import '../config/env_config.dart';
 import '../shell/app_shell.dart';
 import 'app_routes.dart';
 import 'route_guard.dart';
+import 'universal_links.dart';
 
 part 'app_router.g.dart';
 
@@ -56,12 +57,18 @@ GoRouter appRouter(Ref ref) {
   final router = GoRouter(
     initialLocation: AppRoutes.home,
     refreshListenable: state,
-    redirect: (context, routerState) => guardRedirect(
-      gate: state.value.$1,
-      session: state.value.$2,
-      uri: routerState.uri,
-      devTools: devTools,
-    ),
+    // Lien universel (adresse du site) d'abord, puis la garde.
+    redirect: (context, routerState) =>
+        rewriteUniversalLink(routerState.uri) ??
+        guardRedirect(
+          gate: state.value.$1,
+          session: state.value.$2,
+          uri: routerState.uri,
+          devTools: devTools,
+        ),
+    // Adresse inconnue (lien d'une ancienne version, faute de frappe) :
+    // l'accueil plutôt qu'une page d'erreur.
+    onException: (context, routerState, router) => router.go(AppRoutes.home),
     routes: [
       GoRoute(path: '/', redirect: (_, _) => AppRoutes.home),
       GoRoute(
